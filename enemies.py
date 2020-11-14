@@ -169,10 +169,10 @@ class ThunderBird(Enemy):
         self.defence = 0
 
 
-class Spriggan(Enemy):
+class Manticore(Enemy):
     def __init__(self):
         super().__init__()
-        self.name = "Spriggan"
+        self.name = "Manticore"
         self.hp = 30
         self.damage = 30
         self.defence = 0

@@ -72,6 +72,7 @@ class FindGoldTile(MapTile):
             """
 
 
+# Enemy tile types for the element specific tiles
 class EnemyTile(MapTile):  # Other enemy tile types will be needed for the area specific enemies
     def __init__(self, x, y):
         r = random.random()
@@ -159,6 +160,253 @@ class EnemyTile(MapTile):  # Other enemy tile types will be needed for the area 
                 print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
 
 
+class GeoEnemy(MapTile):
+    def __init__(self, x, y):
+        r = random.random()
+        if r < 0.33:
+            self.enemy = enemies.Ogre()
+            self.alive_text = """
+                            The ground begins to shake.
+                                A blood thirsty Ogre stands before you
+                                How long do you have to live?
+                                """
+            self.dead_text = """
+                            The ground is still shaking.
+                                But, the Ogre is dead.
+                            You must be getting close. 
+            """
+        elif r < 0.66:
+            self.enemy = enemies.Golem()
+            self.alive_text = """
+                            The ground begins to shake. 
+                                Could it be this hunky golem?
+            """
+            self.dead_text = """
+                            The ground is still shaking.
+                                The golem is now just a pile of rocks.
+                            You must be getting close.
+            """
+        else:
+            self.enemy = enemies.Gargoyle()
+            self.alive_text = """
+                            The ground begins to shake.
+                                The gargoyle sheds its stony surface. 
+                                It is ready to attack.
+            """
+            self.dead_text = """
+                            The ground is still shaking.
+                                Even its stony skin wouldn't have made a difference
+                            You must be getting close.
+            """
+
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
+class HydroEnemy(MapTile):
+    def __init__(self, x, y):
+        r = random.random()
+        if r < 0.33:
+            self.enemy = enemies.Hydra()
+            self.alive_text = """
+                            You begin to hear crashing waves.
+                                A hydra stands before you. 
+                                All of its eyes looking straight at you.
+                                """
+            self.dead_text = """
+                            The sound of crashing waves intensifies
+                                The Hydra is dead and,
+                                You have 3 heads to prove it.
+                            You must be getting close. 
+            """
+        elif r < 0.66:
+            self.enemy = enemies.WaterNymph()
+            self.alive_text = """
+                            You begin to hear crashing waves.
+                                You have disturbed the waters of a water nymph.
+                                You have incurred her wrath.
+                            """
+            self.dead_text = """
+                            The sound of crashing waves intensifies.
+                                She did not stand a chance.
+                            You must be getting close.
+            """
+        else:
+            self.enemy = enemies.SeaSerpent()
+            self.alive_text = """
+                                You begin to hear crashing waves.
+                                    A Sea serpent, 
+                                    Have you just slithered into your death?
+                            """
+            self.dead_text = """
+                            The sound of crashing waves intensifies.
+                                Next time you might not be that lucky.
+                            You must be getting close.
+            """
+
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
+class PyroEnemy(MapTile):
+    def __init__(self, x, y):
+        r = random.random()
+        if r < 0.33:
+            self.enemy = enemies.HellHound()
+            self.alive_text = """
+                            It's getting hotter by the second.
+                                A hell hound of incredible size is before you
+                                Has  your luck run out?
+                                """
+            self.dead_text = """
+                            The ground below you is now magma.
+                                You turned that hell hound into a puppy.
+                                
+                            You must be getting close. 
+                            
+            """
+        elif r < 0.66:
+            self.enemy = enemies.BabyPhoenix()
+            self.alive_text = """
+                            It's getting hotter by the second.
+                                A phoenix flaps its fiery wings
+                                Will you burned along with everything else?
+                            """
+            self.dead_text = """
+                            The ground below you is now magma.
+                                You have extinguished the fiery phoenix
+                                
+                            You must be getting close.
+                            
+            """
+        else:
+            self.enemy = enemies.Salamander()
+            self.alive_text = """
+                                It is getting hotter by the second
+                                    A salamander stands before you.
+                                    A giant fiery lizard.
+                                    Will you be charred? 
+                            """
+            self.dead_text = """
+                            The ground below you is magma.
+                                It seems nothing can stop you
+                                
+                            You must be getting close
+                            
+            """
+
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
+class AeroEnemy(MapTile):
+    def __init__(self, x, y):
+        r = random.random()
+        if r < 0.33:
+            self.enemy = enemies.Harpy()
+            self.alive_text = """
+                            The air seems to be getting thinner.
+                                Yor mere presence has angered a harpy.
+                                You shall face death by its talons
+                                """
+            self.dead_text = """
+                            You can barely breathe now.
+                                The harpy has fallen. 
+                                You have clipped its once might wings
+
+                            You must be getting close. 
+
+            """
+        elif r < 0.66:
+            self.enemy = enemies.ThunderBird()
+            self.alive_text = """
+                            The air seems to be getting thinner.
+                                Will you survive its lightning?
+                            """
+            self.dead_text = """
+                            You can barely breathe now
+                                The thunderbird is dead. 
+                                Hmm, how much do those feathers cost?
+
+                            You must be getting close.
+
+            """
+        else:
+            self.enemy = enemies.Manticore()
+            self.alive_text = """
+                                The air is getting thinner.
+                                    A winged manticore stands before you.
+                                    It is unconquerable.
+                            """
+            self.dead_text = """
+                            You can barely breathe now.
+                                You have conquered the unconquerable
+                                Could you save humanity?
+
+                            You must be getting close
+
+            """
+
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
 class TraderTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -221,12 +469,18 @@ class TraderTile(MapTile):
 
 
 world_dsl = """
-|TT|FG|EN|EN|FG|TT|
-|  |EN|  |  |EN|  |
-|EN|ST|EN|  |EN|  |
-|  |EN|  |  |EN|  |
-|  |EN|  |FG|EN|EN|
-|FG|TT|FG|EN|EN|VT|  
+|TT|FG|EN|EN|FG|TT|TT|FG|EN|EN|FG|TT|
+|ST|EN|  |  |EN|  |  |EN|  |  |EN|  |
+|EN|FG|EN|  |EN|  |EN|FG|EN|  |EN|  |
+|  |EN|  |  |EN|  |  |EN|  |  |EN|  |
+|  |EN|  |FG|EN|EN|  |EN|  |FG|EN|EN|
+|FG|TT|FG|EN|EN|  |FG|TT|FG|EN|EN|VT|
+|TT|FG|EN|EN|FG|TT|TT|FG|EN|EN|FG|TT|
+|  |EN|  |  |EN|  |  |EN|  |  |EN|  |
+|EN|FG|EN|  |EN|  |EN|FG|EN|  |EN|  |
+|  |EN|  |  |EN|  |  |EN|  |  |EN|  |
+|  |EN|  |FG|EN|EN|  |EN|  |FG|EN|EN|
+|FG|TT|FG|EN|EN|  |FG|TT|FG|EN|EN|VT|
 """
 
 

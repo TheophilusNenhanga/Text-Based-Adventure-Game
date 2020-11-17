@@ -1,4 +1,6 @@
-# This file is for the enemies class that will have all of the enemies that will be in the game
+"""This file is for the enemies class that will have all of the enemies that will be in the game"""
+
+
 class Enemy:
     def __init__(self):
         self.name = "Enemy"
@@ -10,6 +12,13 @@ class Enemy:
 
     def is_alive(self):
         return self.hp > 0
+
+    def fight(self):
+        if self.is_alive() is True:
+            fight = True
+        else:
+            fight = False
+        return fight
 
 
 class GiantSpider(Enemy):
@@ -44,7 +53,7 @@ class SkeletalWarrior(Enemy):
         super().__init__()
         self.name = "Skeletal Warrior"
         self.hp = 5
-        self.damage = 25
+        self.damage = 20
         self.defence = 0
 
 
@@ -62,7 +71,7 @@ class Lamia(Enemy):
         super().__init__()
         self.name = "Lamia"
         self.hp = 50
-        self.damage = 30
+        self.damage = 25
         self.defence = 0
 
 

@@ -35,15 +35,43 @@ def get_available_actions(room, player):
         action_adder(actions, "t", player.trade, "Trade")
     if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
         action_adder(actions, "a", player.attack, "Attack")
+    if isinstance(room, world.GeoEnemy) or isinstance(room, world.GeoBoss) and room.enemy.is_alive():
+        action_adder(actions, "a", player.attack, "Attack")
+    if isinstance(room, world.HydroEnemy) or isinstance(room, world.HydroBoss) and room.enemy.is_alive():
+        action_adder(actions, "a", player.attack, "Attack")
+    if isinstance(room, world.PyroEnemy) or isinstance(room, world.PyroBoss) and room.enemy.is_alive():
+        action_adder(actions, "a", player.attack, "Attack")
+    if isinstance(room, world.AeroEnemy) or isinstance(room, world.AeroBoss) and room.enemy.is_alive():
+        action_adder(actions, "a", player.attack, "Attack")
     else:
         if world.tile_at(room.x, room.y - 1):
-            action_adder(actions, "n", player.move_north, "Go North")
+            try:
+                if room.enemy.fight() is False:
+                    action_adder(actions, "n", player.move_north, "Go North")
+            except AttributeError:
+                action_adder(actions, "n", player.move_north, "Go North")
+
         if world.tile_at(room.x, room.y + 1):
-            action_adder(actions, "s", player.move_south, "Go South")
-        if world.tile_at(room.x+1, room.y):
-            action_adder(actions, "e", player.move_east, "Go East")
+            try:
+                if room.enemy.fight() is False:
+                    action_adder(actions, "s", player.move_south, "Go South")
+            except AttributeError:
+                action_adder(actions, "s", player.move_south, "Go South")
+
+        if world.tile_at(room.x + 1, room.y):
+            try:
+                if room.enemy.fight() is False:
+                    action_adder(actions, "e", player.move_east, "Go East")
+            except AttributeError:
+                action_adder(actions, "e", player.move_east, "Go East")
+
         if world.tile_at(room.x - 1, room.y):
-            action_adder(actions, "w", player.move_west, "Go West")
+            try:
+                if room.enemy.fight() is False:
+                    action_adder(actions, "w", player.move_west, "Go West")
+            except AttributeError:
+                action_adder(actions, "w", player.move_west, "Go West")
+
     if player.hp < 100:
         action_adder(actions, "h", player.heal, "Heal")
 

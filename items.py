@@ -1,4 +1,4 @@
-# This file will have the items class that will will have all items that will be available in the game
+"""This file will have the items class that will will have all items that will be available in the game"""
 inventory = []
 
 
@@ -9,7 +9,7 @@ class Weapon:
         self.damage = 0
 
     def __str__(self):
-        return self.name
+        return f"{self.name}, Damage:{self.damage}"
 
 
 class Rock(Weapon):
@@ -177,7 +177,7 @@ class Defencive:
         self.defence = 0
 
     def __str__(self):
-        return f"{self.name}, defence: {self.defence}"
+        return f"{self.name}, Defence: {self.defence}"
 
 
 class WoodenShield(Defencive):

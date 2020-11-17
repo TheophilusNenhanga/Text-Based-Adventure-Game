@@ -84,7 +84,7 @@ class Player:
     def heal(self):
         consumables = [item for item in self.inventory if isinstance(item, items.Consumable)]
         if not consumables:
-            print("You do not have any items to heal you")
+            print("You do not have any items to heal you\n")
             return
 
         for i, item in enumerate(consumables, 1):

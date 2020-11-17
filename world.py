@@ -1,4 +1,4 @@
-# This file will have the world class. It will deal with the world map, its dynamics and how it can be interacted with
+"""This file will have the world class. It deals with the world map, its dynamics and how it can be interacted with"""
 import random
 import enemies
 import npc
@@ -29,6 +29,8 @@ class BoringTile(MapTile):
     def intro_text(self):
         return """
         Nothing much happens here.
+        You must continue onwards
+        
         """
 
 
@@ -407,6 +409,178 @@ class AeroEnemy(MapTile):
                 print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
 
 
+class GeoBoss(MapTile):
+    def __init__(self, x, y):
+        self.enemy = enemies.Geomancer()
+        self.alive_text = """
+                        The ground is now shaking violently.
+                        The rocks in front of you begin to move.
+                        Spikes made of rock begin to grow out of the roof of the cave.
+                        You are in its presence;
+                        The GEOMANCER!
+                        
+        """
+        self.dead_text = """
+                        The ground stops shaking. 
+                        Everything is silent. 
+                        The rocks before you begin to disintegrate.
+                        The GEOMANCER is dead.
+                        
+                        All that is left is a scroll?
+                        What could this mean?
+                        
+                        The ground begins to crumble.
+                        Before you fall into the darkness you grab the scroll
+                        
+                        ...It might come in handy
+
+        """
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"The Geomancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"The Geomancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
+class HydroBoss(MapTile):
+    def __init__(self, x, y):
+        self.enemy = enemies.Hydromancer()
+        self.alive_text = """
+                        The crashing waves are are more violent than ever.
+                        The water level is rising. 
+                        The terrace you are standing on is not enough. 
+                        The waves are raging. 
+                        As if a hurricane is about to erupt within the cave.
+                        The HYDROMANCER is before you 
+        """
+        self.dead_text = """
+                        The waves retreat.
+                        The violent storm comes to an end. 
+                        A soft mist begins to fall. 
+                        The HYDROMANCER is dead,
+                        You are victorious.
+
+                        All that is left is a scroll?
+                        What could this mean?
+                        
+                        Now you an continue on your path. 
+                        Where will you go next?
+        """
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"The Hyrdomancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"The Hydromancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
+class PyroBoss(MapTile):
+    def __init__(self, x, y):
+        self.enemy = enemies.Pyromancer()
+        self.alive_text = """
+                        The ground below you is now beginning to bubble. 
+                        The heat is more than you can bear. 
+                        The sweat falling from your face evaporates before it hits the ground
+                        The PYROMANCER must be close by, 
+                        and your death?
+                        
+        """
+        self.dead_text = """
+                        The temperature suddenly drops.
+                        The magma cools. 
+                        You have done it. 
+                        The great PYROMANCER has fallen by your hands
+
+                        All that is left is a scroll?
+                        What could this mean?
+
+                        Now you an continue on your path. 
+                        Where will you go next?
+                        
+        """
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"The Pyromancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"The Pyromancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
+class AeroBoss(MapTile):
+    def __init__(self, x, y):
+        self.enemy = enemies.Aeromancer()
+        self.alive_text = """
+                        You can barely breathe now. 
+                        Will you did for suffocation before the fight begins
+                        Have you come this far just to die?
+                        Will the AEROMANCER be your end?
+  
+        """
+        self.dead_text = """
+                        A lifeless figure is all you see.
+                        The AEROMANCER is dead.
+                        You have made it this far
+                        You are a worthy warrior.
+                        
+                        All that is left is a scroll?
+                        What could this mean?
+
+                        Is this the end?
+                        Have you really finished the game?
+                        Wait, but where is Almus?
+                    You still do not know the answers to all the questions that cloud your mind
+                        
+                        Your journey is far from over.
+        """
+        super().__init__(x, y)
+
+    def intro_text(self):
+        text = self.alive_text if self.enemy.is_alive() else self.dead_text
+        return text
+
+    def modify_player(self, player):
+        if self.enemy.is_alive():
+            try:
+                defence_multiplier = 0.1 * player.most_defence().defence
+                damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+                player.hp = player.hp - damage_dealt
+                print(f"The Aeromancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+            except AttributeError:
+                player.hp = player.hp - self.enemy.damage
+                print(f"The Aeromancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+
+
 class TraderTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -430,7 +604,7 @@ class TraderTile(MapTile):
                     choice = int(user_input)
                     to_swap = seller.inventory[choice - 1]
                     self.swap(seller, buyer, to_swap)
-                except ValueError:
+                except (ValueError, IndexError):
                     print("Invalid Choice\n")
 
     @ staticmethod
@@ -467,20 +641,27 @@ class TraderTile(MapTile):
 # VT Victory Tile
 # FG Find Gold
 
+# AE Aero Enemy
+# HE Hydro Enemy
+# PE Pyro enemy
+# GE Geo Enemy
 
 world_dsl = """
-|TT|FG|EN|EN|FG|TT|TT|FG|EN|EN|FG|TT|
-|ST|EN|  |  |EN|  |  |EN|  |  |EN|  |
-|EN|FG|EN|  |EN|  |EN|FG|EN|  |EN|  |
-|  |EN|  |  |EN|  |  |EN|  |  |EN|  |
-|  |EN|  |FG|EN|EN|  |EN|  |FG|EN|EN|
-|FG|TT|FG|EN|EN|  |FG|TT|FG|EN|EN|VT|
-|TT|FG|EN|EN|FG|TT|TT|FG|EN|EN|FG|TT|
-|  |EN|  |  |EN|  |  |EN|  |  |EN|  |
-|EN|FG|EN|  |EN|  |EN|FG|EN|  |EN|  |
-|  |EN|  |  |EN|  |  |EN|  |  |EN|  |
-|  |EN|  |FG|EN|EN|  |EN|  |FG|EN|EN|
-|FG|TT|FG|EN|EN|  |FG|TT|FG|EN|EN|VT|
+|  |  |  |  |  |  |  |  |  |  |  |  |  |VT|  |
+|  |BT|FG|EN|EN|FG|EN|  |TT|FG|EN|EN|AE|AB|  |
+|  |FG|EN|  |  |EN|TT|  |  |EN|  |BT|AE|AE|  |
+|  |EN|FG|EN|BT|EN|FG|  |EN|FG|EN|  |EN|EN|  |
+|  |  |EN|  |  |EN|BT|  |EN|EN|  |  |EN|  |  |
+|  |GE|GE|  |FG|EN|EN|  |FG|EN|  |BT|EN|EN|  |
+|  |GB|GE|  |EN|EN|ST|  |BT|EN|FG|EN|EN|FG|  |
+|  |BT|  |  |  |  |  |  |BT|  |  |  |  |  |  |
+|  |TT|FG|EN|EN|FG|TT|  |PB|PE|EN|EN|FG|TT|  |
+|  |  |EN|  |  |EN|  |  |PE|PE|  |  |EN|  |  |
+|  |EN|FG|EN|  |EN|  |  |EN|FG|EN|  |EN|  |  |
+|  |  |EN|  |  |EN|  |  |  |EN|  |  |EN|  |  |
+|  |  |EN|  |FG|EN|EN|  |EN|EN|BT|FG|EN|EN|  |
+|  |FG|TT|FG|EN|EN|  |BT|FG|  |FG|EN|EN|FG|  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 """
 
 
@@ -500,10 +681,19 @@ def is_dsl_valid(dsl):
 
 
 tile_type_dict = {"VT": VictoryTile,
+                  "BT": BoringTile,
                   "EN": EnemyTile,
                   "ST": StartTile,
                   "FG": FindGoldTile,
                   "TT": TraderTile,
+                  "GE": GeoEnemy,
+                  "HE": HydroEnemy,
+                  "PE": PyroEnemy,
+                  "AE": AeroEnemy,
+                  "GB": GeoBoss,
+                  "HB": HydroBoss,
+                  "PB": PyroBoss,
+                  "AB": AeroBoss,
                   "  ": None}
 
 world_map = []

@@ -1,5 +1,6 @@
 """This file will have the npc(non player character) classes and will have their attributes"""
 
+import enchantments
 import items
 
 
@@ -25,5 +26,4 @@ class Enchanter(NonPlayerCharacter):
     def __init__(self):
         super().__init__()
         self.name = "Enchanter"
-        self.gold = 200
-        self.inventory = []
+        self.inventory = [enchantments.Hydration(), enchantments.Dehydration()]

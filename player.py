@@ -9,7 +9,7 @@ class Player:
         self.x = world.start_tile_location[0]
         self.y = world.start_tile_location[1]
         self.hp = 100
-        self.gold = 25
+        self.gold = 200
         self.victory = False
 
     def is_alive(self):
@@ -71,10 +71,24 @@ class Player:
         room = world.tile_at(self.x, self.y)
         enemy = room.enemy
 
-        print(f"You use a {best_weapon} against the {enemy.name}")
-        defence_multiplier = 0.1 * enemy.defence
-        damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
-        enemy.hp = enemy.hp - damage_dealt
+        # The player attacking the enemy
+        print(f"\nYou use a {best_weapon} against the {enemy.name}")
+        try:
+            affect_type = best_weapon.enchantment.type_affect
+            if enemy.type == affect_type:
+                try:
+                    attack_multiplier = best_weapon.enchantment.damage_multiplier()
+                    defence_multiplier = 0.1 * enemy.defence
+                    damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
+                    enemy.hp = enemy.hp - damage_dealt
+                except AttributeError:
+                    defence_multiplier = 0.1 * enemy.defence
+                    damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
+                    enemy.hp = enemy.hp - damage_dealt
+        except AttributeError:
+            defence_multiplier = 0.1 * enemy.defence
+            damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
+            enemy.hp = enemy.hp - damage_dealt
 
         if not enemy.is_alive():
             print(f"You killed the {enemy.name}")
@@ -106,3 +120,7 @@ class Player:
     def trade(self):
         room = world.tile_at(self.x, self.y)
         room.check_if_trade(self)
+
+    def enchant(self):
+        room = world.tile_at(self.x, self.y)
+        room.check_if_enchant(self)

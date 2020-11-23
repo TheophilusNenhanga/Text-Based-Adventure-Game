@@ -7,9 +7,10 @@ class Weapon:
         self.name = "Weapon"
         self.description = "Used for attacking"
         self.damage = 0
+        self.enchantment = None
 
     def __str__(self):
-        return f"{self.name}, Damage:{self.damage}"
+        return f"{self.name}, (Damage:{self.damage})"
 
 
 class Rock(Weapon):
@@ -19,6 +20,7 @@ class Rock(Weapon):
         self.description = "A fist sized rock, perfect for bludgeoning"
         self.damage = 1
         self.value = 5
+        self.enchantment = None
 
 
 class Dagger(Weapon):
@@ -31,6 +33,7 @@ class Dagger(Weapon):
         """
         self.damage = 5
         self.value = 25
+        self.enchantment = None
 
 
 class RustySword(Weapon):
@@ -43,6 +46,7 @@ class RustySword(Weapon):
         """
         self.damage = 10
         self.value = 45
+        self.enchantment = None
 
 
 class ShinySword(Weapon):
@@ -55,6 +59,7 @@ class ShinySword(Weapon):
         """
         self.damage = 20
         self.value = 75
+        self.enchantment = None
 
 
 class BattleAxe(Weapon):
@@ -67,6 +72,7 @@ class BattleAxe(Weapon):
         """
         self.damage = 35
         self.value = 100
+        self.enchantment = None
 
 
 class Mace(Weapon):
@@ -79,6 +85,7 @@ class Mace(Weapon):
         """
         self.damage = 35
         self.value = 120
+        self.enchantment = None
 
 
 class SharpenedShield(Weapon):
@@ -91,6 +98,7 @@ class SharpenedShield(Weapon):
         """
         self.damage = 15
         self.value = 50
+        self.enchantment = None
 
 
 class BowAndArrow(Weapon):
@@ -103,6 +111,7 @@ class BowAndArrow(Weapon):
         """
         self.damage = 20
         self.value = 60
+        self.enchantment = None
 
 
 class WoodenClub(Weapon):
@@ -115,6 +124,7 @@ class WoodenClub(Weapon):
         """
         self.damage = 5
         self.value = 10
+        self.enchantment = None
 
 
 class MetalClub(Weapon):
@@ -127,6 +137,7 @@ class MetalClub(Weapon):
         """
         self.damage = 15
         self.value = 40
+        self.enchantment = None
 
 
 class Consumable:

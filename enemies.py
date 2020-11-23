@@ -28,6 +28,7 @@ class GiantSpider(Enemy):
         self.hp = 20
         self.damage = 10
         self.defence = 0
+        self.type = "normal"
 
 
 class OvergrownInsect(Enemy):
@@ -37,6 +38,7 @@ class OvergrownInsect(Enemy):
         self.hp = 20
         self.damage = 15
         self.defence = 0
+        self.type = "normal"
 
 
 class Undead(Enemy):
@@ -46,6 +48,7 @@ class Undead(Enemy):
         self.hp = 30
         self.damage = 10
         self.defence = 0
+        self.type = "normal"
 
 
 class SkeletalWarrior(Enemy):
@@ -55,6 +58,7 @@ class SkeletalWarrior(Enemy):
         self.hp = 5
         self.damage = 20
         self.defence = 0
+        self.type = "normal"
 
 
 class BatSwarm(Enemy):
@@ -64,6 +68,7 @@ class BatSwarm(Enemy):
         self.hp = 20
         self.damage = 15
         self.defence = 0
+        self.type = "normal"
 
 
 class Lamia(Enemy):
@@ -73,6 +78,7 @@ class Lamia(Enemy):
         self.hp = 50
         self.damage = 25
         self.defence = 0
+        self.type = "normal"
 
 
 # The rock based enemies
@@ -83,6 +89,7 @@ class Ogre(Enemy):
         self.hp = 30
         self.damage = 5
         self.defence = 0
+        self.type = "rock"
 
 
 class Golem(Enemy):
@@ -92,6 +99,7 @@ class Golem(Enemy):
         self.hp = 45
         self.damage = 5
         self.defence = 0
+        self.type = "rock"
 
 
 class Gargoyle(Enemy):
@@ -101,6 +109,7 @@ class Gargoyle(Enemy):
         self.hp = 30
         self.damage = 10
         self.defence = 0
+        self.type = "rock"
 
 
 # The water based enemies
@@ -111,6 +120,7 @@ class Hydra(Enemy):
         self.hp = 30
         self.damage = 10
         self.defence = 0
+        self.type = "water"
 
 
 class WaterNymph(Enemy):
@@ -120,6 +130,7 @@ class WaterNymph(Enemy):
         self.hp = 20
         self.damage = 10
         self.defence = 0
+        self.type = "water"
 
 
 class SeaSerpent(Enemy):
@@ -129,6 +140,7 @@ class SeaSerpent(Enemy):
         self.hp = 25
         self.damage = 12
         self.defence = 0
+        self.type = "water"
 
 
 # The fire based enemies
@@ -139,6 +151,7 @@ class BabyPhoenix(Enemy):
         self.hp = 10
         self.damage = 25
         self.defence = 0
+        self.type = "fire"
 
 
 class Salamander(Enemy):
@@ -148,6 +161,7 @@ class Salamander(Enemy):
         self.hp = 15
         self.damage = 30
         self.defence = 0
+        self.type = "fire"
 
 
 class HellHound(Enemy):
@@ -157,6 +171,7 @@ class HellHound(Enemy):
         self.hp = 20
         self.damage = 20
         self.defence = 0
+        self.type = "fire"
 
 
 # The air based enemies
@@ -167,6 +182,7 @@ class Harpy(Enemy):
         self.hp = 25
         self.damage = 15
         self.defence = 0
+        self.type = "air"
 
 
 class ThunderBird(Enemy):
@@ -176,6 +192,7 @@ class ThunderBird(Enemy):
         self.hp = 25
         self.damage = 20
         self.defence = 0
+        self.type = "air"
 
 
 class Manticore(Enemy):
@@ -185,6 +202,7 @@ class Manticore(Enemy):
         self.hp = 30
         self.damage = 30
         self.defence = 0
+        self.type = "air"
 
 
 # The Boss Enemies
@@ -195,6 +213,7 @@ class Geomancer(Enemy):
         self.hp = 50
         self.damage = 20
         self.defence = 0
+        self.type = "rock"
 
 
 class Hydromancer(Enemy):
@@ -204,6 +223,7 @@ class Hydromancer(Enemy):
         self.hp = 100
         self.damage = 25
         self.defence = 0
+        self.type = "water"
 
 
 class Pyromancer(Enemy):
@@ -213,6 +233,7 @@ class Pyromancer(Enemy):
         self.hp = 150
         self.damage = 30
         self.defence = 0
+        self.type = "fire"
 
 
 class Aeromancer(Enemy):
@@ -222,3 +243,4 @@ class Aeromancer(Enemy):
         self.hp = 200
         self.damage = 50
         self.defence = 0
+        self.type = "air"

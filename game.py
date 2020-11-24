@@ -5,7 +5,9 @@ from collections import OrderedDict
 
 
 def play():
-    print("Almus: Cave of Pillars ")
+    print("""
+    				Almus: Cave of Pillars 
+    	""")
     world.parse_world_dsl()
     player = Player()
     while player.is_alive() and not player.victory:

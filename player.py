@@ -1,6 +1,7 @@
 """This file will have the player class and will control how the player will interact with the rest of the game"""
 import items
 import world
+import random
 
 
 class Player:
@@ -75,7 +76,7 @@ class Player:
         print(f"\nYou use a {best_weapon} against the {enemy.name}")
         try:
             affect_type = best_weapon.enchantment.type_affect
-            if enemy.type == affect_type:
+            if enemy.type in affect_type:
                 try:
                     attack_multiplier = best_weapon.enchantment.damage_multiplier()
                     defence_multiplier = 0.1 * enemy.defence
@@ -92,6 +93,9 @@ class Player:
 
         if not enemy.is_alive():
             print(f"You killed the {enemy.name}")
+            amount = random.randint(1,10)
+            self.gold += amount
+            print(f"You recieve {amount} gold")
         else:
             print(f"{enemy.name}, hp is now {enemy.hp}")
 

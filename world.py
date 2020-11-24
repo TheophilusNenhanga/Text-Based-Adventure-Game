@@ -50,7 +50,7 @@ class VictoryTile(MapTile):
 class FindGoldTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.gold = random.randint(25, 60)
+        self.gold = random.randint(25, 50)
         self.gold_claimed = False
 
     def modify_player(self, player):
@@ -643,6 +643,8 @@ class EnchanterTile(MapTile):
         return """
 			An old wizard with a long white beard, looks into your eyes. 
 					He seems to hold the power of magic.
+
+			(Please note that you can only have one enchantment per item.)
 			"""
 
     def enchant(self, buyer, seller):
@@ -668,6 +670,7 @@ class EnchanterTile(MapTile):
             return
         buyer.most_powerful_weapon().enchantment = item
         buyer.gold -= item.value
+        buyer.most_powerful_weapon().name = f"{buyer.most_powerful_weapon().name} ({item.name})"
         print("Enchantment Complete")
 
     def check_if_enchant(self, player):

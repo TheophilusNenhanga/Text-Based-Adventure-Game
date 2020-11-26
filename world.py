@@ -73,6 +73,32 @@ class FindGoldTile(MapTile):
             """
 
 
+class FindCrystalTile(MapTile):
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.crystals = random.randint(10, 30)
+		self.crystal_claimed = False
+
+	def modify_player(self, player):
+		if not self.crystal_claimed:
+			self.crystal_claimed = True
+			player.crystals = player.crystals + self.crystals
+			print(f"+{self.crystals} crystals added")
+
+	def intro_text(self):
+		if self.crystal_claimed:
+			return """
+					You have been here before,
+				There is nothing new to see here.
+			"""
+		else:
+			return """
+				You see something glowing in the distance
+					Could it be? A crystal?
+				I wonder what you could use that for.
+			"""
+
+
 class EnemyTile(MapTile):
 	def __init__(self, x, y):
 		r = random.random()
@@ -649,7 +675,7 @@ class EnchanterTile(MapTile):
 
 	def enchant(self, buyer, seller):
 		for i, item in enumerate(seller.inventory, 1):
-			print(f"{i}. {item.name} - {item.value} Gold ")
+			print(f"{i}. {item.name} - {item.value} Crystals ")
 		while True:
 			user_input = input("Choose an item or press Q to exit")
 			if user_input in ["Q", "q"]:
@@ -665,11 +691,11 @@ class EnchanterTile(MapTile):
 	# the function en enchants the item
 	@staticmethod
 	def en(buyer, item):
-		if item.value > buyer.gold:
+		if item.value > buyer.crystals:
 			print("That is too expensive for you.\n")
 			return
 		buyer.most_powerful_weapon().enchantment = item
-		buyer.gold -= item.value
+		buyer.crystals -= item.value
 		buyer.most_powerful_weapon().name = f"{buyer.most_powerful_weapon().name} ({item.name})"
 		print("Enchantment Complete")
 
@@ -696,18 +722,22 @@ class EnchanterTile(MapTile):
 # PE Pyro enemy
 # GE Geo Enemy
 
+# ET Enchanter Tile
+# FC Find Crystals
+# TT Trader Tile
+
 world_dsl = """
 |  |  |  |  |  |  |  |  |  |  |  |  |  |VT|  |
 |  |BT|FG|EN|EN|FG|EN|  |TT|FG|EN|EN|AE|AB|  |
 |  |FG|EN|  |  |EN|TT|  |ET|EN|  |BT|AE|AE|  |
 |  |EN|FG|EN|BT|EN|FG|  |EN|FG|EN|  |EN|EN|  |
-|  |  |EN|  |ET|EN|BT|  |EN|EN|  |  |EN|  |  |
-|  |GE|GE|  |FG|EN|EN|  |FG|EN|  |BT|EN|EN|  |
-|  |GB|GE|BT|EN|EN|ST|  |BT|EN|FG|EN|EN|FG|  |
+|  |  |EN|  |ET|EN|BT|  |EN|EN|  |  |EN|FC|  |
+|  |GE|GE|FC|FG|EN|EN|  |FG|EN|  |BT|EN|EN|  |
+|  |GB|GE|BT|EN|BT|ST|  |BT|EN|FG|EN|EN|FG|  |
 |  |BT|  |  |  |  |  |  |BT|  |  |  |  |  |  |
 |  |TT|FG|EN|EN|FG|TT|  |PB|PE|EN|EN|FG|TT|  |
-|  |ET|EN|  |  |EN|  |  |PE|PE|  |  |EN|  |  |
-|  |EN|FG|EN|  |EN|  |  |EN|FG|EN|  |EN|  |  |
+|  |BT|EN|  |  |EN|  |  |PE|PE|  |  |EN|  |  |
+|  |EN|FG|EN|ET|EN|FC|  |EN|FG|EN|  |EN|FC|  |
 |  |  |EN|  |  |EN|  |  |  |EN|  |ET|EN|  |  |
 |  |  |EN|  |FG|HE|HE|  |EN|EN|BT|FG|EN|EN|  |
 |  |FG|TT|FG|EN|HE|HB|BT|FG|  |FG|EN|EN|FG|  |
@@ -730,22 +760,25 @@ def is_dsl_valid(dsl):
 	return True
 
 
-tile_type_dict = {"VT": VictoryTile,
-				  "BT": BoringTile,
-				  "EN": EnemyTile,
-				  "ST": StartTile,
-				  "FG": FindGoldTile,
-				  "TT": TraderTile,
-				  "GE": GeoEnemy,
-				  "HE": HydroEnemy,
-				  "PE": PyroEnemy,
-				  "AE": AeroEnemy,
-				  "GB": GeoBoss,
-				  "HB": HydroBoss,
-				  "PB": PyroBoss,
-				  "AB": AeroBoss,
-				  "ET": EnchanterTile,
-				  "  ": None}
+tile_type_dict = {
+				"VT": VictoryTile,
+				"BT": BoringTile,
+				"EN": EnemyTile,
+				"ST": StartTile,
+				"FG": FindGoldTile,
+				"TT": TraderTile,
+				"GE": GeoEnemy,
+				"HE": HydroEnemy,
+				"PE": PyroEnemy,
+				"AE": AeroEnemy,
+				"GB": GeoBoss,
+				"HB": HydroBoss,
+				"PB": PyroBoss,
+				"AB": AeroBoss,
+				"ET": EnchanterTile,
+				"FC": FindCrystalTile,
+				"  ": None
+}
 
 world_map = []
 start_tile_location = None

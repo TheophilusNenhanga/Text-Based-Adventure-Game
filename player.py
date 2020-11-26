@@ -10,8 +10,9 @@ class Player:
 		self.x = world.start_tile_location[0]
 		self.y = world.start_tile_location[1]
 		self.hp = 100
-		self.gold = 200
+		self.gold = 50
 		self.victory = False
+		self.crystals = 5
 
 	def is_alive(self):
 		return self.hp > 0
@@ -38,6 +39,7 @@ class Player:
 		for item in self.inventory:
 			print("* " + str(item))
 		print(f"Gold: {self.gold}")
+		print(f"Crystals: {self.crystals}")
 
 	def most_powerful_weapon(self):
 		max_damage = 0
@@ -93,9 +95,15 @@ class Player:
 
 		if not enemy.is_alive():
 			print(f"You killed the {enemy.name}")
-			amount = random.randint(1,10)
+			amount = random.randint(1, 8)
 			self.gold += amount
-			print(f"You recieve {amount} gold")
+			print(f"You receive {amount} gold")
+			amount = random.randint(0, 2)
+			if amount == 0:
+				pass
+			else:
+				self.crystals += amount
+				print(f"You receive {amount} crystals")
 		else:
 			print(f"{enemy.name}, hp is now {enemy.hp}")
 
@@ -105,12 +113,13 @@ class Player:
 			print("You do not have any items to heal you\n")
 			return
 
+		print("Choose at item to use to heal")
 		for i, item in enumerate(consumables, 1):
-			print("Choose at item to use to heal")
 			print(f"{i}.{item}")
 
+		choice = None
 		valid = False
-		while not valid:
+		while not valid and choice not in ["Q", "q"]:
 			choice = input("")
 			try:
 				to_eat = consumables[int(choice) - 1]
@@ -119,7 +128,10 @@ class Player:
 				print(f"Current HP: {self.hp}")
 				valid = True
 			except(ValueError, IndexError):
-				print("Invalid choice, Try again\n")
+				if choice in ["Q", "q"]:
+					return
+				else:
+					print("Invalid choice, Try again\n")
 
 	def trade(self):
 		room = world.tile_at(self.x, self.y)

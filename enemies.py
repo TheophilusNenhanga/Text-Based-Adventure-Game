@@ -55,7 +55,7 @@ class SkeletalWarrior(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Skeletal Warrior"
-		self.hp = 5
+		self.hp = 15
 		self.damage = 20
 		self.defence = 0
 		self.type = "normal"
@@ -66,7 +66,7 @@ class BatSwarm(Enemy):
 		super().__init__()
 		self.name = "Swarm of Bats"
 		self.hp = 20
-		self.damage = 15
+		self.damage = 12
 		self.defence = 0
 		self.type = "normal"
 

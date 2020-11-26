@@ -40,7 +40,7 @@ class Hydration(Enchantment):
 					This enchantment hydrates all it touches.
 						I wonder what happens to a wet rock?
 		"""
-		self.value = 100
+		self.value = 25
 
 
 class Dehydration(Enchantment):
@@ -53,7 +53,7 @@ class Dehydration(Enchantment):
 					This enchantment dehydrates all it touches.
 						I wonder what happens to dry water?
 		"""
-		self.value = 150
+		self.value = 30
 
 
 class Extinguishing(Enchantment):
@@ -66,7 +66,7 @@ class Extinguishing(Enchantment):
 				This enchantment extinguishes flames. 
 					Sayonara to all the flames.
 		"""
-		self.value = 200
+		self.value = 50
 
 
 class Suction(Enchantment):
@@ -79,7 +79,7 @@ class Suction(Enchantment):
 				This enchantment sucks in all nearby enemies. 
 					I wonder what will happen to the air?
 		"""
-		self.value = 300
+		self.value = 60
 
 
 class Honed(Enchantment):
@@ -92,4 +92,4 @@ class Honed(Enchantment):
 				This enchantment sharpens your sword. 
 				Slicing foes is now a piece of cake. 
 		"""
-		self.value = 150
+		self.value = 20

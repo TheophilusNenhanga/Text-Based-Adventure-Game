@@ -161,8 +161,23 @@ class RottenFlesh(Consumable):
 	def __init__(self):
 		super().__init__()
 		self.name = "Rotten Flesh"
-		self.healing_value = "5"
+		self.healing_value = 2
+		self.value = 5
+
+
+class Apple(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Apple"
+		self.healing_value = 5
 		self.value = 10
+
+class SnakeApple(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Snake Apple"
+		self.healing_value = -10
+		self.value = 15
 
 
 class HealingPotion(Consumable):

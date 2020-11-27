@@ -50,7 +50,7 @@ class VictoryTile(MapTile):
 class FindGoldTile(MapTile):
 	def __init__(self, x, y):
 		super().__init__(x, y)
-		self.gold = random.randint(25, 50)
+		self.gold = random.randint(25, 35)
 		self.gold_claimed = False
 
 	def modify_player(self, player):
@@ -76,7 +76,7 @@ class FindGoldTile(MapTile):
 class FindCrystalTile(MapTile):
 	def __init__(self, x, y):
 		super().__init__(x, y)
-		self.crystals = random.randint(10, 30)
+		self.crystals = random.randint(5, 15)
 		self.crystal_claimed = False
 
 	def modify_player(self, player):
@@ -634,13 +634,13 @@ class TraderTile(MapTile):
 	@staticmethod
 	def swap(seller, buyer, item):
 		if item.value > buyer.gold:
-			print("That's too expensive for you")
+			print("That's too expensive for you\n")
 			return
 		seller.inventory.remove(item)
 		buyer.inventory.append(item)
 		seller.gold = seller.gold + item.value
 		buyer.gold = buyer.gold - item.value
-		print("Trade Complete")
+		print("Trade Complete\n")
 
 	def check_if_trade(self, player):
 		while True:

@@ -22,6 +22,7 @@ def play():
             Your journey has come to an early end
                      ---GAME OVER---
             """)
+			input()
 
 
 def get_player_command():
@@ -36,7 +37,7 @@ def get_available_actions(room, player):
 	if isinstance(room, world.TraderTile):
 		action_adder(actions, "t", player.trade, "Trade")
 	if isinstance(room, world.EnchanterTile):
-		action_adder(actions, "e", player.enchant, "Enchant")
+		action_adder(actions, "en", player.enchant, "Enchant")
 	if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
 		action_adder(actions, "a", player.attack, "Attack")
 	if isinstance(room, world.GeoEnemy) or isinstance(room, world.GeoBoss) and room.enemy.is_alive():

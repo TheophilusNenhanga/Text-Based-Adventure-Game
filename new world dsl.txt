@@ -19,3 +19,46 @@ world_dsl = """
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 """
+
+
+
+world_dsl = """
+|  |  |  |  |  |  |  |  |  |  |  |  |  |VT|  |
+|  |BT|FG|EN|EN|FG|EN|  |TT|FG|EN|EN|AE|AB|  |
+|  |FG|EN|  |  |EN|TT|  |ET|EN|  |BT|AE|AE|  |
+|  |EN|FG|EN|BT|EN|FG|  |EN|FG|EN|  |EN|EN|  |
+|  |  |EN|  |ET|EN|BT|  |EN|EN|  |  |EN|FC|  |
+|  |GE|GE|FC|FG|EN|EN|  |FG|EN|  |BT|EN|EN|  |
+|  |GB|GE|BT|EN|BT|ST|  |BT|EN|FG|EN|EN|FG|  |
+|  |BT|  |  |  |  |  |  |BT|  |  |  |  |  |  |
+|  |TT|FG|EN|EN|FG|TT|  |PB|PE|EN|EN|FG|TT|  |
+|  |BT|EN|  |  |EN|  |  |PE|PE|  |  |EN|  |  |
+|  |EN|FG|EN|ET|EN|FC|  |EN|FG|EN|  |EN|FC|  |
+|  |  |EN|  |  |EN|  |  |  |EN|  |ET|EN|  |  |
+|  |  |EN|  |FG|HE|HE|  |EN|EN|BT|FG|EN|EN|  |
+|  |FG|TT|FG|EN|HE|HB|BT|FG|  |FG|EN|EN|FG|  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+"""
+
+
+world_dsl = """
+|  |  |  |  |ST|EN|EN|  |  |  |  |  |  |  |  |  |  |  |  |
+|  |FG|BT|BT|BT|  |FG|EN|BT|  |  |  |  |  |  |  |  |  |  |
+|  |  |TT|  |BT|  |  |  |BT|  |  |  |  |  |  |  |  |  |  |
+|  |EN|BT|  |BT|EN|BT|EN|BT|  |  |  |  |  |  |  |  |  |  |
+|  |  |BT|  |  |BT|  |  |BT|  |  |  |  |  |  |  |  |  |  |
+|  |  |BT|EN|BT|EN|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |
+|  |ET|BT|FC|  |BT|TT|  |EN|  |  |  |  |  |  |  |  |  |  |
+|  |BT|EN|BT|BT|EN|EN|BT|EN|  |  |  |  |  |  |  |  |  |  |
+|  |BT|  |  |BT|  |BT|  |FC|  |  |  |  |  |  |  |  |  |  |
+|  |BT|EN|BT|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |FG|BT|FC|  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |TT|GE|GE|GE|ET|  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |GE|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |GB|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |VT|
+"""

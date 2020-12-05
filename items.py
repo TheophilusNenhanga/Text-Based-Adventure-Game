@@ -172,6 +172,7 @@ class Apple(Consumable):
 		self.healing_value = 5
 		self.value = 10
 
+
 class SnakeApple(Consumable):
 	def __init__(self):
 		super().__init__()
@@ -272,3 +273,20 @@ class ReinforcedMetalArmour(Defencive):
         """
 		self.defence = 5
 		self.value = 90
+
+
+class Quests:
+	def __init__(self):
+		self.name = "Quest item"
+		self.description = "A item used for quests"
+
+	def __str__(self):
+		return self.name
+
+
+class MagicalItem(Quests):
+	def __init__(self):
+		super().__init__()
+		self.name = "Magical item"
+		self.value = 300
+		self.description = "A magical item, with an unknown use"

@@ -38,6 +38,8 @@ def get_available_actions(room, player):
 		action_adder(actions, "t", player.trade, "Trade")
 	if isinstance(room, world.EnchanterTile):
 		action_adder(actions, "en", player.enchant, "Enchant")
+	if isinstance(room, world.QuestTile):
+		action_adder(actions, "t", player.talk, "Talk")
 	if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
 		action_adder(actions, "a", player.attack, "Attack")
 	if isinstance(room, world.GeoEnemy) or isinstance(room, world.GeoBoss) and room.enemy.is_alive():

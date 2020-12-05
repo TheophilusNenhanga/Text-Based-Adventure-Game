@@ -2,6 +2,7 @@
 import random
 import enemies
 import npc
+import items
 
 
 class MapTile:
@@ -712,36 +713,140 @@ class EnchanterTile(MapTile):
 				print("Invalid Choice\n")
 
 
-# EN Enemy Tile
+class QuestTile(MapTile):
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.completed = False
+		self.quest_lady = npc.QuestLady()
+		self.encounter = 1
+
+	def intro_text(self):
+		if self.completed:
+			return f"""
+					The {self.quest_lady.name} sees you and grins.
+						She has no quest for you.
+							Maybe next time. 
+				"""
+		else:
+			return f"""
+					You see a {self.quest_lady.name}.
+				She seems to be plotting something devious.
+					Will you be her helping hand?
+			"""
+
+	def talk(self, player):
+		if not self.completed:
+			print("Will you help the old lady?")
+			choice1 = input("")
+			if choice1 not in ["yes", "YES", "y", "Y"]:
+				return
+
+			print(
+				"""
+				  You have made a wise decision
+			You must seek out a mysterious magical item
+			"""
+				)
+
+			print(f"""
+				Have you found the {items.MagicalItem().name}?
+				""")
+			choice2 = input("")
+			if choice2 not in ["yes", "YES", "y", "Y"]:
+				return
+			else:
+				QuestTile.item_found(self, player)
+
+	def item_found(self, player):
+		quest_item = [item for item in player.inventory if isinstance(item, items.Quests)]
+		if quest_item:
+			self.completed = True
+			self.quest_completed(self=self, player=player)
+		else:
+			return """
+				You have not found the item yet
+			"""
+
+	@staticmethod
+	def quest_completed(self, player):
+		self.encounter += 1
+		if self.completed:
+			print(f"You have found and retrieved the {items.MagicalItem().name}")
+			player.gold += self.quest_lady.gold
+			print(f"You have received {self.quest_lady.gold} gold")
+			player.crystals += self.quest_lady.crystals
+			print(f"You have received {self.quest_lady.crystals} crystals")
+		else:
+			print("You have not completed the quest")
+			if self.encounter > 3:
+				player.gold -= 3
+
+
+class FindQuestItemTile(MapTile):
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.item = items.MagicalItem()
+		self.item_claimed = False
+
+	def intro_text(self):
+		if self.item_claimed:
+			return """
+						There is nothing to see here.
+				It seems you have already claimed the magical item.
+						  You must forge onwards.
+			"""
+		else:
+			return f"""
+						You see a soft glow. 
+				You have found it. The {self.item.name}
+			Now you can return to the suspicious old woman.
+			"""
+
+	def modify_player(self, player):
+		if not self.item_claimed:
+			self.item_claimed = True
+			item = self.item
+			player.inventory.append(item)
+			print(f"You have found the {item.name}\n")
+
+
 # ST start Tile
 # VT Victory Tile
-# FG Find Gold
 
+# FG Find Gold
+# FC Find Crystals
+# FI Find Quest Item Tile
+
+# EN Enemy Tile
 # AE Aero Enemy
 # HE Hydro Enemy
 # PE Pyro enemy
 # GE Geo Enemy
 
 # ET Enchanter Tile
-# FC Find Crystals
 # TT Trader Tile
+# QT Quest Tile
 
 world_dsl = """
-|  |  |  |  |  |  |  |  |  |  |  |  |  |VT|  |
-|  |BT|FG|EN|EN|FG|EN|  |TT|FG|EN|EN|AE|AB|  |
-|  |FG|EN|  |  |EN|TT|  |ET|EN|  |BT|AE|AE|  |
-|  |EN|FG|EN|BT|EN|FG|  |EN|FG|EN|  |EN|EN|  |
-|  |  |EN|  |ET|EN|BT|  |EN|EN|  |  |EN|FC|  |
-|  |GE|GE|FC|FG|EN|EN|  |FG|EN|  |BT|EN|EN|  |
-|  |GB|GE|BT|EN|BT|ST|  |BT|EN|FG|EN|EN|FG|  |
-|  |BT|  |  |  |  |  |  |BT|  |  |  |  |  |  |
-|  |TT|FG|EN|EN|FG|TT|  |PB|PE|EN|EN|FG|TT|  |
-|  |BT|EN|  |  |EN|  |  |PE|PE|  |  |EN|  |  |
-|  |EN|FG|EN|ET|EN|FC|  |EN|FG|EN|  |EN|FC|  |
-|  |  |EN|  |  |EN|  |  |  |EN|  |ET|EN|  |  |
-|  |  |EN|  |FG|HE|HE|  |EN|EN|BT|FG|EN|EN|  |
-|  |FG|TT|FG|EN|HE|HB|BT|FG|  |FG|EN|EN|FG|  |
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |ST|EN|EN|  |  |  |  |  |  |  |  |  |  |  |  |
+|  |FG|BT|BT|BT|  |FG|EN|BT|  |  |  |  |  |  |  |  |  |  |
+|  |  |TT|  |BT|  |  |FI|EN|  |  |  |  |  |  |  |  |  |  |
+|  |EN|BT|  |BT|EN|BT|EN|BT|  |  |  |  |  |  |  |  |  |  |
+|  |  |BT|  |QT|BT|  |  |BT|  |  |  |  |  |  |  |  |  |  |
+|  |  |BT|EN|BT|EN|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |
+|  |ET|BT|FC|  |BT|TT|  |EN|  |  |  |  |  |  |  |  |  |  |
+|  |BT|EN|BT|BT|EN|EN|BT|EN|  |  |  |  |  |  |  |  |  |  |
+|  |BT|  |  |BT|  |BT|  |FC|  |  |  |  |  |  |  |  |  |  |
+|  |BT|EN|BT|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |FG|BT|FC|  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |TT|GE|GE|GE|ET|  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |GE|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |GB|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |VT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 """
 
 
@@ -777,6 +882,8 @@ tile_type_dict = {
 				"AB": AeroBoss,
 				"ET": EnchanterTile,
 				"FC": FindCrystalTile,
+				"QT": QuestTile,
+				"FI": FindQuestItemTile,
 				"  ": None
 }
 

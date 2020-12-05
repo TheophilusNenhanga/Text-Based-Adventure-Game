@@ -140,3 +140,7 @@ class Player:
 	def enchant(self):
 		room = world.tile_at(self.x, self.y)
 		room.check_if_enchant(self)
+
+	def talk(self):
+		room = world.tile_at(self.x, self.y)
+		room.talk(self)

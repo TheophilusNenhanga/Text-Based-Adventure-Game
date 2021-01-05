@@ -1,3 +1,6 @@
+"""This script has the enchantments class. It will handle all the enchantments and enhancements that the game has"""
+
+
 class Enchantment:
 	def __init__(self):
 		self.name = "Enchantment"

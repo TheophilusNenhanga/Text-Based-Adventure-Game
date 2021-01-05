@@ -1,4 +1,4 @@
-"""This file will have the npc(non player character) classes and will have their attributes"""
+"""This script will have the npc(non player character) classes and will have their attributes"""
 
 import enchantments
 import items
@@ -50,5 +50,5 @@ class QuestLady(NonPlayerCharacter):
 	def __init__(self):
 		super().__init__()
 		self.name = "Suspicious Old Woman"
-		self.crystals = random.randint(5, 10)
-		self.gold = random.randint(15, 30)
+		self.crystals = random.randint(25, 40)
+		self.gold = random.randint(15, 115)

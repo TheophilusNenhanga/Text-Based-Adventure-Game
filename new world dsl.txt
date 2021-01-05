@@ -62,3 +62,33 @@ world_dsl = """
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |VT|
 """
+
+
+world_dsl = """
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |ST|EN|EN|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |FG|BT|BT|BT|  |FG|EN|BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |TT|  |BT|  |  |FI|EN|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |EN|BT|  |BT|EN|BT|EN|BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |BT|  |QT|BT|  |  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |BT|EN|BT|EN|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |  |  |ET|  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |ET|BT|FC|  |BT|TT|  |EN|  |  |  |  |  |  |  |  |  |  |  |BT|BT|  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |BT|EN|BT|BT|EN|EN|BT|EN|  |  |  |  |  |  |  |  |  |  |BT|TT|BT|  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |BT|  |  |BT|  |BT|  |FC|  |  |  |  |  |  |  |  |  |BT|BT|  |BT|  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |BT|EN|BT|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |EN|BT|  |  |BT|  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |BT|  |  |  |  |  |  |  |  |  |  |  |BT|BT|  |  |  |BT|  |  |  |  |  |
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  |FG|BT|FC|  |  |  |  |  |  |  |  |  |EN|BT|EN|EN|BT|  |EN|BT|BT|EN|  |  |
+|  |  |FC|EN|BT|FG|BT|EN|BT|EN|FC|  |  |TT|GE|GE|GE|ET|  |  |  |  |  |  |  |BT|BT|  |  |  |BT|EN|BT|  |  |AE|  |  |
+|  |  |  |  |  |BT|BT|  |  |  |  |  |  |  |  |GE|  |  |  |  |  |  |  |  |FG|BT|  |  |  |  |BT|  |BT|  |AE|AE|  |  |
+|  |  |  |  |  |EN|BT|  |  |  |  |  |  |QT|  |GB|  |  |  |  |  |  |  |  |EN|  |  |  |  |  |FI|  |BT|AE|AE|AB|BT|VT|
+|  |  |  |HE|HE|  |EN|ET|BT|EN|BT|  |BT|EN|  |BT|  |  |  |  |  |  |  |  |FC|BT|  |  |  |  |BT|  |BT|  |AE|AE|  |  |
+|BT|BT|HB|HE|HE|BT|BT|  |  |  |FC|BT|EN|EN|BT|BT|  |  |  |  |  |  |  |  |  |BT|BT|  |  |  |BT|  |BT|  |  |AE|  |  |
+|BT|  |BT|HE|HE|  |BT|EN|FG|  |EN|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |EN|BT|  |  |BT|  |BT|  |  |EN|  |  |
+|BT|  |BT|BT|FI|EN|EN|  |BT|  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |BT|BT|BT|EN|EN|BT|BT|EN|BT|  |  |
+|BT|  |  |BT|  |  |  |  |TT|EN|BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |EN|BT|  |  |  |  |  |  |  |  |
+|BT|  |  |BT|BT|EN|EN|BT|BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |BT|BT|QT|BT|  |  |  |  |  |
+|BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |BT|EN|  |  |  |  |  |
+|BT|  |TT|FC|  |  |  |BT|EN|EN|BT|BT|BT|EN|EN|TT|  |  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |EN|  |  |  |  |  |
+|BT|  |EN|  |EN|QT|  |BT|  |BT|  |  |  |  |  |BT|EN|  |PE|PE|  |  |  |  |  |  |BT|BT|FC|FG|BT|  |BT|  |  |  |  |  |
+|BT|BT|BT|BT|EN|BT|BT|EN|  |BT|EN|FG|BT|BT|EN|ET|EN|PE|BT|BT|PE|PB|BT|BT|BT|BT|BT|BT|FC|FG|BT|BT|BT|  |  |  |  |  |
+|  |  |FG|  |EN|  |EN|  |  |BT|  |  |BT|  |  |BT|EN|  |PE|PE|  |  |  |  |  |  |BT|BT|ET|TT|BT|  |  |  |  |  |  |  |
+|  |  |ET|EN|  |BT|FI|FG|EN|BT|  |  |BT|EN|FC|TT|  |  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |

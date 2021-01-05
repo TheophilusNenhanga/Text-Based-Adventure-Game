@@ -1,4 +1,4 @@
-"""This file will have the items class that will will have all items that will be available in the game"""
+"""This script will have the items class that will will have all items that will be available in the game"""
 inventory = []
 
 
@@ -193,7 +193,7 @@ class StrongHealingPotion(Consumable):
 	def __init__(self):
 		super().__init__()
 		self.name = "Strong Healing Potion"
-		self.healing_value = "50"
+		self.healing_value = 55
 		self.value = 100
 
 
@@ -204,7 +204,7 @@ class Defencive:
 		self.defence = 0
 
 	def __str__(self):
-		return f"{self.name}, Defence: {self.defence}"
+		return f"{self.name}, Defence: ({self.defence})"
 
 
 class WoodenShield(Defencive):
@@ -288,5 +288,5 @@ class MagicalItem(Quests):
 	def __init__(self):
 		super().__init__()
 		self.name = "Magical item"
-		self.value = 300
-		self.description = "A magical item, with an unknown use"
+		self.value = 1
+		self.description = "A magical item, with an unknown magical use"

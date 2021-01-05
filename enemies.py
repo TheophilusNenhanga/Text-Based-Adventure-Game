@@ -1,4 +1,4 @@
-"""This file is for the enemies class that will have all of the enemies that will be in the game"""
+"""This script is for the enemies class that will have all of the enemies that will be in the game"""
 
 
 class Enemy:
@@ -6,6 +6,7 @@ class Enemy:
 		self.name = "Enemy"
 		self.hp = 0
 		self.damage = 0
+		self.score = 10
 
 	def __str__(self):
 		return self.name
@@ -90,6 +91,7 @@ class Ogre(Enemy):
 		self.damage = 5
 		self.defence = 0
 		self.type = "rock"
+		self.score = 15
 
 
 class Golem(Enemy):
@@ -100,6 +102,7 @@ class Golem(Enemy):
 		self.damage = 5
 		self.defence = 0
 		self.type = "rock"
+		self.score = 15
 
 
 class Gargoyle(Enemy):
@@ -110,6 +113,7 @@ class Gargoyle(Enemy):
 		self.damage = 10
 		self.defence = 0
 		self.type = "rock"
+		self.score = 15
 
 
 # The water based enemies
@@ -121,6 +125,7 @@ class Hydra(Enemy):
 		self.damage = 10
 		self.defence = 0
 		self.type = "water"
+		self.score = 20
 
 
 class WaterNymph(Enemy):
@@ -131,6 +136,7 @@ class WaterNymph(Enemy):
 		self.damage = 10
 		self.defence = 0
 		self.type = "water"
+		self.score = 20
 
 
 class SeaSerpent(Enemy):
@@ -141,6 +147,7 @@ class SeaSerpent(Enemy):
 		self.damage = 12
 		self.defence = 0
 		self.type = "water"
+		self.score = 20
 
 
 # The fire based enemies
@@ -152,6 +159,7 @@ class BabyPhoenix(Enemy):
 		self.damage = 25
 		self.defence = 0
 		self.type = "fire"
+		self.score = 25
 
 
 class Salamander(Enemy):
@@ -162,6 +170,7 @@ class Salamander(Enemy):
 		self.damage = 30
 		self.defence = 0
 		self.type = "fire"
+		self.score = 25
 
 
 class HellHound(Enemy):
@@ -172,6 +181,7 @@ class HellHound(Enemy):
 		self.damage = 20
 		self.defence = 0
 		self.type = "fire"
+		self.score = 25
 
 
 # The air based enemies
@@ -183,6 +193,7 @@ class Harpy(Enemy):
 		self.damage = 15
 		self.defence = 0
 		self.type = "air"
+		self.score = 30
 
 
 class ThunderBird(Enemy):
@@ -193,6 +204,7 @@ class ThunderBird(Enemy):
 		self.damage = 20
 		self.defence = 0
 		self.type = "air"
+		self.score = 30
 
 
 class Manticore(Enemy):
@@ -203,6 +215,7 @@ class Manticore(Enemy):
 		self.damage = 30
 		self.defence = 0
 		self.type = "air"
+		self.score = 30
 
 
 # The Boss Enemies
@@ -214,6 +227,7 @@ class Geomancer(Enemy):
 		self.damage = 20
 		self.defence = 0
 		self.type = "rock"
+		self.score = 45
 
 
 class Hydromancer(Enemy):
@@ -224,6 +238,7 @@ class Hydromancer(Enemy):
 		self.damage = 25
 		self.defence = 0
 		self.type = "water"
+		self.score = 45
 
 
 class Pyromancer(Enemy):
@@ -234,6 +249,7 @@ class Pyromancer(Enemy):
 		self.damage = 30
 		self.defence = 0
 		self.type = "fire"
+		self.score = 45
 
 
 class Aeromancer(Enemy):
@@ -244,3 +260,4 @@ class Aeromancer(Enemy):
 		self.damage = 50
 		self.defence = 0
 		self.type = "air"
+		self.score = 45

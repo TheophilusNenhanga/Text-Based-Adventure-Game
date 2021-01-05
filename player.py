@@ -1,10 +1,11 @@
-"""This file will have the player class and will control how the player will interact with the rest of the game"""
+"""This script will have the player class and will control how the player will interact with the rest of the game"""
 import items
 import world
 import random
 
 
 class Player:
+	"""This is the player class. This class defines the player and its attributes."""
 	def __init__(self):
 		self.inventory = [items.Rock(), items.RustySword(), items.CrustyBread(), items.WoodenShield()]
 		self.x = world.start_tile_location[0]
@@ -13,27 +14,36 @@ class Player:
 		self.gold = 50
 		self.victory = False
 		self.crystals = 5
+		self.score = 0
 
 	def is_alive(self):
+		"""This function checks if the player is alive"""
 		return self.hp > 0
 
 	def move(self, dx, dy):
+		"""This function moves the player on the map. This function is used in other functions
+		 to move in particular directions"""
 		self.x += dx
 		self.y += dy
 
 	def move_north(self):
+		"""This function moves the player one tile to the north(one tile upwards)"""
 		self.move(dx=0, dy=-1)
 
 	def move_east(self):
+		"""This function moves the player one tile to the east(one tile to the right)"""
 		self.move(dx=1, dy=0)
 
 	def move_south(self):
+		"""This function moves the player one tile to the south(one tile downwards)"""
 		self.move(dx=0, dy=1)
 
 	def move_west(self):
+		"""This function moves the player one tile to the west(one tile to the left)"""
 		self.move(dx=-1, dy=0)
 
 	def print_inventory(self):
+		"""This function displays all the items in the player's inventory"""
 		print("")
 		print("Inventory")
 		for item in self.inventory:
@@ -42,6 +52,7 @@ class Player:
 		print(f"Crystals: {self.crystals}")
 
 	def most_powerful_weapon(self):
+		"""This function returns the weapon in the player's inventory that has the most damage"""
 		max_damage = 0
 		best_weapon = None
 		for item in self.inventory:
@@ -55,6 +66,7 @@ class Player:
 		return best_weapon
 
 	def most_defence(self):
+		"""This function returns the item in the player's inventory with the most defence """
 		max_defence = 0
 		best_defence = None
 		for item in self.inventory:
@@ -69,6 +81,8 @@ class Player:
 
 		# The player is attacking the enemy
 	def attack(self):
+		"""This function is called whenever the player and the enemy meet. This function makes the player
+		attack the enemy. This function also rewards the player if they are victorious"""
 		best_weapon = self.most_powerful_weapon()
 
 		room = world.tile_at(self.x, self.y)
@@ -97,6 +111,7 @@ class Player:
 			print(f"You killed the {enemy.name}")
 			amount = random.randint(1, 8)
 			self.gold += amount
+			self.score += enemy.score
 			print(f"You receive {amount} gold")
 			amount = random.randint(0, 2)
 			if amount == 0:
@@ -105,9 +120,11 @@ class Player:
 				self.crystals += amount
 				print(f"You receive {amount} crystals")
 		else:
-			print(f"{enemy.name}, hp is now {enemy.hp}")
+			print(f"{enemy.name}, hp is now {round(enemy.hp, 0)}")
 
 	def heal(self):
+		"""This function is used when the player wants to recover hp. The function will check for consumables and
+		recover hp using the consumables that the player has in its inventory"""
 		consumables = [item for item in self.inventory if isinstance(item, items.Consumable)]
 		if not consumables:
 			print("You do not have any items to heal you\n")
@@ -134,13 +151,16 @@ class Player:
 					print("Invalid choice, Try again\n")
 
 	def trade(self):
+		"""This function is used when the player wishes to trade with a trader"""
 		room = world.tile_at(self.x, self.y)
 		room.check_if_trade(self)
 
 	def enchant(self):
+		"""This function is used when the player wishes to enchant an item """
 		room = world.tile_at(self.x, self.y)
 		room.check_if_enchant(self)
 
 	def talk(self):
+		"""This function is used when the player wants to talk and initiate a quest"""
 		room = world.tile_at(self.x, self.y)
 		room.talk(self)

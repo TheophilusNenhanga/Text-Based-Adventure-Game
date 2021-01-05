@@ -1,4 +1,4 @@
-"""This file will have the world class. It deals with the world map, its dynamics and how it can be interacted with"""
+"""This script will have the world class. It deals with the world map, its dynamics and how it can be interacted with"""
 import random
 import enemies
 import npc
@@ -33,10 +33,25 @@ class BoringTile(MapTile):
                 You must continue onwards.
         """
 
+	def modify_player(self, player):
+		player.score += 1
+
+
+class CorridorTile(MapTile):
+	def intro_text(self):
+		return """
+				This seems to be a corridor. 
+				I wonder where it leads. 
+		"""
+
+	def modify_player(self, player):
+		player.score += 1
+
 
 class VictoryTile(MapTile):
 	def modify_player(self, player):
 		player.victory = True
+		player.score += 25
 
 	def intro_text(self):
 		return """
@@ -55,6 +70,8 @@ class FindGoldTile(MapTile):
 		self.gold_claimed = False
 
 	def modify_player(self, player):
+		player.score += 5
+
 		if not self.gold_claimed:
 			self.gold_claimed = True
 			player.gold = player.gold + self.gold
@@ -81,6 +98,8 @@ class FindCrystalTile(MapTile):
 		self.crystal_claimed = False
 
 	def modify_player(self, player):
+		player.score += 5
+
 		if not self.crystal_claimed:
 			self.crystal_claimed = True
 			player.crystals = player.crystals + self.crystals
@@ -181,10 +200,10 @@ class EnemyTile(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class GeoEnemy(MapTile):
@@ -238,10 +257,10 @@ class GeoEnemy(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class HydroEnemy(MapTile):
@@ -297,10 +316,10 @@ class HydroEnemy(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class PyroEnemy(MapTile):
@@ -362,10 +381,10 @@ class PyroEnemy(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class AeroEnemy(MapTile):
@@ -428,10 +447,10 @@ class AeroEnemy(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class GeoBoss(MapTile):
@@ -472,10 +491,10 @@ class GeoBoss(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The Geomancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"The Geomancer does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The Geomancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"The Geomancer does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class HydroBoss(MapTile):
@@ -514,10 +533,10 @@ class HydroBoss(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The Hyrdomancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"The Hyrdomancer does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The Hydromancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"The Hydromancer does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class PyroBoss(MapTile):
@@ -556,10 +575,10 @@ class PyroBoss(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The Pyromancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"The Pyromancer does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The Pyromancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"The Pyromancer does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class AeroBoss(MapTile):
@@ -600,10 +619,10 @@ class AeroBoss(MapTile):
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The Aeromancer does {damage_dealt} damage. You have {player.hp} HP remaining")
+				print(f"The Aeromancer does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The Aeromancer does {self.enemy.damage} damage. You have {player.hp} HP remaining")
+				print(f"The Aeromancer does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
 
 class TraderTile(MapTile):
@@ -698,6 +717,7 @@ class EnchanterTile(MapTile):
 		buyer.most_powerful_weapon().enchantment = item
 		buyer.crystals -= item.value
 		buyer.most_powerful_weapon().name = f"{buyer.most_powerful_weapon().name} ({item.name})"
+		buyer.score += 10
 		print("Enchantment Complete")
 
 	def check_if_enchant(self, player):
@@ -737,7 +757,7 @@ class QuestTile(MapTile):
 	def talk(self, player):
 		if not self.completed:
 			print("Will you help the old lady?")
-			choice1 = input("")
+			choice1 = input("(Y)es or (N)o")
 			if choice1 not in ["yes", "YES", "y", "Y"]:
 				return
 
@@ -751,7 +771,8 @@ class QuestTile(MapTile):
 			print(f"""
 				Have you found the {items.MagicalItem().name}?
 				""")
-			choice2 = input("")
+
+			choice2 = input("(Y)es or (N)o")
 			if choice2 not in ["yes", "YES", "y", "Y"]:
 				return
 			else:
@@ -760,15 +781,16 @@ class QuestTile(MapTile):
 	def item_found(self, player):
 		quest_item = [item for item in player.inventory if isinstance(item, items.Quests)]
 		if quest_item:
+			player.score += 15
 			self.completed = True
-			self.quest_completed(self=self, player=player)
+			self.quest_completed(self=self, player=player, item=quest_item)
 		else:
 			return """
-				You have not found the item yet
+				You have not found the item yet.
 			"""
 
 	@staticmethod
-	def quest_completed(self, player):
+	def quest_completed(self, player, item):
 		self.encounter += 1
 		if self.completed:
 			print(f"You have found and retrieved the {items.MagicalItem().name}")
@@ -776,10 +798,20 @@ class QuestTile(MapTile):
 			print(f"You have received {self.quest_lady.gold} gold")
 			player.crystals += self.quest_lady.crystals
 			print(f"You have received {self.quest_lady.crystals} crystals")
+			try:
+				if item in player.inventory:
+					player.inventory.remove(item)
+				elif items.MagicalItem() in player.inventory:
+					player.inventory.remove(items.MagicalItem())
+				else:
+					pass
+			except ValueError:
+				pass
 		else:
-			print("You have not completed the quest")
+			print("You have not completed the quest.")
 			if self.encounter > 3:
 				player.gold -= 3
+				player.crystals -= 1
 
 
 class FindQuestItemTile(MapTile):
@@ -803,6 +835,8 @@ class FindQuestItemTile(MapTile):
 			"""
 
 	def modify_player(self, player):
+		player.score += 5
+
 		if not self.item_claimed:
 			self.item_claimed = True
 			item = self.item
@@ -827,33 +861,45 @@ class FindQuestItemTile(MapTile):
 # TT Trader Tile
 # QT Quest Tile
 
+# BT Boring Tile
+# Corridor Tile
+
+
 world_dsl = """
-|  |  |  |  |ST|EN|EN|  |  |  |  |  |  |  |  |  |  |  |  |
-|  |FG|BT|BT|BT|  |FG|EN|BT|  |  |  |  |  |  |  |  |  |  |
-|  |  |TT|  |BT|  |  |FI|EN|  |  |  |  |  |  |  |  |  |  |
-|  |EN|BT|  |BT|EN|BT|EN|BT|  |  |  |  |  |  |  |  |  |  |
-|  |  |BT|  |QT|BT|  |  |BT|  |  |  |  |  |  |  |  |  |  |
-|  |  |BT|EN|BT|EN|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |
-|  |ET|BT|FC|  |BT|TT|  |EN|  |  |  |  |  |  |  |  |  |  |
-|  |BT|EN|BT|BT|EN|EN|BT|EN|  |  |  |  |  |  |  |  |  |  |
-|  |BT|  |  |BT|  |BT|  |FC|  |  |  |  |  |  |  |  |  |  |
-|  |BT|EN|BT|BT|BT|BT|  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |BT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |FG|BT|FC|  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |TT|GE|GE|GE|ET|  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |GE|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |GB|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |VT|  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-|  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |ST |EN |EN |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |BT |BT |   |FG |EN |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |TT |   |BT |   |   |FQI|EN |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |EN |BT |   |BT |EN |BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |BT |   |QT |BT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |BT |EN |BT |EN |BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |ET |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |ET |BT |FC |   |BT |TT |   |EN |   |   |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN |BT |BT |EN |EN |BT |EN |   |   |   |   |   |   |   |   |   |   |BT |TT |BT |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |BT |   |BT |   |FC |   |   |   |   |   |   |   |   |   |BT |BT |   |BT |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN |BT |BT |BT |BT |   |   |   |   |   |   |   |   |   |   |EN |BT |   |   |BT |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |FC |   |   |   |   |   |   |   |   |   |EN |BT |EN |EN |BT |   |EN |BT |BT |EN |   |   |
+|   |   |FC |EN |BT |FG |BT |EN |BT |EN |FC |   |   |TT |GE |GE |GE |ET |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |EN |BT |   |   |AE |   |   |
+|   |   |   |   |   |BT |BT |   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |FG |BT |   |   |   |   |BT |   |BT |   |AE |AE |   |   |
+|   |   |   |   |   |EN |BT |   |   |   |   |   |   |QT |   |GB |   |   |   |   |   |   |   |   |EN |   |   |   |   |   |FQI|   |BT |AE |AE |AB |BT |VT |
+|   |   |   |HE |HE |   |EN |ET |BT |EN |BT |   |BT |EN |   |BT |   |   |   |   |   |   |   |   |FC |BT |   |   |   |   |BT |   |BT |   |AE |AE |   |   |
+|BT |BT |HB |HE |HE |BT |BT |   |   |   |FC |BT |EN |EN |BT |BT |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |   |BT |   |   |AE |   |   |
+|CT |   |BT |HE |HE |   |BT |EN |FG |   |EN |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN |BT |   |   |BT |   |BT |   |   |EN |   |   |
+|CT |   |BT |BT |FQI|EN |EN |   |BT |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |BT |BT |EN |EN |BT |BT |EN |BT |   |   |
+|CT |   |   |BT |   |   |   |   |TT |EN |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN |BT |   |   |   |   |   |   |   |   |
+|CT |   |   |BT |BT |EN |EN |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |BT |QT |BT |   |   |   |   |   |
+|CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |EN |   |   |   |   |   |
+|CT |   |TT |FC |   |   |   |BT |EN |EN |BT |BT |BT |EN |EN |TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |EN |   |   |   |   |   |
+|CT |   |EN |   |EN |QT |   |BT |   |BT |   |   |   |   |   |BT |EN |   |PE |PE |   |   |   |   |   |   |BT |BT |FC |FG |BT |   |BT |   |   |   |   |   |
+|BT |BT |BT |BT |EN |BT |BT |EN |   |BT |EN |FG |BT |BT |EN |ET |EN |PE |BT |BT |PE |PB |CT |CT |CT |CT |BT |BT |FC |FG |BT |BT |BT |   |   |   |   |   |
+|   |   |FG |   |EN |   |EN |   |   |BT |   |   |BT |   |   |BT |EN |   |PE |PE |   |   |   |   |   |   |BT |BT |ET |TT |BT |   |   |   |   |   |   |   |
+|   |   |ET |EN |   |BT |FQI|FG |EN |BT |   |   |BT |EN |FC |TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 """
 
 
 def is_dsl_valid(dsl):
-	if dsl.count("|ST|") != 1:
+	if dsl.count("|ST |") != 1:
 		return False
-	if dsl.count("|VT|") == 0:
+	if dsl.count("|VT |") == 0:
 		return False
 	lines = dsl.splitlines()
 	lines = [ln for ln in lines if ln]
@@ -866,25 +912,25 @@ def is_dsl_valid(dsl):
 
 
 tile_type_dict = {
-				"VT": VictoryTile,
-				"BT": BoringTile,
-				"EN": EnemyTile,
-				"ST": StartTile,
-				"FG": FindGoldTile,
-				"TT": TraderTile,
-				"GE": GeoEnemy,
-				"HE": HydroEnemy,
-				"PE": PyroEnemy,
-				"AE": AeroEnemy,
-				"GB": GeoBoss,
-				"HB": HydroBoss,
-				"PB": PyroBoss,
-				"AB": AeroBoss,
-				"ET": EnchanterTile,
-				"FC": FindCrystalTile,
-				"QT": QuestTile,
-				"FI": FindQuestItemTile,
-				"  ": None
+				"VT ": VictoryTile,
+				"BT ": BoringTile,
+				"EN ": EnemyTile,
+				"ST ": StartTile,
+				"FG ": FindGoldTile,
+				"TT ": TraderTile,
+				"GE ": GeoEnemy,
+				"HE ": HydroEnemy,
+				"PE ": PyroEnemy,
+				"AE ": AeroEnemy,
+				"GB ": GeoBoss,
+				"HB ": HydroBoss,
+				"PB ": PyroBoss,
+				"AB ": AeroBoss,
+				"ET ": EnchanterTile,
+				"FC ": FindCrystalTile,
+				"QT ": QuestTile,
+				"FQI": FindQuestItemTile,
+				"   ": None
 }
 
 world_map = []

@@ -1,16 +1,35 @@
 """This script will have the items class that will will have all items that will be available in the game"""
+import random
+import colorama
+from colorama import Fore
+
+
+colorama.init(autoreset=True)
 inventory = []
 
 
 class Weapon:
 	def __init__(self):
+
 		self.name = "Weapon"
 		self.description = "Used for attacking"
 		self.damage = 0
 		self.enchantment = None
+		self.defence = 0
+		self.value = 0
 
 	def __str__(self):
 		return f"{self.name}, (Damage:{self.damage})"
+
+
+class Hand(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Bare hands"
+		self.description = "if all else fails"
+		self.value = 1
+		self.damage = 1
+		self.sellable = False
 
 
 class Rock(Weapon):
@@ -21,6 +40,7 @@ class Rock(Weapon):
 		self.damage = 1
 		self.value = 5
 		self.enchantment = None
+		self.sellable = True
 
 
 class Dagger(Weapon):
@@ -32,8 +52,9 @@ class Dagger(Weapon):
         Somewhat more dangerous than a rock.
         """
 		self.damage = 5
-		self.value = 25
+		self.value = 20
 		self.enchantment = None
+		self.sellable = True
 
 
 class RustySword(Weapon):
@@ -45,8 +66,9 @@ class RustySword(Weapon):
         It has definitely seen better days. 
         """
 		self.damage = 10
-		self.value = 45
+		self.value = 35
 		self.enchantment = None
+		self.sellable = True
 
 
 class ShinySword(Weapon):
@@ -58,8 +80,37 @@ class ShinySword(Weapon):
         And it packs a real punch.
         """
 		self.damage = 20
-		self.value = 75
+		self.value = 70
 		self.enchantment = None
+		self.sellable = True
+
+
+class LightSaber(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Light Saber"
+		self.description = """
+        This one is light. 
+        Agile and Sharp.
+        """
+		self.damage = 25
+		self.value = 85
+		self.enchantment = None
+		self.sellable = True
+
+
+class HeavySaber(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Heavy Saber"
+		self.description = """
+        Much heavier. 
+        Much more damage.
+        """
+		self.damage = 30
+		self.value = 105
+		self.enchantment = None
+		self.sellable = True
 
 
 class BattleAxe(Weapon):
@@ -71,8 +122,9 @@ class BattleAxe(Weapon):
         You can't lose with it.
         """
 		self.damage = 35
-		self.value = 100
+		self.value = 125
 		self.enchantment = None
+		self.sellable = True
 
 
 class Mace(Weapon):
@@ -86,6 +138,7 @@ class Mace(Weapon):
 		self.damage = 35
 		self.value = 120
 		self.enchantment = None
+		self.sellable = True
 
 
 class SharpenedShield(Weapon):
@@ -97,8 +150,10 @@ class SharpenedShield(Weapon):
         But i would still keep my distance.
         """
 		self.damage = 15
-		self.value = 50
+		self.defence = 2
+		self.value = 80
 		self.enchantment = None
+		self.sellable = True
 
 
 class BowAndArrow(Weapon):
@@ -109,9 +164,10 @@ class BowAndArrow(Weapon):
         What is stronger
         The bow or the arrow?
         """
-		self.damage = 20
-		self.value = 60
+		self.damage = 18
+		self.value = 55
 		self.enchantment = None
+		self.sellable = True
 
 
 class WoodenClub(Weapon):
@@ -123,8 +179,9 @@ class WoodenClub(Weapon):
         You couldn't even hurt a fly.
         """
 		self.damage = 5
-		self.value = 10
+		self.value = 15
 		self.enchantment = None
+		self.sellable = True
 
 
 class MetalClub(Weapon):
@@ -136,17 +193,96 @@ class MetalClub(Weapon):
         Enemies beware!
         """
 		self.damage = 15
-		self.value = 40
+		self.value = 50
 		self.enchantment = None
+		self.sellable = True
+
+
+class Pike(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Pike"
+		self.description = """
+	        	  Poke, Poke, Pike!
+	        And all the enemies take a hike.
+	        """
+		self.damage = 22
+		self.value = 80
+		self.enchantment = None
+		self.sellable = True
+
+
+class BluntSpear(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Blunt Spear"
+		self.description = """
+	        		It's a spear.
+	        But, It'll probably let you down
+	        """
+		self.damage = 8
+		self.value = 28
+		self.enchantment = None
+		self.sellable = True
+
+
+class SharpSpear(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Sharp Spear"
+		self.description = """
+	        		It's a spear.
+	        This one won't let you down.
+	        """
+		self.damage = 16
+		self.value = 55
+		self.enchantment = None
+		self.sellable = True
+
+
+class Excalibur(Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Excalibur"
+		self.description = """
+				A legendary sword.
+			Forged long ago outside the cave. 
+		It cannot rest until more blood is shed. 
+		"""
+		self.damage = 45
+		self.value = 300
+		self.enchantment = None
+		self.sellable = True
 
 
 class Consumable:
 	def __init__(self):
+		self.value = 1
 		self.name = ""
-		self.healing_value = 0
+		self.healing_value = 1
+		self.sellable = True
 
 	def __str__(self):
-		return f"{self.name} + {self.healing_value} HP"
+		return f"{self.name} {Fore.GREEN}+{self.healing_value} HP{Fore.RESET}"
+
+
+class SnakeApple(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Snake Apple"
+		self.healing_value = -10
+		self.value = 15
+
+	def __str__(self):
+		return f"{self.name} {Fore.GREEN}{self.healing_value} HP{Fore.RESET}"
+
+
+class RottenFlesh(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Rotten Flesh"
+		self.healing_value = 5
+		self.value = 10
 
 
 class CrustyBread(Consumable):
@@ -157,28 +293,28 @@ class CrustyBread(Consumable):
 		self.value = 20
 
 
-class RottenFlesh(Consumable):
-	def __init__(self):
-		super().__init__()
-		self.name = "Rotten Flesh"
-		self.healing_value = 2
-		self.value = 5
-
-
 class Apple(Consumable):
 	def __init__(self):
 		super().__init__()
 		self.name = "Apple"
-		self.healing_value = 5
-		self.value = 10
+		self.healing_value = 15
+		self.value = 25
 
 
-class SnakeApple(Consumable):
+class FreshBread(Consumable):
 	def __init__(self):
 		super().__init__()
-		self.name = "Snake Apple"
-		self.healing_value = -10
-		self.value = 15
+		self.name = "Fresh Bread"
+		self.healing_value = 25
+		self.value = 50
+
+
+class CookedInsectFlesh(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Cooked Insect Flesh"
+		self.healing_value = 30
+		self.value = 45
 
 
 class HealingPotion(Consumable):
@@ -186,7 +322,15 @@ class HealingPotion(Consumable):
 		super().__init__()
 		self.name = "Healing Potion"
 		self.healing_value = 25
-		self.value = 50
+		self.value = 40
+
+
+class LuckyFruit(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Lucky Fruit?"
+		self.healing_value = random.randint(20, 40)
+		self.value = random.randint(30, 60)
 
 
 class StrongHealingPotion(Consumable):
@@ -194,14 +338,24 @@ class StrongHealingPotion(Consumable):
 		super().__init__()
 		self.name = "Strong Healing Potion"
 		self.healing_value = 55
-		self.value = 100
+		self.value = 85
+
+
+class HyperHealingPotion(Consumable):
+	def __init__(self):
+		super().__init__()
+		self.name = "Hyper Healing Potion"
+		self.healing_value = 75
+		self.value = 115
 
 
 # Defencive items
 class Defencive:
 	def __init__(self):
+		self.value = 1
 		self.name = ""
-		self.defence = 0
+		self.defence = 0.1
+		self.sellable = True
 
 	def __str__(self):
 		return f"{self.name}, Defence: ({self.defence})"
@@ -218,17 +372,6 @@ class WoodenShield(Defencive):
 		self.value = 10
 
 
-class MetalShield(Defencive):
-	def __init__(self):
-		super().__init__()
-		self.name = "Metal Shield"
-		self.description = """
-        This might just come in handy
-        """
-		self.defence = 2
-		self.value = 20
-
-
 class DefenciveClothing(Defencive):
 	def __init__(self):
 		super().__init__()
@@ -236,8 +379,19 @@ class DefenciveClothing(Defencive):
 		self.description = """
         Well you have to wear something
         """
-		self.defence = 2.5
+		self.defence = 2
 		self.value = 45
+
+
+class MetalShield(Defencive):
+	def __init__(self):
+		super().__init__()
+		self.name = "Metal Shield"
+		self.description = """
+        This might just come in handy
+        """
+		self.defence = 2.5
+		self.value = 20
 
 
 class ChainMail(Defencive):
@@ -279,6 +433,7 @@ class Quests:
 	def __init__(self):
 		self.name = "Quest item"
 		self.description = "A item used for quests"
+		self.sellable = False
 
 	def __str__(self):
 		return self.name

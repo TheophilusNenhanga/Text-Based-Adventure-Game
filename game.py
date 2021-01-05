@@ -8,7 +8,12 @@ import traceback
 import files
 import os
 import pickle
+import colorama
+from colorama import Fore, Style
+import sys
 
+
+colorama.init(autoreset=True)
 directory = "caver"
 parent_dir = os.getcwd()
 paths = os.path.join(parent_dir, directory)
@@ -43,7 +48,7 @@ they awake from their slumber. The old man is at the greatest risk. He is the ol
 He was the one to find the player and rescue him from death's door. Once upon a time. The player sees the old man as 
 a father figure. The love he had for the old man was great 
 
-The player has to save the people of the cave. The player has to their friends. The player has to save the old man. 
+The player has to save the people of the cave. The player has to save their friends. The player has to save the old man. 
 Save his father. The player will now have to journey out of the cave. The player will encounter many dangers, 
 but the player must survive or else. 
 
@@ -66,11 +71,12 @@ def exit_screen():
 	print("Thank you for playing the game.")
 	print(
 		"""
-		1. Read The Player's Story
-		2. Leaderboard
-		3. Quit Game
+1. Read The Player's Story
+2. Leaderboard
+3. Credits
+4. Quit Game
 
-		Hope you enjoyed! 
+Hope you enjoyed! 
 		"""
 	)
 
@@ -81,7 +87,7 @@ def exit_screen():
 			try:
 				story = open(paths + "\\story.txt", "r")
 				storyline = story.read()
-				print(storyline)
+				print(f"{Fore.LIGHTBLUE_EX}{storyline}{Fore.RESET}")
 
 				# for line in story:
 				# 	print(line)
@@ -100,7 +106,7 @@ def exit_screen():
 				for item in lead:
 					if len(lead) == 1:
 						print("-----There is no leaderboard.-----")
-						print("Play the game to be the first on the leaderboard")
+						print("Play the game to be the first on the leaderboard.")
 
 						continue
 
@@ -118,18 +124,25 @@ def exit_screen():
 
 			except FileNotFoundError:
 				print("-----There is no leaderboard.-----")
-				print("Play the game to be the first on the leaderboard")
+				print("Play the game to be the first on the leaderboard.")
 
 		elif choice in ["3.", "3", "three", "THREE"]:
+			try:
+				with open(paths + "\\credits.txt", "r") as credit:
+					text = credit.read()
+				print(text)
+			except FileNotFoundError:
+				print("Sorry the credits could not be loaded.")
+
+		elif choice in ["4.", "4", "four", "FOUR"]:
 			print("Are you sure you want to exit?\n(Y)es\n(N)o")
 			choice2 = input()
 			if choice2 in ["yes", "Y", "y", "YES", "Yes"]:
-				print("Goodbye. We hope you enjoyed the game")
+				print("Goodbye. We hope you enjoyed the game.")
 				time.sleep(2.5)
-				exit()
+				sys.exit()
 			if choice2 in ["no", "N", "n", "NO", "No"]:
 				exit_screen()
-
 		else:
 			print("Invalid Action\n")
 			exit_screen()
@@ -142,16 +155,17 @@ def start_screen():
 	print("Welcome to the game.")
 	print(
 		"""
-		1. Play Caver
-		2. Read The Player's Story
-		3. Leaderboard
-		4. Quit Game
+1. Play Caver
+2. Read The Player's Story
+3. Leaderboard
+4. Credits
+5. Quit Game
 
-		If it is your first time playing the game.
-		We recommend that you read the player's story. 
-		This will give you a background of the game. 
+If it is your first time playing the game.
+We recommend that you read the player's story. 
+This will give you a background of the game. 
 
-		Hope you enjoy! 
+Hope you enjoy! 
 		"""
 	)
 
@@ -171,7 +185,7 @@ def start_screen():
 			try:
 				story = open(paths + "\\story.txt", "r")
 				storyline = story.read()
-				print(storyline)
+				print(f"{Fore.LIGHTBLUE_EX}{storyline}{Fore.RESET}")
 
 				# for line in story:
 				# 	print(line)
@@ -208,7 +222,15 @@ def start_screen():
 				print("-----There is no leaderboard.-----")
 				print("Play the game to be the first on the leaderboard")
 
-		elif choice in ["4.", "4", "four", "FOUR"]:
+		elif choice.lower() in ["4.", "4", "four"]:
+			try:
+				with open(paths + "\\credits.txt", "r") as credit:
+					text = credit.read()
+				print(text)
+			except FileNotFoundError:
+				print("Sorry the credits could not be loaded")
+
+		elif choice.lower() in ["5.", "5", "five"]:
 			print("Are you sure you want to exit?\n(Y)es\n(N)o")
 			choice2 = input()
 			if choice2 in ["yes", "Y", "y", "YES", "Yes"]:
@@ -219,7 +241,7 @@ def start_screen():
 				start_screen()
 
 		else:
-			print("Invalid Action\n")
+			print(f"{Style.BRIGHT}Invalid Action\n")
 			start_screen()
 
 
@@ -240,9 +262,10 @@ def play():
 		elif not player.is_alive():
 
 			print(
-				"""
-            Your journey has come to an early end
-                     ---GAME OVER---
+				f"""{Fore.RED}
+Your journey has come to an early end
+---GAME OVER---
+{Fore.RESET}
             """
 				  )
 
@@ -271,15 +294,15 @@ def play():
 			print("\n")
 			print("-You will now be taken to the exit screen-")
 			print("\n")
-			time.sleep(3)
-
+			time.sleep(1)
+			input("Press any button")
 			os.system("cls")
 			exit_screen()
 
 
 def get_player_command():
 	"""This function returns the user's input, which is the chosen action."""
-	return input("Action: \n")
+	return input(f"\n{Style.BRIGHT}Action: \n")
 
 
 def get_available_actions(room, player):
@@ -288,15 +311,31 @@ def get_available_actions(room, player):
 
 	actions = OrderedDict()
 	print("Choose an action: ")
+	if player:
+		action_adder(actions, "d", player.print_details, "Print Player Details")
 	if player.inventory:
 		action_adder(actions, "i", player.print_inventory, "Print Inventory")
 	if isinstance(room, world.TraderTile):
+		action_adder(actions, "t", player.trade, "Trade")
+	if isinstance(room, world.ArmourSmithTile):
+		action_adder(actions, "t", player.trade, "Trade")
+	if isinstance(room, world.WeaponSmithTile):
 		action_adder(actions, "t", player.trade, "Trade")
 	if isinstance(room, world.EnchanterTile):
 		action_adder(actions, "en", player.enchant, "Enchant")
 	if isinstance(room, world.QuestTile):
 		action_adder(actions, "t", player.talk, "Talk")
-	if isinstance(room, world.EnemyTile) and room.enemy.is_alive():
+	if isinstance(room, world.StoryTellerTile1):
+		action_adder(actions, "c", player.converse, "Converse")
+	if isinstance(room, world.StoryTellerTile2):
+		action_adder(actions, "c", player.converse, "Converse")
+	if isinstance(room, world.EnemyTile1) and room.enemy.is_alive():
+		action_adder(actions, "a", player.attack, "Attack")
+	if isinstance(room, world.EnemyTile2) and room.enemy.is_alive():
+		action_adder(actions, "a", player.attack, "Attack")
+	if isinstance(room, world.EnemyTile3) and room.enemy.is_alive():
+		action_adder(actions, "a", player.attack, "Attack")
+	if isinstance(room, world.EnemyTile4) and room.enemy.is_alive():
 		action_adder(actions, "a", player.attack, "Attack")
 	if isinstance(room, world.GeoEnemy) or isinstance(room, world.GeoBoss) and room.enemy.is_alive():
 		action_adder(actions, "a", player.attack, "Attack")
@@ -355,14 +394,15 @@ def choose_action(room, player):
 	action = None
 	while not action:
 		available_actions = get_available_actions(room, player)
-		action_input = input("Action: ")
+		action_input = input(f"{Style.BRIGHT}\nAction: \n")
 		action = available_actions.get(action_input)
 		if action:
 			action()
 		else:
-			print("Invalid Action\n")
+			print(f"{Style.BRIGHT}\nInvalid Action\n")
 
 
-files.create_files(paths)
-files.dump(paths)
-start_screen()
+if __name__ == "__main__":
+	files.create_files(paths)
+	files.dump(paths)
+	start_screen()

@@ -52,12 +52,21 @@ def create_files(file_path):
 	He was the one to find the player and rescue him from death's door. Once upon a time. The player sees the old man as 
 	a father figure. The love he had for the old man was great 
 	
-	The player has to save the people of the cave. The player has to their friends. The player has to save the old man. 
+	The player has to save the people of the cave. The player has to save their friends. The player has to save the old man. 
 	Save his father. The player will now have to journey out of the cave. The player will encounter many dangers, 
 	but the player must survive or else. 
 	
 	You are the player. You are a Caver.
 	Will you survive?
+	"""
+
+	crd = """
+              ---GAME CREDITS---
+    Game Developer          Theophilus Nenhanga
+    Main Game Tester        Colbert Jansen
+    Icon                    Icon made by Freepik from www.flaticon.com
+
+    © Theophilus Nyasha Nenhanga
 	"""
 
 	story = open(file_path + "\\story.txt", "w")
@@ -67,3 +76,7 @@ def create_files(file_path):
 	leaderboard = open(file_path + "\\leaderboard.txt", "a")
 	leaderboard.writelines("---LEADERBOARD---")
 	leaderboard.close()
+
+	credit = open(file_path + "\\credits.txt", "w")
+	credit.writelines(crd)
+	credit.close()

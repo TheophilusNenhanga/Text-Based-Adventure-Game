@@ -3,6 +3,7 @@
 import enchantments
 import items
 import random
+import story
 
 
 class NonPlayerCharacter:
@@ -23,17 +24,19 @@ class NonPlayerCharacter:
 
 class Trader(NonPlayerCharacter):
 	all_items = [
-		items.CrustyBread(), items.HealingPotion(), items.SharpenedShield(), items.RustySword(),
-		items.BattleAxe(), items.MetalClub(), items.ShinySword(), items.BowAndArrow(), items.Mace(),
-		items.DefenciveClothing(), items.ReinforcedMetalArmour(), items.ChainMail(), items.StrongHealingPotion(),
-		items.SnakeApple(), items.RottenFlesh(), items.Apple()
+		items.SnakeApple(), items.RottenFlesh(), items.CrustyBread(), items.Apple(), items.FreshBread(),
+		items.CookedInsectFlesh(), items.HealingPotion(), items.LuckyFruit(), items.StrongHealingPotion(),
+		items.HyperHealingPotion(), items.WoodenShield(), items.DefenciveClothing(), items.MetalShield(),
+		items.ChainMail(), items.MetalArmour(), items.ReinforcedMetalArmour(), items.ShinySword(), items.LightSaber(),
+		items.HeavySaber(), items.BattleAxe(), items.Mace(), items.SharpenedShield(), items.BowAndArrow(),
+		items.WoodenClub(), items.MetalClub(), items.Pike(), items.BluntSpear(), items.SharpSpear(), items.Excalibur()
 	]
 
 	def __init__(self):
 		super().__init__()
 		self.name = "Trader"
 		self.gold = 250
-		self.inventory = Trader.all_items
+		self.inventory = [x for x in Trader.all_items if isinstance(x, items.Consumable)]
 
 
 class Enchanter(NonPlayerCharacter):
@@ -50,5 +53,43 @@ class QuestLady(NonPlayerCharacter):
 	def __init__(self):
 		super().__init__()
 		self.name = "Suspicious Old Woman"
-		self.crystals = random.randint(25, 40)
-		self.gold = random.randint(15, 115)
+		self.crystals = random.randint(25, 35)
+		self.gold = random.randint(15, 85)
+
+
+class WeaponSmith(Trader):
+	def __init__(self):
+		super().__init__()
+		self.name = "WeaponSmith"
+		self.gold = 250
+		self.inventory = [x for x in Trader.all_items if isinstance(x, items.Weapon)]
+
+
+class ArmourSmith(Trader):
+	def __init__(self):
+		super().__init__()
+		self.name = "Armour Smith"
+		self.gold = 250
+		self.inventory = [x for x in Trader.all_items if isinstance(x, items.Defencive)]
+
+
+class StoryTeller1(NonPlayerCharacter):
+	"""Tells the player what they need to do to get out of the cave.
+	In particular this NPC tells the player that the cave has 4 main bosses that
+	need to be defeated before the player can exit the cave."""
+	def __init__(self):
+		super().__init__()
+		self.name = "Hideous Old Woman"
+		self.gold = random.randint(45, 65)
+		self.crystals = random.randint(5, 15)
+		self.messages = story.storyteller1
+
+
+class StoryTeller2(NonPlayerCharacter):
+	"""This NPC tells the player why they need to defeat the bosses.
+	The NPC gives more reason, and explains to the player what really needs to be done."""
+	def __init__(self):
+		super().__init__()
+		self.name = "Quirky Old Timer"
+		self.inventory = [Trader.all_items[random.randint(0, 9)]]
+		self.messages = story.storyteller2

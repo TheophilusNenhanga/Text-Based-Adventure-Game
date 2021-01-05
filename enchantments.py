@@ -7,8 +7,8 @@ class Enchantment:
 		self.level = 0
 		self.type_affect = "normal"
 		self.description = """
-				A magical spell embedded into your weapon.
-					This might just come in handy.
+A magical spell embedded into your weapon.
+This might just come in handy.
 		"""
 		self.value = 0
 
@@ -40,8 +40,8 @@ class Hydration(Enchantment):
 		self.level = 1
 		self.type_affect = ["rock", "fire"]
 		self.description = """
-					This enchantment hydrates all it touches.
-						I wonder what happens to a wet rock?
+This enchantment hydrates all it touches.
+I wonder what happens to a wet rock?
 		"""
 		self.value = 25
 
@@ -53,8 +53,8 @@ class Dehydration(Enchantment):
 		self.level = 1
 		self.type_affect = ["water"]
 		self.description = """
-					This enchantment dehydrates all it touches.
-						I wonder what happens to dry water?
+This enchantment dehydrates all it touches.
+I wonder what happens to dry water?
 		"""
 		self.value = 30
 
@@ -66,8 +66,8 @@ class Extinguishing(Enchantment):
 		self.level = 1
 		self.type_affect = ["fire"]
 		self.description = """
-				This enchantment extinguishes flames. 
-					Sayonara to all the flames.
+This enchantment extinguishes flames. 
+Sayonara to all the flames.
 		"""
 		self.value = 50
 
@@ -79,8 +79,8 @@ class Suction(Enchantment):
 		self.level = 1
 		self.type_affect = ["air"]
 		self.description = """
-				This enchantment sucks in all nearby enemies. 
-					I wonder what will happen to the air?
+This enchantment sucks in all nearby enemies. 
+I wonder what will happen to the air?
 		"""
 		self.value = 60
 
@@ -92,7 +92,7 @@ class Honed(Enchantment):
 		self.level = 0.5
 		self.type_affect = ["normal", "rock", "fire", "water", "air"]
 		self.description = """
-				This enchantment sharpens your sword. 
-				Slicing foes is now a piece of cake. 
+This enchantment sharpens your sword. 
+Slicing foes is now a piece of cake. 
 		"""
 		self.value = 20

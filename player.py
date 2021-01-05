@@ -2,18 +2,25 @@
 import items
 import world
 import random
+import colorama
+from colorama import Fore, Style
+
+
+colorama.init(autoreset=True)
 
 
 class Player:
 	"""This is the player class. This class defines the player and its attributes."""
 	def __init__(self):
-		self.inventory = [items.Rock(), items.RustySword(), items.CrustyBread(), items.WoodenShield()]
+		self.victory = False
+		self.kindness = False
+		self.inventory = [items.Hand(), items.RustySword(), items.CrustyBread()]
 		self.x = world.start_tile_location[0]
 		self.y = world.start_tile_location[1]
-		self.hp = 100
 		self.gold = 50
-		self.victory = False
 		self.crystals = 5
+		self.name = ""
+		self.hp = 100
 		self.score = 0
 
 	def is_alive(self):
@@ -45,11 +52,35 @@ class Player:
 	def print_inventory(self):
 		"""This function displays all the items in the player's inventory"""
 		print("")
-		print("Inventory")
+		print(f"{Style.BRIGHT}Inventory")
 		for item in self.inventory:
 			print("* " + str(item))
-		print(f"Gold: {self.gold}")
-		print(f"Crystals: {self.crystals}")
+		print(f"{Fore.YELLOW}Gold: {self.gold}")
+		print(f"{Fore.CYAN}Crystals: {self.crystals}")
+		print("")
+
+	def print_details(self):
+		"""The function will return  and print all of the player's details"""
+		print("")
+
+		def get_details(self_param):
+			"""This function will get the player's details"""
+			keys = list(vars(self_param).keys())
+			values = list(vars(self_param).values())
+			i: int = 6
+			detail_list: list = []
+			for x in range(len(keys) - 7):
+				i += 1
+				a = f"{keys[i]} : {values[i]}"
+				detail_list.append(a)
+
+			return detail_list
+
+		details = get_details(self)
+		print(f"{Style.BRIGHT}Player Details")
+		for attribute in details:
+			print("* " + attribute)
+		print("")
 
 	def most_powerful_weapon(self):
 		"""This function returns the weapon in the player's inventory that has the most damage"""
@@ -89,7 +120,7 @@ class Player:
 		enemy = room.enemy
 
 		# The player attacking the enemy
-		print(f"\nYou use a {best_weapon} against the {enemy.name}")
+		print(f"\nYou use a {best_weapon} against the {Fore.LIGHTRED_EX}{enemy.name}")
 		try:
 			affect_type = best_weapon.enchantment.type_affect
 			if enemy.type in affect_type:
@@ -97,30 +128,30 @@ class Player:
 					attack_multiplier = best_weapon.enchantment.damage_multiplier()
 					defence_multiplier = 0.1 * enemy.defence
 					damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
-					enemy.hp = enemy.hp - damage_dealt
+					enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
 				except AttributeError:
 					defence_multiplier = 0.1 * enemy.defence
 					damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
-					enemy.hp = enemy.hp - damage_dealt
+					enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
 		except AttributeError:
 			defence_multiplier = 0.1 * enemy.defence
 			damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
-			enemy.hp = enemy.hp - damage_dealt
+			enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
 
 		if not enemy.is_alive():
-			print(f"You killed the {enemy.name}")
-			amount = random.randint(1, 8)
+			print(f"You killed the {Fore.LIGHTRED_EX}{enemy.name}")
+			amount = enemy.reward
 			self.gold += amount
 			self.score += enemy.score
-			print(f"You receive {amount} gold")
+			print(f"You receive {Fore.YELLOW}{amount} gold")
 			amount = random.randint(0, 2)
 			if amount == 0:
 				pass
 			else:
 				self.crystals += amount
-				print(f"You receive {amount} crystals")
+				print(f"You receive {Fore.CYAN}{amount} crystals")
 		else:
-			print(f"{enemy.name}, hp is now {round(enemy.hp, 0)}")
+			print(f"{Fore.LIGHTRED_EX}{enemy.name}{Fore.RESET}, has {Fore.LIGHTRED_EX}{round(enemy.hp, 0)} HP {Fore.RESET}remaining")
 
 	def heal(self):
 		"""This function is used when the player wants to recover hp. The function will check for consumables and
@@ -140,15 +171,15 @@ class Player:
 			choice = input("")
 			try:
 				to_eat = consumables[int(choice) - 1]
-				self.hp = min(100, self.hp + to_eat.healing_value)
+				self.hp = round(min(100, self.hp + to_eat.healing_value), 0)
 				self.inventory.remove(to_eat)
-				print(f"Current HP: {self.hp}")
+				print(f"Current HP: {Fore.GREEN}{round(self.hp, 0)}")
 				valid = True
 			except(ValueError, IndexError):
 				if choice in ["Q", "q"]:
 					return
 				else:
-					print("Invalid choice, Try again\n")
+					print(f"{Style.BRIGHT}Invalid choice, Try again\n")
 
 	def trade(self):
 		"""This function is used when the player wishes to trade with a trader"""
@@ -164,3 +195,8 @@ class Player:
 		"""This function is used when the player wants to talk and initiate a quest"""
 		room = world.tile_at(self.x, self.y)
 		room.talk(self)
+
+	def converse(self):
+		"""This function is used when the player wants to converse with story telling NPCs"""
+		room = world.tile_at(self.x, self.y)
+		room.converse(self)

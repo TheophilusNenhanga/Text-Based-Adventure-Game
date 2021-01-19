@@ -363,10 +363,4 @@ class Aeromancer(Enemy):
 		self.reward = random.randint(35, 45)
 
 
-class Challenger(Enemy):
-	def __init__(self):
-		super().__init__()
-		self.name = "Evil Wanderer"
-		self.hp = 100
-		self.score = 50
-		self.reward = random.randint(50, 60)
+

@@ -1303,7 +1303,6 @@ class EnemyChallengeTile(MapTile):
 				self.enemy.hp -= self.enemy.hp
 				print(f"{self.story['escape_die']}")
 
-
 		if self.enemy.is_alive() and self.fight:
 			try:
 				defence_multiplier = 0.1 * player.most_defence().defence

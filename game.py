@@ -256,6 +256,9 @@ def play():
 		room = world.tile_at(player.x, player.y)
 		print(room.intro_text())
 
+		if isinstance(room, world.EnemyChallengeTile) and room.fight:
+			player.attack()
+
 		room.modify_player(player)
 		if player.is_alive() and not player.victory:
 			choose_action(room, player)
@@ -310,7 +313,8 @@ def get_available_actions(room, player):
 	and the tiles around the player."""
 
 	actions = OrderedDict()
-	print("Choose an action: ")
+	print("")
+	print(f"{Style.BRIGHT}Choose an action: ")
 	if player:
 		action_adder(actions, "d", player.print_details, "Print Player Details")
 	if player.inventory:
@@ -344,6 +348,10 @@ def get_available_actions(room, player):
 	if isinstance(room, world.PyroEnemy) or isinstance(room, world.PyroBoss) and room.enemy.is_alive():
 		action_adder(actions, "a", player.attack, "Attack")
 	if isinstance(room, world.AeroEnemy) or isinstance(room, world.AeroBoss) and room.enemy.is_alive():
+		action_adder(actions, "a", player.attack, "Attack")
+	if isinstance(room, world.EnemyChallengeTile) and room.enemy.is_alive() and not room.fight and not room.escape and not room.completed:
+		action_adder(actions, "c", player.converse, "Converse")
+	if isinstance(room, world.EnemyChallengeTile) and room.enemy.is_alive() and room.fight and not room.escape and not room.completed:
 		action_adder(actions, "a", player.attack, "Attack")
 	else:
 		if world.tile_at(room.x, room.y - 1):

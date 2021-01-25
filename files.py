@@ -58,6 +58,15 @@ def create_files(file_path):
 	
 	You are the player. You are a Caver.
 	Will you survive?
+	
+	"""
+
+	help_text = """
+	GAME HELP:
+	
+	1. Enemy Tiles: You cannot leave an enemy tile unless you have defeated the enemy.
+	2. Input: If a non player character asks you a question, enter the most obvous answer.
+	
 	"""
 
 	crd = """
@@ -80,3 +89,7 @@ def create_files(file_path):
 	credit = open(file_path + "\\credits.txt", "w")
 	credit.writelines(crd)
 	credit.close()
+
+	info = open(file_path + "\\help.txt", "w")
+	info.writelines(help_text)
+	info.close()

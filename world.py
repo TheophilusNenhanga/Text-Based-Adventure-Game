@@ -6,6 +6,7 @@ import items
 import time
 import colorama
 from colorama import Fore, Style
+import story
 
 
 colorama.init(autoreset=True)
@@ -15,6 +16,7 @@ class MapTile:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
+		self.completed = False
 
 	def intro_text(self):
 		raise NotImplementedError("Create a subclass instead")
@@ -27,8 +29,7 @@ class StartTile(MapTile):
 	def intro_text(self):
 		return f"""{Fore.LIGHTBLUE_EX}
 This is where your journey begins!
-Will you be the one to save humanity?
-Will you get the answers which you seek?
+Will you be the one to save the village?
         """
 
 
@@ -131,68 +132,29 @@ class EnemyTile1(MapTile):
 		r = random.random()
 		if r < 0.2:
 			self.enemy = enemies.BatSwarm(1)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} fly right above your head.
-Each looking more blood thirsty than the last.\n
-                """
-			self.dead_text = f"""
-You have done it.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} didn't have a chance.\n
-                        """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.4:
 			self.enemy = enemies.OvergrownInsect(1)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} sets its eyes on you.
-Will you make it out alive?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-You fought valiantly, 
-Its corpse is now your trophy.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.6:
 			self.enemy = enemies.SkeletalWarrior(1)
-			self.alive_text = """
-The rattling of bones. 
-The hastening of your death?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-Only its bones remain.\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.8:
 			self.enemy = enemies.GiantSpider(1)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} crawls down from the wall.
-It stands right in front of you, 
-You are its prey.\n
-                            """
-			self.dead_text = f"""
-The corpse of a dead {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} lies before you.
-Your victory is now certain.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.99:
 			self.enemy = enemies.Undead(1)
-			self.alive_text = """
-A dead explorer's corpse rises.
-Will you join him in the dance of death?\n
-                    """
-			self.dead_text = """
-Can a dead person die again?
-Hmm, Maybe?\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		else:
 			self.enemy = enemies.Lamia(1)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you.
-Your luck has run out.
-Is it time to say goodbye?\n
-                        """
-			self.dead_text = """
-You have escaped death. 
-You won't be so lucky next time\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -207,10 +169,13 @@ You won't be so lucky next time\n
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 # Level 2 Enemies
@@ -219,68 +184,29 @@ class EnemyTile2(MapTile):
 		r = random.random()
 		if r < 0.2:
 			self.enemy = enemies.BatSwarm(2)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} fly right above your head.
-Each looking more blood thirsty than the last.\n
-                """
-			self.dead_text = f"""
-You have done it.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} didn't have a chance.\n
-                        """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.4:
 			self.enemy = enemies.OvergrownInsect(2)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} sets its eyes on you.
-Will you make it out alive?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-You fought valiantly, 
-Its corpse is now your trophy.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.6:
 			self.enemy = enemies.SkeletalWarrior(2)
-			self.alive_text = """
-The rattling of bones. 
-The hastening of your death?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-Only its bones remain.\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.8:
 			self.enemy = enemies.GiantSpider(2)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} crawls down from the wall.
-It stands right in front of you, 
-You are its prey.\n
-                            """
-			self.dead_text = f"""
-The corpse of a dead {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} lies before you.
-Your victory is now certain.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.99:
 			self.enemy = enemies.Undead(2)
-			self.alive_text = """
-A dead explorer's corpse rises.
-Will you join him in the dance of death?\n
-                    """
-			self.dead_text = """
-Can a dead person die again?
-Hmm, Maybe?\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		else:
 			self.enemy = enemies.Lamia(2)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you.
-Your luck has run out.
-Is it time to say goodbye?\n
-                        """
-			self.dead_text = """
-You have escaped death. 
-You won't be so lucky next time\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -295,10 +221,13 @@ You won't be so lucky next time\n
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 #  Level 3 enemies
@@ -307,68 +236,28 @@ class EnemyTile3(MapTile):
 		r = random.random()
 		if r < 0.2:
 			self.enemy = enemies.BatSwarm(3)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} fly right above your head.
-Each looking more blood thirsty than the last.\n
-                """
-			self.dead_text = f"""
-You have done it.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} didn't have a chance.\n
-                        """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.4:
 			self.enemy = enemies.OvergrownInsect(3)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} sets its eyes on you.
-Will you make it out alive?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-You fought valiantly, 
-Its corpse is now your trophy.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.6:
 			self.enemy = enemies.SkeletalWarrior(3)
-			self.alive_text = """
-The rattling of bones. 
-The hastening of your death?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-Only its bones remain.\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.8:
 			self.enemy = enemies.GiantSpider(3)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} crawls down from the wall.
-It stands right in front of you, 
-You are its prey.\n
-                            """
-			self.dead_text = f"""
-The corpse of a dead {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} lies before you.
-Your victory is now certain.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.99:
 			self.enemy = enemies.Undead(3)
-			self.alive_text = """
-A dead explorer's corpse rises.
-Will you join him in the dance of death?\n
-                    """
-			self.dead_text = """
-Can a dead person die again?
-Hmm, Maybe?\n
-                                """
-
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		else:
 			self.enemy = enemies.Lamia(3)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you.
-Your luck has run out.
-Is it time to say goodbye?\n
-                        """
-			self.dead_text = """
-You have escaped death. 
-You won't be so lucky next time\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -387,6 +276,9 @@ You won't be so lucky next time\n
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
 				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 # Level 4 enemies
@@ -395,68 +287,29 @@ class EnemyTile4(MapTile):
 		r = random.random()
 		if r < 0.2:
 			self.enemy = enemies.BatSwarm(4)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} fly right above your head.
-Each looking more blood thirsty than the last.\n
-                """
-			self.dead_text = f"""
-You have done it.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} didn't have a chance.\n
-                        """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.4:
 			self.enemy = enemies.OvergrownInsect(4)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} sets its eyes on you.
-Will you make it out alive?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-You fought valiantly, 
-Its corpse is now your trophy.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.6:
 			self.enemy = enemies.SkeletalWarrior(4)
-			self.alive_text = """
-The rattling of bones. 
-The hastening of your death?\n
-                            """
-			self.dead_text = f"""
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-Only its bones remain.\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.8:
 			self.enemy = enemies.GiantSpider(4)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} crawls down from the wall.
-It stands right in front of you, 
-You are its prey.\n
-                            """
-			self.dead_text = f"""
-The corpse of a dead {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} lies before you.
-Your victory is now certain.\n
-                            """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.99:
 			self.enemy = enemies.Undead(4)
-			self.alive_text = """
-A dead explorer's corpse rises.
-Will you join him in the dance of death?\n
-                    """
-			self.dead_text = """
-Can a dead person die again?
-Hmm, Maybe?\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		else:
 			self.enemy = enemies.Lamia(4)
-			self.alive_text = f"""
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you.
-Your luck has run out.
-Is it time to say goodbye?\n
-                        """
-			self.dead_text = """
-You have escaped death. 
-You won't be so lucky next time\n
-                                """
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -476,45 +329,25 @@ You won't be so lucky next time\n
 				player.hp = player.hp - self.enemy.damage
 				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
 
+		if not self.enemy.is_alive():
+			self.completed = True
+
 
 class GeoEnemy(MapTile):
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.33:
 			self.enemy = enemies.Ogre()
-			self.alive_text = f"""
-The ground begins to shake.
-A blood thirsty {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you
-How long do you have to live?
-                """
-			self.dead_text = f"""
-The ground is still shaking.
-But, the {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-You must be getting close. 
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.66:
 			self.enemy = enemies.Golem()
-			self.alive_text = f"""
-The ground begins to shake. 
-Could it be this hunky {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}?
-			"""
-			self.dead_text = f"""
-The ground is still shaking.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is now just a pile of rocks.
-You must be getting close.
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		else:
 			self.enemy = enemies.Gargoyle()
-			self.alive_text = f"""
-The ground begins to shake.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} sheds its stony surface. 
-It is ready to attack.
-			"""
-			self.dead_text = """
-The ground is still shaking.
-Even its stony skin wouldn't have made a difference
-You must be getting close.
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -528,10 +361,13 @@ You must be getting close.
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class HydroEnemy(MapTile):
@@ -539,41 +375,16 @@ class HydroEnemy(MapTile):
 		r = random.random()
 		if r < 0.33:
 			self.enemy = enemies.Hydra()
-			self.alive_text = f"""
-You begin to hear crashing waves.
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you. 
-All of its eyes looking straight at you.
-								"""
-			self.dead_text = f"""
-The sound of crashing waves intensifies
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead and,
-You have 3 heads to prove it.
-You must be getting close. 
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.66:
 			self.enemy = enemies.WaterNymph()
-			self.alive_text = f"""
-You begin to hear crashing waves.
-You have disturbed the waters of a {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}.
-You have incurred her wrath.
-							"""
-			self.dead_text = f"""
-The sound of crashing waves intensifies.
-She did not stand a chance.
-You must be getting close.
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		else:
 			self.enemy = enemies.SeaSerpent()
-			self.alive_text = f"""
-You begin to hear crashing waves.
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}, 
-Have you just slithered into your death?
-							"""
-			self.dead_text = """
-The sound of crashing waves intensifies.
-Next time you might not be that lucky.
-You must be getting close.
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -587,10 +398,13 @@ You must be getting close.
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class PyroEnemy(MapTile):
@@ -598,47 +412,17 @@ class PyroEnemy(MapTile):
 		r = random.random()
 		if r < 0.33:
 			self.enemy = enemies.HellHound()
-			self.alive_text = f"""
-It's getting hotter by the second.
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} of incredible size is before you
-Has  your luck run out?
-								"""
-			self.dead_text = f"""
-The ground below you is now magma.
-You turned that {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} into a hell puppy.
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
-You must be getting close. 
-
-			"""
 		elif r < 0.66:
 			self.enemy = enemies.BabyPhoenix()
-			self.alive_text = f"""
-It's getting hotter by the second.
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} flaps its fiery wings
-Will you burned along with everything else?
-							"""
-			self.dead_text = f"""
-The ground below you is now magma.
-You have extinguished the {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}
-
-You must be getting close.
-
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		else:
 			self.enemy = enemies.Salamander()
-			self.alive_text = f"""
-It is getting hotter by the second
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you.
-A giant fiery lizard.
-Will you be charred? 
-							"""
-			self.dead_text = """
-The ground below you is magma.
-It seems nothing can stop you
-
-You must be getting close
-
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -652,10 +436,13 @@ You must be getting close
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {damage_dealt} damage. You have {round(player.hp, 0)} HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining")
+				print(f"Enemy does {self.enemy.damage} damage. You have {round(player.hp, 0)} HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class AeroEnemy(MapTile):
@@ -663,48 +450,16 @@ class AeroEnemy(MapTile):
 		r = random.random()
 		if r < 0.33:
 			self.enemy = enemies.Harpy()
-			self.alive_text = f"""
-The air seems to be getting thinner.
-Yor mere presence has angered a {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}.
-You shall face death by its talons
-								"""
-			self.dead_text = f"""
-You can barely breathe now.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} has fallen. 
-You have clipped its once might wings
-
-							You must be getting close. 
-
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		elif r < 0.66:
 			self.enemy = enemies.ThunderBird()
-			self.alive_text = f"""
-The air seems to be getting thinner.
-Will you survive its onslaught?
-							"""
-			self.dead_text = f"""
-You can barely breathe now
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead. 
-Hmm, how much do those feathers cost?
-
-You must be getting close.
-
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 		else:
 			self.enemy = enemies.Manticore()
-			self.alive_text = f"""
-The air is getting thinner.
-A {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} stands before you.
-It is unconquerable.
-							"""
-			self.dead_text = f"""
-You can barely breathe now.
-You have conquered the unconquerable
-Could you save humanity?
-
-You must be getting close
-
-			"""
+			self.alive_text = self.enemy.alive_text()
+			self.dead_text = self.enemy.dead_text()
 
 		super().__init__(x, y)
 
@@ -718,38 +473,20 @@ You must be getting close
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class GeoBoss(MapTile):
 	def __init__(self, x, y):
 		self.enemy = enemies.Geomancer()
-		self.alive_text = f"""
-The ground is now shaking violently.
-The rocks in front of you begin to move.
-Spikes made of rock begin to grow out of the roof of the cave.
-You are in its presence;
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}!
-
-		"""
-		self.dead_text = f"""
-The ground stops shaking. 
-Everything is silent. 
-The rocks before you begin to disintegrate.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-
-All that is left is a scroll?
-What could this mean?
-
-The ground begins to crumble.
-Before you fall into the darkness you grab the scroll
-
-...It might come in handy
-
-		"""
+		self.alive_text = self.enemy.alive_text()
+		self.dead_text = self.enemy.dead_text()
 		super().__init__(x, y)
 
 	def intro_text(self):
@@ -762,36 +499,20 @@ Before you fall into the darkness you grab the scroll
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class HydroBoss(MapTile):
 	def __init__(self, x, y):
 		self.enemy = enemies.Hydromancer()
-		self.alive_text = f"""
-The crashing waves are are more violent than ever.
-The water level is rising. 
-The terrace you are standing on is not enough. 
-The waves are raging. 
-As if a hurricane is about to erupt within the cave.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is before you 
-		"""
-		self.dead_text = f"""
-The waves retreat.
-The violent storm comes to an end. 
-A soft mist begins to fall. 
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET}is dead,
-You are victorious.
-
-All that is left is a scroll?
-What could this mean?
-
-Now you an continue on your path. 
-Where will you go next?
-		"""
+		self.alive_text = self.enemy.alive_text()
+		self.dead_text = self.enemy.alive_text()
 		super().__init__(x, y)
 
 	def intro_text(self):
@@ -804,37 +525,21 @@ Where will you go next?
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
 				print(
-					f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+					f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class PyroBoss(MapTile):
 	def __init__(self, x, y):
 		self.enemy = enemies.Pyromancer()
-		self.alive_text = f"""
-The ground below you is now beginning to bubble. 
-The heat is more than you can bear. 
-The sweat falling from your face evaporates before it hits the ground
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} must be close by, 
-and your death?
-
-		"""
-		self.dead_text = f"""
-The temperature suddenly drops.
-The magma cools. 
-You have done it. 
-The great {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} has fallen by your hands
-
-All that is left is a scroll?
-What could this mean?
-
-Now you an continue on your path. 
-Where will you go next?
-
-		"""
+		self.alive_text = self.enemy.alive_text()
+		self.dead_text = self.enemy.dead_text()
 		super().__init__(x, y)
 
 	def intro_text(self):
@@ -848,39 +553,21 @@ Where will you go next?
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
 				print(
-					f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+					f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
 				print(
-					f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+					f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class AeroBoss(MapTile):
 	def __init__(self, x, y):
 		self.enemy = enemies.Aeromancer()
-		self.alive_text = f"""
-You can barely breathe now. 
-Will you did for suffocation before the fight begins
-Have you come this far just to die?
-Will the {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} be your end?
-
-		"""
-		self.dead_text = f"""
-A lifeless figure is all you see.
-The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is dead.
-You have made it this far
-You are a worthy warrior.
-
-All that is left is a scroll?
-What could this mean?
-
-Is this the end?
-Have you really finished the game?
-
-You still do not know the answers to all the questions that cloud your mind
-
-Your journey is far from over...
-		"""
+		self.alive_text = self.enemy.alive_text()
+		self.dead_text = self.enemy.dead_text()
 		super().__init__(x, y)
 
 	def intro_text(self):
@@ -893,10 +580,13 @@ Your journey is far from over...
 				defence_multiplier = 0.1 * player.most_defence().defence
 				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
 				player.hp = player.hp - damage_dealt
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {damage_dealt} damage. You have {Fore.GREEN}{round(player.hp, 0)} HP {Fore.RESET}remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {damage_dealt} damage. You have {Fore.GREEN}{round(player.hp, 0)} HP {Fore.RESET}remaining\n")
 			except AttributeError:
 				player.hp = player.hp - self.enemy.damage
-				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining")
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+
+		if not self.enemy.is_alive():
+			self.completed = True
 
 
 class TraderTile(MapTile):
@@ -1203,11 +893,11 @@ Have you found the {Fore.LIGHTBLUE_EX}{items.MagicalItem().name}{Fore.RESET}?
 	def quest_completed(self, player, item):
 		self.encounter += 1
 		if self.completed:
-			print(f"You have found and retrieved the {Fore.LIGHTBLUE_EX}{items.MagicalItem().name}{Fore.RESET}")
+			print(f"You have found and retrieved the {Fore.LIGHTBLUE_EX}{items.MagicalItem().name}{Fore.RESET}\n")
 			player.gold += self.quest_lady.gold
 			print(f"You have received {Fore.YELLOW}{self.quest_lady.gold} gold {Fore.RESET}")
 			player.crystals += self.quest_lady.crystals
-			print(f"You have received {Fore.CYAN}{self.quest_lady.crystals} crystals{Fore.RESET}")
+			print(f"You have received {Fore.CYAN}{self.quest_lady.crystals} crystals{Fore.RESET}\n")
 			try:
 				if item in player.inventory:
 					player.inventory.remove(item)
@@ -1350,7 +1040,7 @@ What was your name again?
 		if mod == 1:
 			self.storyteller.gold += 5
 			player.gold -= 5
-			print(f"You have given the {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET}{Fore.YELLOW} 5 gold")
+			print(f"You have given the {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET}{Fore.YELLOW} 5 gold\n")
 			player.score += 5
 
 		if mod == 2:
@@ -1360,8 +1050,8 @@ What was your name again?
 			self.storyteller.crystals -= to_give_crystal
 			player.gold += to_give_gold
 			player.crystals += to_give_crystal
-			print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you {Fore.YELLOW}{to_give_gold} gold")
-			print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you {Fore.CYAN}{to_give_crystal} crystals")
+			print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you {Fore.YELLOW}{to_give_gold} gold\n")
+			print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you {Fore.CYAN}{to_give_crystal} crystals\n")
 			player.score += 10
 
 
@@ -1446,14 +1136,14 @@ His hands begin to flail, as he walks towards you.
 			if mod == 1:
 				to_give = self.storyteller.inventory[0]
 				player.inventory.append(to_give)
-				print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {to_give.name}")
+				print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {to_give.name}\n")
 			elif mod == 2:
 				to_give = self.storyteller.inventory[0]
 				player.inventory.append(to_give)
-				print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {to_give.name}")
+				print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {to_give.name}\n")
 
 				amount: int = random.randint(60, 90)
-				print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {Fore.YELLOW}{amount} gold {Fore.RESET}")
+				print(f"The {Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {Fore.YELLOW}{amount} gold {Fore.RESET}\n")
 				player.gold += amount
 			else:
 				pass
@@ -1464,15 +1154,166 @@ His hands begin to flail, as he walks towards you.
 			player.gold += amount
 
 
-class ChallengeTile(MapTile):
+class EnemyChallengeTile(MapTile):
+	encounter = 1
+
 	def __init__(self, x, y):
 		super().__init__(x, y)
+		self.enemy = enemies.Challenger()
+		self.story = story.challenger1
+		self.fight = False
+		self.escape = False
+		self.completed = False
 
 	def intro_text(self):
-		pass
+		self.encounter += 1
+		if self.encounter == 1:
+			if self.enemy.is_alive():
+				self.completed = True
+				return self.enemy.alive_text()
+			else:
+				return self.enemy.dead_text()
+		else:
+			if self.enemy.is_alive() and not self.fight:
+				return f"""\nI am the {self.enemy.name}. Nothing that you do can stop me."""
+			if self.enemy.is_alive() and self.fight:
+				return f"""The {Fore.LIGHTRED_EX}{self.enemy.name}{Fore.RESET} is still alive\n"""
+			else:
+				return self.enemy.dead_text()
+
+	def converse(self, player):
+
+		def looking_through_input(user_input, look_through):
+			split = user_input.lower().split()
+			for word in split:
+				if word in look_through:
+					return True
+
+			return False
+
+		destroy = False
+		try:
+			print(f"{self.story['1']}")
+			purpose = input("")
+			if looking_through_input(purpose, story.possibilities1):
+				print(f"{self.story['1y']}")
+				_ = input("")
+				if _:
+					print(f"{self.story['1yw']}\n")
+					print(f"{self.story['challenge']}\n")
+					challenge = input()
+					if looking_through_input(challenge, ["yes", "y", "fight", "1", "accept"]):
+						print(f"{self.story['accept']}")
+						self.fight = True
+						self.modify_player(player)
+						if not self.enemy.is_alive() and player.is_alive():
+							print(f"{self.story['victory']}")
+						elif self.enemy.is_alive() and not player.is_alive():
+							print(f"{self.story['defeat']}")
+						else:
+							print(f"{self.story['defeat']}")
+					elif looking_through_input(challenge, ["no", "n", "decline", "2", "don't", "do not", "reject"]):
+						print(f"{self.story['decline']}")
+						self.fight = True
+						self.modify_player(player)
+					else:
+						print(f"{self.story['fight_else']}")
+						self.fight = True
+						self.modify_player(player)
+
+			elif len(purpose) > 25:
+				print(f"{self.story['1long']}")
+				y_n = input("")
+				if looking_through_input(y_n, ["yes", "y", "yeah", "1", "1."]):
+					print(f"{self.story['against']}\n")
+					print(f"{self.story['challenge']}")
+					ans = input("")
+					if looking_through_input(ans, ["yes", "y", "yeah", "1", "1.", "accept", "fight"]):
+						print(f"{self.story['accept']}\n")
+						self.fight = True
+						self.modify_player(player)
+					elif looking_through_input(ans, ["no", "n", "decline", "2", "don't", "do not", "reject"]):
+						print(f"{self.story['decline']}")
+						self.fight = True
+						self.modify_player(player)
+					else:
+						print(f"{self.story['fight_else']}")
+						self.fight = True
+						self.modify_player(player)
+				elif looking_through_input(y_n, ["no", "n", "decline", "2", "don't", "do not", "reject"]):
+					print(f"{self.story['destroy']}\n")
+					question = input()
+					if looking_through_input(question, ["yes", "y", "yeah", "1", "1."]):
+						destroy = True
+						self.escape = True
+						# From here the player goes on to lose the game
+					else:
+						print(f"{self.story['late']}")
+						destroy = True
+						self.escape = True
+						# From here the player goes on tp lose the game
+			else:
+				print(f"{self.story['destroy']}")
+				question = input()
+				if looking_through_input(question, ["yes", "y", "yeah", "1", "1."]):
+					destroy = True
+					self.escape = True
+				# From here the player goes on to lose the game
+				else:
+					print(f"{self.story['against']}\n")
+					print(f"{self.story['challenge']}")
+					fight = input()
+					if looking_through_input(fight, ["yes", "y", "yeah", "1", "1.", "accept", "fight"]):
+						print(f"{self.story['accept']}\n")
+						self.fight = True
+						self.modify_player(player)
+					elif looking_through_input(fight, ["no", "n", "decline", "2", "don't", "do not", "reject"]):
+						print(f"{self.story['revenge']}\n")
+						destroy = True
+						self.escape = True
+
+			if destroy:
+				for x in story.the_end_abandon:
+					if len(x) < 25:
+						print(x)
+						time.sleep(0.4)
+					if len(x) > 25:
+						print(x)
+						time.sleep(0.8)
+
+				self.modify_player(player, mod=0)
+				self.modify_player(player, mod=1)
+
+		except KeyError:
+			print("""You are from the village aren't you?
+			I can tell. 
+			I hat that village, they exiled me and left me for dead. 
+			I shall kill you and take my first step towards revenge.
+			""")
+			self.fight = True
+			self.modify_player(player)
 
 	def modify_player(self, player, mod=None):
-		pass
+		if mod == 0:
+			if self.enemy.is_alive():
+				lost = player.hp * 0.5
+				player.hp -= lost
+				print(f"The {self.enemy.name} attacks you. You have {Fore.GREEN}{player.hp} HP {Fore.RESET}remaining")
+
+				self.enemy.hp -= self.enemy.hp
+				print(f"{self.story['escape_die']}")
+
+
+		if self.enemy.is_alive() and self.fight:
+			try:
+				defence_multiplier = 0.1 * player.most_defence().defence
+				damage_dealt = self.enemy.damage - self.enemy.damage * defence_multiplier
+				player.hp = player.hp - damage_dealt
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+			except AttributeError:
+				player.hp = player.hp - self.enemy.damage
+				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
+
 
 # ST start Tile
 # VT Victory Tile
@@ -1505,7 +1346,7 @@ class ChallengeTile(MapTile):
 
 
 world_dsl = """
-|   |   |   |   |   |   |   |   |   |   |   |ST1|ST2|ST |CT |CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |ST |CT |CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |ST1|EN1|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |BT |BT |   |FG |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |TT |   |BT |   |   |FQI|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
@@ -1519,7 +1360,7 @@ world_dsl = """
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CT |   |   |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |CT |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |FC |   |   |   |   |   |   |   |   |   |EN3|BT |EN4|EN4|BT |   |EN4|BT |BT |EN4|   |   |
 |   |   |FC |EN2|BT |FG |BT |EN1|BT |EN2|FC |   |   |TT |GE |GE |GE |ET |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |EN4|CT |   |   |AE |   |   |
-|   |   |   |   |   |BT |BT |   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |FG |TT |   |   |   |   |BT |   |CT |   |AE |AE |   |   |
+|   |   |   |   |   |BT |BT |   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |FG |TT |   |   |   |   |ECT|   |CT |   |AE |AE |   |   |
 |   |   |   |   |   |EN |BT |   |   |   |   |   |   |QT |   |GB |   |   |   |   |   |   |   |   |EN4|   |   |   |   |   |FQI|   |CT |AE |AE |AB |CT |VT |
 |   |   |   |HE |HE |   |EN2|ET |WST|EN |BT |   |BT |EN2|   |CT |   |   |   |   |   |   |   |   |FC |BT |   |   |   |   |BT |   |CT |   |AE |AE |   |   |
 |BT |BT |HB |HE |HE |BT |BT |   |   |   |FC |BT |EN2|EN1|ST2|CT |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |   |CT |   |   |AE |   |   |
@@ -1530,7 +1371,7 @@ world_dsl = """
 |CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |EN2|   |   |   |   |   |
 |CT |   |TT |FC |   |   |   |BT |EN |EN3|BT |WST|BT |EN |EN2|TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |EN2|   |   |   |   |   |
 |CT |   |EN2|   |EN3|QT |   |BT |   |CT |   |   |   |   |   |BT |EN2|   |PE |PE |   |   |   |   |   |   |BT |BT |FC |FG |WST|   |BT |   |   |   |   |   |
-|BT |BT |BT |BT |EN3|BT |BT |EN3|   |CT |EN3|FG |BT |BT |EN3|ET |EN3|PE |BT |BT |PE |PB |CT |CT |CT |CT |BT |BT |FC |FG |BT |BT |BT |   |   |   |   |   |
+|BT |BT |BT |BT |EN3|BT |BT |EN3|   |ECT|EN3|FG |BT |BT |EN3|ET |EN3|PE |BT |BT |PE |PB |CT |CT |CT |CT |BT |BT |FC |FG |BT |BT |BT |   |   |   |   |   |
 |   |   |FG |   |EN2|   |EN3|   |   |CT |   |   |AST|   |   |BT |EN3|   |PE |PE |   |   |   |   |   |   |BT |BT |ET |TT |AST|   |   |   |   |   |   |   |
 |   |   |ET |EN2|   |BT |FQI|FG |EN3|CT |   |   |BT |EN1|FC |TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 """
@@ -1578,6 +1419,7 @@ tile_type_dict = {
 				"CT ": CorridorTile,
 				"ST1": StoryTellerTile1,
 				"ST2": StoryTellerTile2,
+				"ECT": EnemyChallengeTile,
 				"   ": None
 }
 

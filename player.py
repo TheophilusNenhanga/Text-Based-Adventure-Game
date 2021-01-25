@@ -7,6 +7,7 @@ from colorama import Fore, Style
 
 
 colorama.init(autoreset=True)
+picked1, picked2, picked3 = 0, 0, 0
 
 
 class Player:
@@ -17,7 +18,7 @@ class Player:
 		self.inventory = [items.Hand(), items.RustySword(), items.CrustyBread()]
 		self.x = world.start_tile_location[0]
 		self.y = world.start_tile_location[1]
-		self.gold = 50
+		self.gold = 15
 		self.crystals = 5
 		self.name = ""
 		self.hp = 100
@@ -114,44 +115,127 @@ class Player:
 	def attack(self):
 		"""This function is called whenever the player and the enemy meet. This function makes the player
 		attack the enemy. This function also rewards the player if they are victorious"""
-		best_weapon = self.most_powerful_weapon()
+		global picked1, picked2, picked3
+
+		def fight(atk_mod=0, challenger=False):
+			if challenger:
+				try:
+					affect_type = best_weapon.enchantment.type_affect
+					if enemy.type in affect_type:
+						try:
+							attack_multiplier = best_weapon.enchantment.damage_multiplier() + atk_mod
+							defence_multiplier = 0.1 * enemy.defence
+							damage_dealt = (best_weapon.damage * attack_multiplier) - (
+									best_weapon.damage * defence_multiplier)
+							enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+						except AttributeError:
+							attack_multiplier = 1 + atk_mod
+							defence_multiplier = 0.1 * enemy.defence
+							damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
+							enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+				except AttributeError:
+					defence_multiplier = 0.1 * enemy.defence
+					attack_multiplier = 1 + atk_mod
+					damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
+					enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+					try:
+						if enemy.hp < 50:
+							try:
+								enemy.heal()
+							except ValueError:
+								pass
+					except ValueError:
+						pass
+
+			else:
+				try:
+					affect_type = best_weapon.enchantment.type_affect
+					if enemy.type in affect_type:
+						try:
+							attack_multiplier = best_weapon.enchantment.damage_multiplier() + atk_mod
+							defence_multiplier = 0.1 * enemy.defence
+							damage_dealt = (best_weapon.damage * attack_multiplier) - (
+									best_weapon.damage * defence_multiplier)
+							enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+							print(f"\nYou deal {damage_dealt} damage")
+						except AttributeError:
+							attack_multiplier = 1 + atk_mod
+							defence_multiplier = 0.1 * enemy.defence
+							damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
+							enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+							print(f"\nYou deal {damage_dealt} damage")
+				except AttributeError:
+					defence_multiplier = 0.1 * enemy.defence
+					attack_multiplier = 1 + atk_mod
+					damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
+					enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+					print(f"\nYou deal {damage_dealt} damage")
+
+			if not enemy.is_alive() and not room.completed:
+				print(f"You killed the {Fore.LIGHTRED_EX}{enemy.name}")
+				amount = enemy.reward
+				self.gold += amount
+				self.score += enemy.score
+				print(f"You receive {Fore.YELLOW}{amount} gold")
+				amount = random.randint(0, 2)
+				if amount == 0:
+					pass
+				else:
+					self.crystals += amount
+					print(f"You receive {Fore.CYAN}{amount} crystals")
+			else:
+				print(
+					f"{Fore.LIGHTRED_EX}{enemy.name}{Fore.RESET}, has {Fore.LIGHTRED_EX}{round(enemy.hp, 0)} HP {Fore.RESET}remaining\n")
 
 		room = world.tile_at(self.x, self.y)
 		enemy = room.enemy
 
-		# The player attacking the enemy
-		print(f"\nYou use a {best_weapon} against the {Fore.LIGHTRED_EX}{enemy.name}")
-		try:
-			affect_type = best_weapon.enchantment.type_affect
-			if enemy.type in affect_type:
-				try:
-					attack_multiplier = best_weapon.enchantment.damage_multiplier()
-					defence_multiplier = 0.1 * enemy.defence
-					damage_dealt = (best_weapon.damage * attack_multiplier) - (best_weapon.damage * defence_multiplier)
-					enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
-				except AttributeError:
-					defence_multiplier = 0.1 * enemy.defence
-					damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
-					enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
-		except AttributeError:
-			defence_multiplier = 0.1 * enemy.defence
-			damage_dealt = best_weapon.damage - best_weapon.damage * defence_multiplier
-			enemy.hp = round(enemy.hp, 0) - round(damage_dealt, 0)
+		if not room.enemy.is_alive():
+			return
 
-		if not enemy.is_alive():
-			print(f"You killed the {Fore.LIGHTRED_EX}{enemy.name}")
-			amount = enemy.reward
-			self.gold += amount
-			self.score += enemy.score
-			print(f"You receive {Fore.YELLOW}{amount} gold")
-			amount = random.randint(0, 2)
-			if amount == 0:
-				pass
-			else:
-				self.crystals += amount
-				print(f"You receive {Fore.CYAN}{amount} crystals")
+		best_weapon = self.most_powerful_weapon()
+
+		if isinstance(room, world.EnemyChallengeTile) and enemy.is_alive():
+			print("")
+			print("You can choose an attack")
+			print("NOTE: once your Max Uses are depleted you cannot use that attack\n")
+
+			atk1_name, atk1_mod, atk1_ar = best_weapon.attacks[1]
+			atk2_name, atk2_mod, atk2_ar = best_weapon.attacks[2]
+			atk3_name, atk3_mod, atk3_ar = best_weapon.attacks[3]
+
+			atk1_ar -= picked1
+			atk2_ar -= picked2
+			atk3_ar -= picked3
+
+			if not (atk1_ar <= 0):
+				print(f"{Style.DIM}1. {atk1_name}			Max Uses:{atk1_ar}")
+			if not (atk2_ar <= 0):
+				print(f"{Style.NORMAL}2. {atk2_name}			Max Uses:{atk2_ar}")
+			if not (atk3_ar <= 0):
+				print(f"{Style.BRIGHT}3. {atk3_name}			Max Uses:{atk3_ar}")
+
+			choice = True
+			while choice:
+				choice = input()
+				if choice.lower() in ["1", "1.", "one", "a"] and not (atk1_ar <= 0):
+					picked1 += 1
+					fight(atk1_mod, challenger=True)
+					break
+				elif choice.lower() in ["2", "1.", "two", "b"] and not (atk2_ar <= 0):
+					picked2 += 1
+					fight(atk2_mod, challenger=True)
+					break
+				elif choice.lower() in ["3", "3.", "three", "c"] and not (atk3_ar <= 0):
+					picked3 += 1
+					fight(atk3_mod, challenger=True)
+					break
+				else:
+					print("That selection was invalid")
+					continue
+			return
 		else:
-			print(f"{Fore.LIGHTRED_EX}{enemy.name}{Fore.RESET}, has {Fore.LIGHTRED_EX}{round(enemy.hp, 0)} HP {Fore.RESET}remaining")
+			fight()
 
 	def heal(self):
 		"""This function is used when the player wants to recover hp. The function will check for consumables and

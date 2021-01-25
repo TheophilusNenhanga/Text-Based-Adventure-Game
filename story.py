@@ -217,3 +217,181 @@ I'm sorry young chap I cant help you.
 Did you understand that young chap?
 """
 }
+
+challenger1: dict = {
+	"1": """
+I have not seen you here before.
+Tell me what is your purpose in this forsaken cave?
+""",
+
+	"1long": """
+Whatever you sound just sounded long and boring.
+I stopped listening half way through. 
+Just tell me.
+
+Are you here to save the village?
+Tell me, yes or no?
+""",
+
+	"destroy": """
+So does that mean what I think it means?
+Are you going to help me destroy the village?	
+""",
+
+	"1y": """
+So that is your mission.
+Sadly I can no longer let you live.
+
+I hate that village and will do anything to destroy it.
+Do you want to know why?
+""",
+
+	"1yw": """
+Did you just ask me why?
+Because those evil bastards in the village exiled me.
+You look young so you probably don't remember when I was exiled.
+
+I have been in this cave for years, fighting to survive.
+I must get stronger to destroy that village with my own hands	
+	""",
+
+	"challenge": """
+Are you going to stand in my way?
+Answer carefully...
+
+I do not mind staining my hands with your blood.
+Will you fight me?
+""",
+
+	"accept": """
+You have made a grave decision. 
+I am not like any monster that you have encountered so far.
+I will definitely take your life.	
+""",
+
+	"decline": """
+Well I wasn't asking. 
+Your mere existence is a sin in my eyes.
+I WILL END YOU!	
+""",
+
+	"with": """
+So you are with me.
+Let's go and destroy that village right now.
+""",
+
+	"against": """
+So you aren't on my side.
+So you are siding  with those selfish villagers that exiled me?
+
+Why am I not surprised.
+
+So tell me:	
+""",
+
+	"victory": """
+You may have defeated me today, but this is not the end.
+I will make sure that one day. 
+I will destroy that village...
+No matter what it takes!	
+""",
+
+	"defeat": """
+Do you now see what a foolish mistake you have made.
+I will destroy that village, and there is nothing you can do about it.
+I will leave you here, the monsters will finish you off.
+Nothing will get in the way of my revenge!	
+""",
+
+	"fight_else": """
+I didn't hear a thing you just said.
+But I'll fight you anyway.
+Nothing will get between me and my revenge.
+""",
+
+	"late": """
+Well it's too late to change your mind now. 
+Welcome to my side.
+The side of revenge... 	
+""",
+
+	"revenge": """
+I knew from the moment I saw you.
+There is revenge in your eyes.
+Let's destroy that village.	
+""",
+
+	"escape_die":f"""
+The {Fore.LIGHTRED_EX}Exiled villager{Fore.RESET} makes a run for it.
+
+
+Then suddendly, you hear a loud scream, then the groan of an undead, and the rattling of bones.
+The {Fore.LIGHTRED_EX}Exiled villager{Fore.RESET} is dead."""
+
+
+}
+
+
+possibilities1 = [
+	"save the village",
+	"rescue the village",
+	"save",
+	"rescue",
+	"escape",
+	"fight",
+	"village",
+	"family",
+]
+
+possibilities2 = [
+	"why",
+	"explain",
+	"talk",
+	"okay",
+	"fight",
+]
+
+the_end_abandon = [
+	f"""{Fore.RED}
+You, The player.\n
+""",
+
+	f"""{Fore.RED}
+What have you done?\n""",
+
+	f"""{Fore.RED}
+You have forsaken the mission. 
+You have forsaken the goal.\n""",
+
+	f"""{Fore.RED}
+You were here to save the village. 
+But now you have chosen a path that leads to its destruction.\n""",
+
+	f"""{Fore.RED}
+---YOUR FATE---\n
+""",
+
+	f"""{Fore.RED}
+You and the Exiled Villager form an alliance 
+On your way to the village, a mob of undead attack you.
+You easily over power them...but then 
+	""",
+
+	f"""{Fore.RED}
+The Exiled Villager, stabs you in the back...
+literally.
+He leaves you, bleeding.
+Might this be end for you?\n
+"""
+
+]
+
+storyteller4: dict = {
+	"one": "Do you know who I am?", 
+	"two": "Why is it that I know you? Do you remember me?",
+	"remember": "If you do remember me, tell me what my name is.",
+	"wrong_name": "Well that is not my name. So it seems that you were lying",
+	"forget": """
+I don't blame you for forgetting, the last time I saw you you were still young.
+Do you want to know who I am?"""
+}

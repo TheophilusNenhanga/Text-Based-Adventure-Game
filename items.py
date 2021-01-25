@@ -5,7 +5,6 @@ from colorama import Fore
 
 
 colorama.init(autoreset=True)
-inventory = []
 
 
 class Weapon:
@@ -41,6 +40,11 @@ class Rock(Weapon):
 		self.value = 5
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Rock Throw", 0.1, 25),
+			2: ("Rock Sling", 0.3, 15),
+			3: ("Rock Pummel", 0.5, 10)
+		}
 
 
 class Dagger(Weapon):
@@ -51,10 +55,15 @@ class Dagger(Weapon):
         A small dagger.
         Somewhat more dangerous than a rock.
         """
-		self.damage = 5
+		self.damage = 3
 		self.value = 20
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Stab", 0.1, 15),
+			2: ("Dagger Throw", 0.3, 15),
+			3: ("Dagger Slicer", 0.5, 10)
+		}
 
 
 class RustySword(Weapon):
@@ -65,10 +74,15 @@ class RustySword(Weapon):
         A small sword with some rust.
         It has definitely seen better days. 
         """
-		self.damage = 10
+		self.damage = 8
 		self.value = 35
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Sword Slash", 0.1, 15),
+			2: ("Counter Attack", 0.3, 10),
+			3: ("Passata Sotto", 0.5, 5)
+		}
 
 
 class ShinySword(Weapon):
@@ -79,10 +93,15 @@ class ShinySword(Weapon):
         This one has some shine to it.
         And it packs a real punch.
         """
-		self.damage = 20
+		self.damage = 14
 		self.value = 70
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Sword Slash", 0.1, 15),
+			2: ("Counter Attack", 0.3, 10),
+			3: ("Passata Sotto", 0.5, 5)
+		}
 
 
 class LightSaber(Weapon):
@@ -93,10 +112,15 @@ class LightSaber(Weapon):
         This one is light. 
         Agile and Sharp.
         """
-		self.damage = 25
+		self.damage = 18
 		self.value = 85
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Saber Swipe", 0.1, 15),
+			2: ("Counter Attack", 0.3, 10),
+			3: ("Double Slash", 0.5, 5)
+		}
 
 
 class HeavySaber(Weapon):
@@ -107,10 +131,15 @@ class HeavySaber(Weapon):
         Much heavier. 
         Much more damage.
         """
-		self.damage = 30
+		self.damage = 24
 		self.value = 105
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Saber Swipe", 0.1, 15),
+			2: ("Counter Attack", 0.3, 10),
+			3: ("Double Slash", 0.5, 5)
+		}
 
 
 class BattleAxe(Weapon):
@@ -121,10 +150,15 @@ class BattleAxe(Weapon):
         You can't battle without it.
         You can't lose with it.
         """
-		self.damage = 35
+		self.damage = 28
 		self.value = 125
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Basic Chop", 0.1, 15),
+			2: ("Swift Chop", 0.3, 10),
+			3: ("Axe Cleave", 0.5, 5)
+		}
 
 
 class Mace(Weapon):
@@ -135,10 +169,15 @@ class Mace(Weapon):
         Don't get too close.
         It hurts.
         """
-		self.damage = 35
+		self.damage = 28
 		self.value = 120
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Mace Hit", 0.1, 15),
+			2: ("Mace Hammer", 0.3, 10),
+			3: ("Triple Mace Bash", 0.5, 5)
+		}
 
 
 class SharpenedShield(Weapon):
@@ -149,11 +188,16 @@ class SharpenedShield(Weapon):
         It may just be a shield,
         But i would still keep my distance.
         """
-		self.damage = 15
+		self.damage = 10
 		self.defence = 2
 		self.value = 80
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Shield Slash", 2, 15),
+			2: ("Quick Attack", 4, 10),
+			3: ("Shield Bash", 6, 5)
+		}
 
 
 class BowAndArrow(Weapon):
@@ -164,10 +208,15 @@ class BowAndArrow(Weapon):
         What is stronger
         The bow or the arrow?
         """
-		self.damage = 18
+		self.damage = 12
 		self.value = 55
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Bow Swipe", 0.1, 15),
+			2: ("Multi Arrow Shot", 0.3, 10),
+			3: ("Piercing Arrow Snipe", 0.5, 5)
+		}
 
 
 class WoodenClub(Weapon):
@@ -178,10 +227,15 @@ class WoodenClub(Weapon):
         I hope you're embarrassed.
         You couldn't even hurt a fly.
         """
-		self.damage = 5
+		self.damage = 4
 		self.value = 15
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Club Hit", 0.1, 15),
+			2: ("Club Pound", 0.3, 10),
+			3: ("Triple Club Hammer", 0.5, 5)
+		}
 
 
 class MetalClub(Weapon):
@@ -192,10 +246,15 @@ class MetalClub(Weapon):
         Now this can put up a fight.
         Enemies beware!
         """
-		self.damage = 15
+		self.damage = 9
 		self.value = 50
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Club Hit", 0.1, 15),
+			2: ("Club Pound", 0.3, 10),
+			3: ("Triple Club Hammer", 0.5, 5)
+		}
 
 
 class Pike(Weapon):
@@ -206,10 +265,15 @@ class Pike(Weapon):
 	        	  Poke, Poke, Pike!
 	        And all the enemies take a hike.
 	        """
-		self.damage = 22
+		self.damage = 16
 		self.value = 80
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Sword Slash", 0.1, 15),
+			2: ("Counter Attack", 0.3, 10),
+			3: ("Poke Poke Stab", 0.5, 5)
+		}
 
 
 class BluntSpear(Weapon):
@@ -220,10 +284,15 @@ class BluntSpear(Weapon):
 	        		It's a spear.
 	        But, It'll probably let you down
 	        """
-		self.damage = 8
+		self.damage = 6
 		self.value = 28
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Poke", 0.1, 15),
+			2: ("Spear Toss", 0.3, 10),
+			3: ("Double stab", 0.5, 5)
+		}
 
 
 class SharpSpear(Weapon):
@@ -234,10 +303,15 @@ class SharpSpear(Weapon):
 	        		It's a spear.
 	        This one won't let you down.
 	        """
-		self.damage = 16
+		self.damage = 12
 		self.value = 55
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Poke", 0.1, 15),
+			2: ("Spear Toss", 0.3, 10),
+			3: ("Double stab", 0.5, 5)
+		}
 
 
 class Excalibur(Weapon):
@@ -249,10 +323,15 @@ class Excalibur(Weapon):
 			Forged long ago outside the cave. 
 		It cannot rest until more blood is shed. 
 		"""
-		self.damage = 45
+		self.damage = 35
 		self.value = 300
 		self.enchantment = None
 		self.sellable = True
+		self.attacks = {
+			1: ("Sword Slash", 0.1, 15),
+			2: ("Counter Attack", 0.3, 10),
+			3: ("Passata Sotto", 0.5, 5)
+		}
 
 
 class Consumable:
@@ -274,7 +353,7 @@ class SnakeApple(Consumable):
 		self.value = 15
 
 	def __str__(self):
-		return f"{self.name} {Fore.GREEN}{self.healing_value} HP{Fore.RESET}"
+		return f"{self.name} {Fore.LIGHTRED_EX}{self.healing_value} HP{Fore.RESET}"
 
 
 class RottenFlesh(Consumable):
@@ -445,3 +524,13 @@ class MagicalItem(Quests):
 		self.name = "Magical item"
 		self.value = 1
 		self.description = "A magical item, with an unknown magical use"
+
+
+inventory = [
+		SnakeApple(), RottenFlesh(), CrustyBread(), Apple(), FreshBread(),
+		CookedInsectFlesh(), HealingPotion(), LuckyFruit(), StrongHealingPotion(),
+		HyperHealingPotion(), WoodenShield(), DefenciveClothing(), MetalShield(),
+		ChainMail(), MetalArmour(), ReinforcedMetalArmour(), ShinySword(), LightSaber(),
+		HeavySaber(), BattleAxe(), Mace(), SharpenedShield(), BowAndArrow(),
+		WoodenClub(), MetalClub(), Pike(), BluntSpear(), SharpSpear(), Excalibur()
+	]

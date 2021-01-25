@@ -96,3 +96,16 @@ This enchantment sharpens your sword.
 Slicing foes is now a piece of cake. 
 		"""
 		self.value = 20
+
+
+class Slayer(Enchantment):
+	def __init__(self):
+		super().__init__()
+		self.name = "Human Slayer"
+		self.level = 0.5
+		self.type_affect = ["human"]
+		self.description = """
+This enchantment, wants one thing.
+Human blood...but who's?
+		"""
+		self.value = 175

@@ -333,6 +333,8 @@ def get_available_actions(room, player):
 		action_adder(actions, "c", player.converse, "Converse")
 	if isinstance(room, world.StoryTellerTile2):
 		action_adder(actions, "c", player.converse, "Converse")
+	if isinstance(room, world.StoryTellerTile3):
+		action_adder(actions, "c", player.converse, "Converse")
 	if isinstance(room, world.EnemyTile1) and room.enemy.is_alive():
 		action_adder(actions, "a", player.attack, "Attack")
 	if isinstance(room, world.EnemyTile2) and room.enemy.is_alive():

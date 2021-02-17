@@ -93,3 +93,29 @@ class StoryTeller2(NonPlayerCharacter):
 		self.name = "Quirky Old Timer"
 		self.inventory = [Trader.all_items[random.randint(0, 9)]]
 		self.messages = story.storyteller2
+
+
+class StoryTeller3(NonPlayerCharacter):
+	"""This NPC is related to the player. This NPC tells the player about the outside world and 
+	what the player should expect when they leave the cave."""
+	def __init__(self):
+		super().__init__()
+		self.name = "Mr. Corona"
+		self.inventory = [items.MechaDagger(), items.Cash()]
+		self.messages = story.storyteller3
+
+
+class Talking_Character(NonPlayerCharacter):
+	"""This is the class for random messages to the player"""
+	def __init__(self):
+		super().__init__()
+		self.name = "Random Old Person"
+		self.messages = [
+			"""You look a bit tired, maybe you should get some food""",
+			"""Do you expect to exit this cave, with souch weak weaponry?\nYou should get something stronger at the Weaponsmith""", 
+			"""Your armour isn't strong enough, You won't survive.\nConsider upgrading?""",
+			"""Hmm, have you considered completing a quest?""", 
+			"""Are you sure you can do this? It isn't too late to turn back now""", 
+			"""Will you be the one to save us?""",
+			"""Please, help u...u...us!"""
+		]

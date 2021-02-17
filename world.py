@@ -24,6 +24,18 @@ class MapTile:
 	def modify_player(self, player, mod=None):
 		pass
 
+	def converse(self, player):
+		pass
+
+	@staticmethod
+	def looking_through_input(user_input, look_through):
+		split = user_input.lower().split()
+		for word in split:
+			if word in look_through:
+				return True
+
+		return False
+
 
 class StartTile(MapTile):
 	def intro_text(self):
@@ -1314,6 +1326,174 @@ class EnemyChallengeTile(MapTile):
 				print(f"The {Fore.RED}{self.enemy.name}{Fore.RESET} does {self.enemy.damage} damage. You have {Fore.GREEN}{round(player.hp, 0)} {Fore.RESET}HP remaining\n")
 
 
+class StoryTellerTile3(MapTile):
+	encounter = 0
+
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.storyteller = npc.StoryTeller3()
+
+	def intro_text(self):
+		if self.encounter == 0:
+			return f"""
+You see an old and distinguished-looking man. 
+His hair is slick and he is wearing a black suit. 
+					"""
+		else:
+			return f"""
+There he is again, your uncle. 
+{Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET}
+			"""
+
+	def ready_to_goodbye(self, player):
+		print(self.storyteller.messages["ready"])
+		reply1 = input()
+		if self.looking_through_input(reply1, ["yes", "y", "yeah", "1", "1."]):
+			print(self.storyteller.messages["give"])
+			self.modify_player(player, 1)
+			print(self.storyteller.messages["given"])
+			print(self.storyteller.messages["what-to-say"])
+			reply2 = input()
+			if self.looking_through_input(reply2, ["thanks", "thank you", "thnx", "thx", "grateful"]):
+				print(self.storyteller.messages["gratitude"])
+			else:
+				print(self.storyteller.messages["ungrateful"])
+
+			print(self.storyteller.messages["nephew"])
+			print("")
+			print(self.storyteller.messages["goodbye"])
+		else:
+			print("Well you look ready enough to me.")
+			print("Let me give you something that might help ypu along the way.")
+			self.modify_player(player, 1)
+			print(self.storyteller.messages["given"])
+			print(self.storyteller.messages["what-to-say"])
+			reply2 = input()
+			if self.looking_through_input(reply2, ["thanks", "thank you", "thnx", "thx", "grateful"]):
+				print(self.storyteller.messages["gratitude"])
+			else:
+				print(self.storyteller.messages["ungrateful"])
+			print(self.storyteller.messages["nephew"])
+			print("")
+			print(self.storyteller.messages["goodbye"])
+
+	def about_to_tell(self):
+		print(self.storyteller.messages["here-i-go"])
+		for line in self.storyteller.messages["STORY"]:
+			if len(line) > 30:
+				time.sleep(3.5)
+				print(line)
+			elif len(line) > 20:
+				time.sleep(2)
+				print(line)
+			else:
+				time.sleep(1.5)
+				print(line)
+
+	def converse(self, player):
+		self.encounter += 1
+		if self.encounter == 1:
+			try:
+				print(self.storyteller.messages['one'])
+				ans1 = input()
+				if ans1:
+					print(self.storyteller.messages["two"])
+					ans2 = input()
+					if self.looking_through_input(ans2, ["yes", "y", "yeah", "1", "1."]):
+						print(self.storyteller.messages["remember"])
+						ans3 = input()
+						if ans3 == self.storyteller.name.lower():
+							print(self.storyteller.messages["correct"])
+							ans4 = input()
+							if self.looking_through_input(ans4, ["yes", "y", "yeah", "1", "1."]):
+								print(self.storyteller.messages["correct-story"])
+								self.about_to_tell()
+								self.ready_to_goodbye(player)
+
+							else:
+								print(self.storyteller.messages["tell"])
+								self.about_to_tell()
+								self.ready_to_goodbye(player)
+						else:
+							print(self.storyteller.messages["wrong_name"])
+							print(self.storyteller.messages["forget"])
+							y_n = input()
+							if self.looking_through_input(y_n, ["yes", "y", "yeah", "1", "1."]):
+								print(self.storyteller.messages["who_i_am"])
+								self.about_to_tell()
+								self.ready_to_goodbye(player)
+
+							else:
+								print(self.storyteller.messages["rude"])
+								self.about_to_tell()
+								self.ready_to_goodbye(player)
+									
+					else:
+						print(self.storyteller.messages["forget"])
+						resp1 = input()
+						if self.looking_through_input(resp1, ["yes", "y", "yeah", "1", "1."]):
+							print(self.storyteller.messages["tell"])
+							self.about_to_tell()
+							self.ready_to_goodbye(player)
+
+				else:
+					print(self.storyteller.messages["nothing"])
+					self.about_to_tell()
+					self.ready_to_goodbye(player)
+
+			except KeyError:
+				print("It seems something has gone wrong.")
+				print("The man standing before you, tells you that he is your uncle?!\n")
+				print("He seems to have something to give you.")
+				self.modify_player(player)
+				print("The man who was standing in front of you begins to walk away.")
+				print("It seems it is up to you to save the world.")
+				print("Continue your adventure...\n")
+				print("You have almost reached the end...")
+		else:
+			print("Nephew, what are you doing here.\nIs that cowardice I smell.\nGo on, continue your adventure!")
+
+	def modify_player(self, player, mod=None):
+		if self.encounter == 1 and mod == 1:
+			pass
+		else:
+			return
+
+		def give(player_arg):
+			giving = [items.MechaDagger(), items.Cash()]
+			player_arg.inventory.extend(giving)
+			for _ in giving:
+				print(f"{Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {Fore.LIGHTBLUE_EX}{_.name}{Fore.RESET}")
+			print("")
+
+		try:
+			if self.storyteller.inventory:
+				to_give = self.storyteller.inventory
+				player.inventory.extend(to_give)
+				for item in to_give:
+					print(f"{Fore.LIGHTMAGENTA_EX}{self.storyteller.name}{Fore.RESET} has given you: {Fore.LIGHTBLUE_EX}{item.name}{Fore.RESET}")
+				print("")
+				self.storyteller.inventory.clear()
+			else:
+				give(player)
+		except (TypeError, ValueError):
+			try:
+				give(player)
+			except:
+				print("It seems that I have nothing to give you.")
+
+
+class RandomCharacterTile(MapTile):
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.story = npc.Talking_Character()
+
+	def intro_text(self):
+		text = random.sample(self.story.messages, 1)
+		text = f"{Fore.LIGHTMAGENTA_EX}{text[0]}{Fore.RESET}"
+		return text
+	
+
 # ST start Tile
 # VT Victory Tile
 
@@ -1343,34 +1523,36 @@ class EnemyChallengeTile(MapTile):
 # ST1 Story Teller Tile 1
 # ST2 Story Teller Tile 2
 
+# RCT Random Character Tile
+
 
 world_dsl = """
-|   |   |   |   |   |   |   |   |   |   |   |   |   |ST |CT |CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |ST3|ST |CT |CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |ST1|EN1|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |BT |BT |   |FG |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |TT |   |BT |   |   |FQI|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |EN1|BT |   |BT |EN1|BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |EN1|BT |   |RCT|EN1|BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |   |QT |BT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |WST|EN1|BT |EN1|BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |ET |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |ET |AST|FC |   |BT |TT |   |EN1|   |   |   |   |   |   |   |   |   |   |   |BT |CT |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN1|BT |CT |EN1|EN1|BT |EN1|   |   |   |   |   |   |   |   |   |   |EN4|TT |CT |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |CT |   |BT |   |FC |   |   |   |   |   |   |   |   |   |BT |BT |   |CT |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN1|BT |CT |BT |BT |   |   |   |   |   |   |   |   |   |   |EN4|BT |   |   |CT |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |WST|EN1|BT |EN1|BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |ET |AST|FC |   |BT |TT |   |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN1|BT |CT |EN1|EN1|BT |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |CT |   |BT |   |FC |   |   |   |   |   |   |   |   |   |BT |BT |TT |ET |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN1|BT |CT |BT |RCT|   |   |   |   |   |   |   |   |   |   |EN4|BT |EN4|   |CT |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CT |   |   |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |CT |   |   |   |   |   |
 |   |   |   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |FC |   |   |   |   |   |   |   |   |   |EN3|BT |EN4|EN4|BT |   |EN4|BT |BT |EN4|   |   |
-|   |   |FC |EN2|BT |FG |BT |EN1|BT |EN2|FC |   |   |TT |GE |GE |GE |ET |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |EN4|CT |   |   |AE |   |   |
-|   |   |   |   |   |BT |BT |   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |FG |TT |   |   |   |   |ECT|   |CT |   |AE |AE |   |   |
-|   |   |   |   |   |EN |BT |   |   |   |   |   |   |QT |   |GB |   |   |   |   |   |   |   |   |EN4|   |   |   |   |   |FQI|   |CT |AE |AE |AB |CT |VT |
-|   |   |   |HE |HE |   |EN2|ET |WST|EN |BT |   |BT |EN2|   |CT |   |   |   |   |   |   |   |   |FC |BT |   |   |   |   |BT |   |CT |   |AE |AE |   |   |
-|BT |BT |HB |HE |HE |BT |BT |   |   |   |FC |BT |EN2|EN1|ST2|CT |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |BT |   |CT |   |   |AE |   |   |
-|CT |   |BT |HE |HE |   |BT |EN2|FG |EN2|EN2|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN3|BT |   |   |EN4|   |CT |   |   |EN |   |   |
-|CT |   |BT |EN2|FQI|EN2|EN2|   |BT |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |BT |BT |EN3|EN4|CT |BT |EN4|BT |   |   |
-|CT |   |   |AST|   |   |   |   |TT |EN2|BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN4|BT |   |   |   |   |   |   |   |   |
-|CT |   |   |BT |BT |EN2|EN2|BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |BT |QT |BT |   |   |   |   |   |
-|CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |EN2|   |   |   |   |   |
-|CT |   |TT |FC |   |   |   |BT |EN |EN3|BT |WST|BT |EN |EN2|TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |EN2|   |   |   |   |   |
+|   |   |FC |EN2|BT |FG |BT |EN1|BT |EN2|FC |   |   |TT |GE |GE |GE |ET |   |   |   |   |   |   |   |   |FG |EN3|   |   |BT |EN4|CT |   |   |AE |   |   |
+|   |   |   |   |   |BT |BT |   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |ECT|   |CT |AE |AE |AE |   |   |
+|   |   |   |   |   |EN |BT |   |   |   |   |   |   |QT |   |GB |   |   |   |   |   |   |   |   |   |   |   |EN4|TT |   |FQI|   |AE |AE |AE |AB |CT |VT |
+|   |   |   |HE |HE |   |EN2|ET |WST|EN |RCT|   |BT |EN2|   |CT |   |   |   |   |   |   |   |   |   |   |   |FC |EN4|WST|BT |   |CT |AE |AE |AE |   |   |
+|BT |BT |HB |HE |HE |BT |BT |   |   |   |FC |BT |EN2|EN1|ST2|CT |   |   |   |   |   |   |   |   |   |   |FG |EN4|   |   |BT |   |CT |   |   |AE |   |   |
+|CT |   |BT |HE |HE |   |BT |EN2|FG |EN2|EN2|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN3|BT |   |   |EN4|   |RCT|   |   |EN |   |   |
+|CT |   |BT |EN2|FQI|EN2|EN2|   |BT |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CT |CT |CT |EN3|EN4|TT |BT |EN4|BT |   |   |
+|CT |   |   |AST|   |   |   |   |TT |EN2|BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN4|BT |   |   |EN4|   |   |   |   |   |
+|CT |   |   |BT |RCT|EN2|EN2|BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |BT |QT |ST3|   |   |   |   |   |
+|CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN2|   |   |   |   |   |
+|CT |   |TT |FC |   |   |   |BT |EN2|EN3|BT |WST|RCT|EN |EN2|TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |EN1|   |   |   |   |   |
 |CT |   |EN2|   |EN3|QT |   |BT |   |CT |   |   |   |   |   |BT |EN2|   |PE |PE |   |   |   |   |   |   |BT |BT |FC |FG |WST|   |BT |   |   |   |   |   |
-|BT |BT |BT |BT |EN3|BT |BT |EN3|   |ECT|EN3|FG |BT |BT |EN3|ET |EN3|PE |BT |BT |PE |PB |CT |CT |CT |CT |BT |BT |FC |FG |BT |BT |BT |   |   |   |   |   |
+|BT |BT |BT |BT |EN3|RCT|BT |EN3|   |ECT|EN3|FG |BT |BT |EN3|ET |EN3|PE |PE |BT |PE |PB |CT |CT |CT |CT |RCT|BT |FC |FG |BT |BT |BT |   |   |   |   |   |
 |   |   |FG |   |EN2|   |EN3|   |   |CT |   |   |AST|   |   |BT |EN3|   |PE |PE |   |   |   |   |   |   |BT |BT |ET |TT |AST|   |   |   |   |   |   |   |
 |   |   |ET |EN2|   |BT |FQI|FG |EN3|CT |   |   |BT |EN1|FC |TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 """
@@ -1418,7 +1600,9 @@ tile_type_dict = {
 				"CT ": CorridorTile,
 				"ST1": StoryTellerTile1,
 				"ST2": StoryTellerTile2,
+				"ST3": StoryTellerTile3,
 				"ECT": EnemyChallengeTile,
+				"RCT": RandomCharacterTile,
 				"   ": None
 }
 

@@ -321,11 +321,11 @@ There is revenge in your eyes.
 Let's destroy that village.	
 """,
 
-	"escape_die":f"""
+	"escape_die": f"""
 The {Fore.LIGHTRED_EX}Exiled villager{Fore.RESET} makes a run for it.
 
 
-Then suddendly, you hear a loud scream, then the groan of an undead, and the rattling of bones.
+Then suddenly, you hear a loud scream, then the groan of an undead, and the rattling of bones.
 The {Fore.LIGHTRED_EX}Exiled villager{Fore.RESET} is dead."""
 
 
@@ -386,12 +386,148 @@ Might this be end for you?\n
 
 ]
 
-storyteller4: dict = {
-	"one": "Do you know who I am?", 
-	"two": "Why is it that I know you? Do you remember me?",
-	"remember": "If you do remember me, tell me what my name is.",
-	"wrong_name": "Well that is not my name. So it seems that you were lying",
+storyteller3: dict = {
+
+	"who_i_am": """
+Well, believe it or not, I am your uncle. 
+I am Mr Corona.
+Which means you are a Corona. 
+The crown is your inheritance.
+""",
+
+	"nothing": """
+Well since you have nothing to say I will just tell you a story.
+Your story. 
+I am only telling you this story because I like your smell.\n
+""",
+
+	"one": "Do you know who I am?\n",
+
+	"two": """
+I know your smell. 
+I know who you are. 
+Do you remember me?\n
+	""",
+
+	"remember": "If you do remember me, tell me what my name is.\n",
+
+	"rude": """
+	That's a bit rude don't you think?
+	To think that my nephew would have the smell of disrespect.
+	I shall tell you the story anyway""",
+
+
+	"wrong_name": """Well that is not my name. So it seems that you were lying\nSo you have the smell of lies.\n""",
+
 	"forget": """
 I don't blame you for forgetting, the last time I saw you you were still young.
-Do you want to know who I am?"""
+Do you want to know who I am?\n
+	""",
+
+	"correct": """
+So you do remember me?
+Do you remember why you are in this cave?\n
+	""",
+
+	"correct-story": """
+Something about you smells like a lie. 
+Let me just tell you the whole story, for good measure.\n
+""",
+
+	"here-i-go": """
+Well this is the story...\n	
+""",
+
+	"tell": """
+Very well, I like your smell so I will tell you. 
+If it was not for your smell I would not be telling you anything.\n
+	""",
+
+	"STORY": [
+		"""
+It all started 20 years ago.
+""",
+
+		"""
+The reason you are in this cave is to keep you safe from the outside world.
+""",
+
+		"""
+Your brother, the king, wants your head on a plate.
+From a young age, greatness was always your inheritance, but for your brother suffering and strife.
+Knowledge of this angered him. He was driven into madness by his desire for power.
+Now he is the king, but his kingdom is not pleasant by any means.
+ """,
+
+		"""
+All who oppose him are sentenced to death.
+Your mother and father the former royalty of the kingdom could not be spared.
+Their very own son took their lives. 
+Your very own brother
+	""",
+
+		"""
+I was the one who saved you and brought you to this cave.
+I have waited for the day that you would become strong enough to escape this cave and save the kingdom.
+Will you be the fabled caver that will save the world?""",
+
+		"""
+But I must warn you the outside world is dangerous.
+Here in the cave, all you know of are medieval tools and ways of life.
+The outside world has technology and abundant power.
+If you want to save the kingdom, avenge your parents and save that village.
+There are many obstacles you have to overcome. \n""",
+
+	],
+
+	"nephew":
+	"""
+Getting to finally see my nephew, all grown up.
+
+And your smell is of greatness. 
+Your father would have been proud.
+	""",
+	
+	"ready": """
+	Are you ready for that?
+	""",
+
+	"give": """
+You are, let me give you somethings to help as you continue your journey.
+""",
+
+	"not-ready":
+	"""
+Well you smell ready.
+Let me give you something""",
+
+		"given": """
+This will not help you now, you will have to take on the boss with whatever it is you have now.
+However, when you leave the cave these items might help you. 
+""",
+
+	"give-error": """
+Oops, it seems like the smell of misfortune is on you. 
+It turns out I have nothing to give you. 	
+""",
+
+	"what-to-say": """
+Now what do you say?
+""",
+
+	"gratitude": f"""
+At least you have the smell of gratitude	
+""",
+
+	"ungrateful": """
+Well it seems you do not have the smell of gratitude	
+""",
+
+	"goodbye": f"""
+Well now you have to go. 
+Go out and smell the adventure. 
+
+And when you become the the savior of the kingdom.
+Say that Mr. Corona sent you	
+"""
 }

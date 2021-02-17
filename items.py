@@ -526,6 +526,35 @@ class MagicalItem(Quests):
 		self.description = "A magical item, with an unknown magical use"
 
 
+class Extras:
+	def __init__(self):
+		self.name = "Extras"
+		self.value = 0 
+		self.sellable = False
+		self.description = "An extra item that does not affect the game"
+
+	def __str__(self):
+		return f"{Fore.LIGHTYELLOW_EX}{self.name}{Fore.RESET}"
+
+
+class Cash(Extras):
+	def __init__(self):
+		super().__init__()
+		self.name = "Cash"
+		self.value = 10
+		self.description = "The currency used in the outside world"
+
+
+class MechaDagger(Extras, Weapon):
+	def __init__(self):
+		super().__init__()
+		self.name = "Mecha Dagger"
+		self.value = 300
+		self.damage = 15
+		self.sellable = False
+		self.description = "A simple dagger that has been upgraded with the power of technology"
+
+
 inventory = [
 		SnakeApple(), RottenFlesh(), CrustyBread(), Apple(), FreshBread(),
 		CookedInsectFlesh(), HealingPotion(), LuckyFruit(), StrongHealingPotion(),

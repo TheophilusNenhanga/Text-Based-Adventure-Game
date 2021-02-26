@@ -7,15 +7,16 @@ import story
 
 
 class NonPlayerCharacter:
+	"""This is the base class for all Non Player Characters (NPC)"""
 	def __init__(self):
 		self.name = "NonPlayerCharacter"
 
 	def __str__(self):
 		return self.name
 
-	# This functions randomly chooses 10 items to be in the trader's inventory
-	@classmethod
-	def generate_inventory(cls, inventory_to_be_filled):
+	@staticmethod
+	def generate_inventory(inventory_to_be_filled):
+		"""This functions randomly chooses 10 items to be in the trader's inventory"""
 		for _ in range(10):
 			a = Trader.all_items[random.randint(0, (len(Trader.all_items) - 1))]
 			inventory_to_be_filled.append(a)
@@ -23,6 +24,7 @@ class NonPlayerCharacter:
 
 
 class Trader(NonPlayerCharacter):
+	"""The trader class is a base class for other classes that interact and trade with the player"""
 	all_items = [
 		items.SnakeApple(), items.RottenFlesh(), items.CrustyBread(), items.Apple(), items.FreshBread(),
 		items.CookedInsectFlesh(), items.HealingPotion(), items.LuckyFruit(), items.StrongHealingPotion(),
@@ -40,6 +42,7 @@ class Trader(NonPlayerCharacter):
 
 
 class Enchanter(NonPlayerCharacter):
+	"""This NPC enchants the player's weapons"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Enchanter"
@@ -50,6 +53,7 @@ class Enchanter(NonPlayerCharacter):
 
 
 class QuestLady(NonPlayerCharacter):
+	"""This NPC gives the player a completable quest"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Suspicious Old Woman"
@@ -58,6 +62,7 @@ class QuestLady(NonPlayerCharacter):
 
 
 class WeaponSmith(Trader):
+	"""This NPC trades weapons with the player"""
 	def __init__(self):
 		super().__init__()
 		self.name = "WeaponSmith"
@@ -66,6 +71,7 @@ class WeaponSmith(Trader):
 
 
 class ArmourSmith(Trader):
+	"""This NPC trades armour with the player"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Armour Smith"
@@ -105,17 +111,9 @@ class StoryTeller3(NonPlayerCharacter):
 		self.messages = story.storyteller3
 
 
-class Talking_Character(NonPlayerCharacter):
+class TalkingCharacter(NonPlayerCharacter):
 	"""This is the class for random messages to the player"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Random Old Person"
-		self.messages = [
-			"""You look a bit tired, maybe you should get some food""",
-			"""Do you expect to exit this cave, with souch weak weaponry?\nYou should get something stronger at the Weaponsmith""", 
-			"""Your armour isn't strong enough, You won't survive.\nConsider upgrading?""",
-			"""Hmm, have you considered completing a quest?""", 
-			"""Are you sure you can do this? It isn't too late to turn back now""", 
-			"""Will you be the one to save us?""",
-			"""Please, help u...u...us!"""
-		]
+		self.messages = story.random_texts

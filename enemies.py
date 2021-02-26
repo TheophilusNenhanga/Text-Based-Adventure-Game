@@ -9,6 +9,7 @@ colorama.init(autoreset=True)
 
 
 class Enemy:
+	"""This is the base class for all enemies."""
 	def __init__(self):
 		self.name = "Enemy"
 		self.hp = 0
@@ -20,9 +21,11 @@ class Enemy:
 		return f"{Fore.LIGHTRED_EX}{self.name}"
 
 	def is_alive(self):
+		"""This function checks if the enemy is still alive"""
 		return self.hp > 0
 
 	def fight(self):
+		"""This function checks if an enemy is in a fight"""
 		if self.is_alive() is True:
 			fight = True
 		else:
@@ -30,9 +33,11 @@ class Enemy:
 		return fight
 
 	def alive_text(self):
+		"""This function returns a string if the enemy is alive"""
 		return f"""The {self.name} is still alive"""
 
 	def dead_text(self):
+		"""This function returns a string if the enmey is dead"""
 		f"""The {self.name} has been defeated"""
 
 
@@ -43,10 +48,10 @@ class GiantSpider(Enemy):
 
 		if level == 1:
 			self.hp = 10
-			self.damage = 10
+			self.damage = 8
 		elif level == 2:
 			self.hp = 12
-			self.damage = 10
+			self.damage = 12
 		elif level == 3:
 			self.hp = 20
 			self.damage = 15
@@ -54,8 +59,8 @@ class GiantSpider(Enemy):
 			self.hp = 25
 			self.damage = 18
 		else:
-			self.hp = 15
-			self.damage = 15
+			self.hp = 10
+			self.damage = 12
 
 		self.defence = 0
 		self.type = "normal"
@@ -81,16 +86,16 @@ class OvergrownInsect(Enemy):
 
 		if level == 1:
 			self.hp = 10
-			self.damage = 10
+			self.damage = 7
 		elif level == 2:
 			self.hp = 15
-			self.damage = 15
+			self.damage = 10
 		elif level == 3:
 			self.hp = 20
-			self.damage = 20
+			self.damage = 15
 		elif level == 4:
 			self.hp = 25
-			self.damage = 25
+			self.damage = 18
 		else:
 			self.hp = 15
 			self.damage = 15
@@ -119,16 +124,16 @@ class Undead(Enemy):
 
 		if level == 1:
 			self.hp = 15
-			self.damage = 10
+			self.damage = 6
 		elif level == 2:
-			self.hp = 25
-			self.damage = 15
+			self.hp = 16
+			self.damage = 10
 		elif level == 3:
-			self.hp = 30
-			self.damage = 20
+			self.hp = 20
+			self.damage = 14
 		elif level == 4:
 			self.hp = 35
-			self.damage = 25
+			self.damage = 20
 		else:
 			self.hp = 25
 			self.damage = 15
@@ -156,27 +161,28 @@ class SkeletalWarrior(Enemy):
 
 		if level == 1:
 			self.hp = 12
-			self.damage = 15
+			self.damage = 12
 		elif level == 2:
 			self.hp = 15
-			self.damage = 20
+			self.damage = 15
 		elif level == 3:
 			self.hp = 20
-			self.damage = 25
+			self.damage = 20
 		elif level == 4:
 			self.hp = 25
-			self.damage = 35
+			self.damage = 25
 		else:
 			self.hp = 15
-			self.damage = 25
+			self.damage = 15
 
 		self.defence = 0
 		self.type = "normal"
 
 	def alive_text(self):
-		return """
+		return f"""
 The rattling of bones. 
-The hastening of your death?\n
+The hastening of your death?
+A {Fore.LIGHTRED_EX}{self.name}{Fore.RESET}\n
                             """
 
 	def dead_text(self):
@@ -228,19 +234,19 @@ class Lamia(Enemy):
 		self.name = "Lamia"
 
 		if level == 1:
+			self.hp = 30
+			self.damage = 20
+		elif level == 2:
 			self.hp = 35
 			self.damage = 25
-		elif level == 2:
-			self.hp = 45
-			self.damage = 30
 		elif level == 3:
-			self.hp = 55
-			self.damage = 35
+			self.hp = 40
+			self.damage = 30
 		elif level == 4:
-			self.hp = 65
-			self.damage = 45
+			self.hp = 45
+			self.damage = 35
 		else:
-			self.hp = 15
+			self.hp = 25
 			self.damage = 15
 
 		self.defence = 0
@@ -265,8 +271,8 @@ class Ogre(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Ogre"
-		self.hp = 30
-		self.damage = 5
+		self.hp = 18
+		self.damage = 9
 		self.defence = 0
 		self.type = "rock"
 		self.score = 7
@@ -290,8 +296,8 @@ class Golem(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Golem"
-		self.hp = 45
-		self.damage = 5
+		self.hp = 20
+		self.damage = 10
 		self.defence = 0
 		self.type = "rock"
 		self.score = 7
@@ -314,8 +320,8 @@ class Gargoyle(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Gargoyle"
-		self.hp = 30
-		self.damage = 10
+		self.hp = 24
+		self.damage = 12
 		self.defence = 0
 		self.type = "rock"
 		self.score = 7
@@ -340,8 +346,8 @@ class Hydra(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Hydra"
-		self.hp = 30
-		self.damage = 10
+		self.hp = 25
+		self.damage = 14
 		self.defence = 2
 		self.type = "water"
 		self.score = 7
@@ -417,7 +423,7 @@ class BabyPhoenix(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Baby Phoenix"
-		self.hp = 10
+		self.hp = 8
 		self.damage = 25
 		self.defence = 2
 		self.type = "fire"
@@ -444,7 +450,7 @@ class Salamander(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Salamander"
-		self.hp = 15
+		self.hp = 10
 		self.damage = 30
 		self.defence = 2
 		self.type = "fire"
@@ -472,7 +478,7 @@ class HellHound(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Hell Hound"
-		self.hp = 20
+		self.hp = 14
 		self.damage = 25
 		self.defence = 2
 		self.type = "fire"
@@ -498,7 +504,7 @@ class Harpy(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Harpy"
-		self.hp = 25
+		self.hp = 22
 		self.damage = 15
 		self.defence = 2
 		self.type = "air"
@@ -553,8 +559,8 @@ class Manticore(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Manticore"
-		self.hp = 30
-		self.damage = 30
+		self.hp = 25
+		self.damage = 25
 		self.defence = 2
 		self.type = "air"
 		self.score = 7
@@ -582,8 +588,8 @@ class Geomancer(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Geomancer"
-		self.hp = 70
-		self.damage = 15
+		self.hp = 50
+		self.damage = 16
 		self.defence = 0
 		self.type = "rock"
 		self.score = 15
@@ -606,14 +612,7 @@ Everything is silent.
 The rocks before you begin to disintegrate.
 The {Fore.LIGHTRED_EX}{self.name}{Fore.RESET} is dead.
 
-All that is left is a scroll?
-What could this mean?
-
 The ground begins to crumble.
-Before you fall into the darkness you grab the scroll
-
-...It might come in handy
-
 		"""
 
 
@@ -621,14 +620,14 @@ class Hydromancer(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Hydromancer"
-		self.hp = 90
-		self.damage = 25
-		self.defence = 1
+		self.hp = 65
+		self.damage = 22
+		self.defence = 0
 		self.type = "water"
 		self.score = 15
 		self.reward = random.randint(15, 25)
 
-	def dead_text(self):
+	def alive_text(self):
 		return f"""
 The crashing waves are are more violent than ever.
 The water level is rising. 
@@ -638,19 +637,13 @@ As if a hurricane is about to erupt within the cave.
 The {Fore.LIGHTRED_EX}{self.name}{Fore.RESET} is before you 
 		"""
 
-	def alive_text(self):
+	def dead_text(self):
 		return f"""
 The waves retreat.
 The violent storm comes to an end. 
 A soft mist begins to fall. 
 The {Fore.LIGHTRED_EX}{self.name}{Fore.RESET}is dead,
 You are victorious.
-
-All that is left is a scroll?
-What could this mean?
-
-Now you an continue on your path. 
-Where will you go next?
 		"""
 
 
@@ -658,9 +651,9 @@ class Pyromancer(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Pyromancer"
-		self.hp = 110
-		self.damage = 35
-		self.defence = 3
+		self.hp = 75
+		self.damage = 26
+		self.defence = 1
 		self.type = "fire"
 		self.score = 15
 		self.reward = random.randint(25, 30)
@@ -681,13 +674,6 @@ The temperature suddenly drops.
 The magma cools. 
 You have done it. 
 The great {Fore.LIGHTRED_EX}{self.name}{Fore.RESET} has fallen by your hands
-
-All that is left is a scroll?
-What could this mean?
-
-Now you an continue on your path. 
-Where will you go next?
-
 		"""
 
 
@@ -695,9 +681,9 @@ class Aeromancer(Enemy):
 	def __init__(self):
 		super().__init__()
 		self.name = "Aeromancer"
-		self.hp = 130
-		self.damage = 45
-		self.defence = 3
+		self.hp = 80
+		self.damage = 35
+		self.defence = 2
 		self.type = "air"
 		self.score = 15
 		self.reward = random.randint(35, 45)
@@ -718,9 +704,6 @@ The {Fore.LIGHTRED_EX}{self.name}{Fore.RESET} is dead.
 You have made it this far
 You are a worthy warrior.
 
-All that is left is a scroll?
-What could this mean?
-
 Is this the end?
 Have you really finished the game?
 
@@ -731,6 +714,7 @@ Your journey is far from over...
 
 
 class Challenger(Enemy):
+	"""This is teh challenger class. The challenger is human enemy that converses and fights with the player"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Exiled Villager"
@@ -740,6 +724,7 @@ class Challenger(Enemy):
 		self.reward = random.randint(35, 45)
 
 		def generate_inventory():
+			"""This function generates the challengers inventory"""
 			all_weapons = [w for w in items.inventory if isinstance(w, items.Weapon)]
 			random.shuffle(all_weapons)
 			all_defensive = [d for d in items.inventory if isinstance(d, items.Defencive)]
@@ -812,6 +797,7 @@ One day you shall pay for what you have done to me.\n
 		return best_defence
 
 	def heal(self):
+		"""This function heals the challenger"""
 		consumables = [item for item in self.inventory if isinstance(item, items.Consumable)]
 		if not consumables:
 			return

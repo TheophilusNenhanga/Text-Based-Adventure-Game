@@ -158,7 +158,7 @@ Your mission is to gather the four elements.
 These elements will unlock the door to the passage that leads to the outside world.
  
 These elements: earth, water, fire, air
-They are guarded by elemental bosses that are known as 'Mancers'
+They are guarded by elemental deities that are known as 'Mancers'
 I hope my words are not lost on you, young chap.
 			""",
 
@@ -332,7 +332,7 @@ The {Fore.LIGHTRED_EX}Exiled villager{Fore.RESET} is dead."""
 }
 
 
-possibilities1 = [
+possibilities1: list = [
 	"save the village",
 	"rescue the village",
 	"save",
@@ -343,7 +343,7 @@ possibilities1 = [
 	"family",
 ]
 
-possibilities2 = [
+possibilities2: list = [
 	"why",
 	"explain",
 	"talk",
@@ -351,7 +351,7 @@ possibilities2 = [
 	"fight",
 ]
 
-the_end_abandon = [
+the_end_abandon: list = [
 	f"""{Fore.RED}
 You, The player.\n
 """,
@@ -531,3 +531,150 @@ And when you become the the savior of the kingdom.
 Say that Mr. Corona sent you	
 """
 }
+
+
+levels: dict = {
+	"level1": f"""{Fore.BLUE}
+	  LEVEL 1
+	THE CAVERNS
+	""", 
+
+	"level2": f"""{Fore.BLUE}
+	  LEVEL2
+   WATERY GRAVES
+	""", 
+
+	"level3": f"""{Fore.BLUE}
+	  LEVEL 3
+	BURNING HELL
+	""", 
+
+	"level4": f"""{Fore.BLUE}
+	  LEVEL 4
+	  THIN AIR
+	"""
+}
+
+
+random_texts: list = [
+			"""You look a bit tired, maybe you should get some food""",
+			"""Do you expect to exit this cave, with such weak weaponry?\nYou should get something stronger at the Weaponsmith""",
+			"""Your armour isn't strong enough, You won't survive.\nConsider upgrading?""",
+			"""Hmm, have you considered completing a quest?""", 
+			"""Are you sure you can do this? It isn't too late to turn back now""", 
+			"""Will you be the one to save us?""",
+			"""Please, help u...u...us!""", 
+			"""You look weak, I don't think you will make it.""",
+			"""We need you, we need you. WE NEED YOU!"""
+		]
+
+
+stone_texts: list = [
+	"""
+	The walls of the cave seem to be moving...
+	Are the rocks alive?""", 
+	"""
+	You hear the sound of a crashing stalactite. 
+	The cave could collapse at any moment.""", 
+	"""You look over the edge...
+	Falling would mean death by sharp stalagmites.""", 
+	"""
+	You hear the grumbling of rocks.
+	It is as if the rocks have been angered.""", 
+	"""
+	You begin to see many rocky columns.
+	Could enemies possibly be lurking?""" 
+]
+
+water_texts: list = [
+	"""
+	You hear crashing waves in the distance.
+	will the waves overpower you?""", 
+	"""
+	A giant wave is approaching you.
+	I hope you can swim?""", 
+	"""
+	The water level is increasing.
+	You might need to start swimming.""", 
+	"""
+	The underground river begins to flood.
+	What evils lie in the murky waters""", 
+	"""
+	Something grabs your leg...
+	Will you sink to the bottom and die?"""
+]
+
+fire_texts: list = [
+	"""
+	All the water begins to evaporate
+	Your sweat begins to evaporate,
+	will your blood evaporate?""", 
+	"""
+	The ground below you is steaming
+	How long can you survive here?""", 
+	"""
+	The heat is unbearable.
+	What will melt next?""", 
+	"""The rocks are beginning to melt.
+	Soon everything will be magma""", 
+	"""
+	The deeper you go the hotter it becomes.
+	You might just have entered the mantle.
+	Does death surely await?"""
+]
+
+air_texts: list = [
+	"""
+	The air suddenly becomes thin.
+	You might suffocate.""", 
+	"""
+	You have made it this far.
+	Only to die from suffocation.""",
+	"""
+	No matter how strong you are.
+	Without the gas of life, you will die.""", 
+	"""
+	Your air is being stolen.
+	Soon you will be completely out of breath.""",
+	"""Suffocation...Will you lose your life soon?"""
+]
+
+corridor_texts: dict = {
+	"stone": """
+	You have entered a narrow corridor.
+	The stalactites above you seem to be getting closer""", 
+	"water": """
+	The corridor that you have entered is the only dry land.
+	Relish this moment, before your watery grave""", 
+	"fire": """
+	The flames have made a corridor, just for you.
+	Make sure, not to be burnt to a crisp""", 
+	"air": """
+	You are now on a corridor of clouds.
+	The gusts of wind might send you flying to doom.
+	"""
+} 
+
+complete: str = """
+
+You take the four elemental stones that you have been collecting out of your inventory. 
+They begin to glow very brightly. Suddenly, They begin to levitate and slowly move towards the wall of the cave. 
+They are pulsating divine energy. The cave is filled with light. 
+Then...
+It all goes dark...
+
+You hear a deep grumbling. 
+The wall before you begins to move.
+First you see a thin beam of light..As it begins to grow, you see it...
+
+The outside world.
+The world where dreams come true.
+The world that you have to save...Your adventure
+Is only beginning
+
+You are a CAVER.
+
+
+---ONE DAY YOU SHALL COMPLETE YOUR ADVENTURE---
+
+"""

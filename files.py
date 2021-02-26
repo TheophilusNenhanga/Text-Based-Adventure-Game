@@ -66,6 +66,12 @@ def create_files(file_path):
 	
 	1. Enemy Tiles: You cannot leave an enemy tile unless you have defeated the enemy.
 	2. Input: If a non player character asks you a question, enter the most obvous answer.
+	3. As you play along, draw a map so you don't get lost
+	4. The learderboard can only store the last 6 scores.
+
+	The objective of the game is to make your way through the cave.
+	Making it all the way to the end without dying will mean completion of the game. 
+
 	
 	"""
 

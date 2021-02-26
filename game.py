@@ -109,7 +109,6 @@ Hope you enjoyed!
 						print("Play the game to be the first on the leaderboard.")
 
 						continue
-
 					while run_once == 0:
 						num = 0
 						run_once = 1
@@ -203,7 +202,6 @@ Hope you enjoy!
 					if len(lead) == 1:
 						print("-----There is no leaderboard.-----")
 						print("Play the game to be the first on the leaderboard")
-
 						continue
 
 					while run_once == 0:
@@ -216,6 +214,8 @@ Hope you enjoy!
 					else:
 						print(f"{num}. {item}")
 						num += 1
+					with open(paths + "\\leaderboard.txt", "a") as f:
+						f.writelines(f"{num}. {item}")
 				num = 0
 
 			except FileNotFoundError:
@@ -247,9 +247,56 @@ Hope you enjoy!
 
 def play():
 	"""This function runs the game and constantly checks whether the game has been completed or if the player has died."""
-	print("""
-    				---CAVER---
-    	""")
+
+	def end(player_arg):
+		"""This function is called once the player has died or has won the game.
+		It deals with the leaderboard and storing of data."""
+		def finding_highest(string):
+			"""This funcrion is the key used to sort the learderboard scores"""
+			_leader = string.split()
+			try:
+				_leader = int(_leader[2])
+			except (ValueError, TypeError):
+				return
+			return _leader
+
+		valid = False
+		name = "XXX"
+		while not valid:
+			name = input("Please enter your initials\n")
+			if len(name) < 5 and name.isalpha() and " " not in name:
+				valid = True
+
+		print(f"Your score was: {player_arg.score}")
+		# lead = open(files.path+"\\leaderboard.txt", "ab")
+		new_leader = f"{name} --------- {player_arg.score} --------- {datetime.today().date()}"
+
+		leader_list = list()
+		leads = pickle.load(open(paths + "\\leaders.dat", "rb"))
+		leader = [lead for lead in leads]
+
+		temp = leader[1:]
+		leader_list.append(new_leader)
+		leader_list += temp
+
+		leader_list.sort(key=finding_highest, reverse=True)
+		# leader_list = _leader + leader_list
+
+		final_list = [leader[0]] + leader_list
+		pickle.dump(final_list, open(paths + "\\leaders.dat", "wb"))
+
+		# lead.writelines(new_leader)
+		# lead.close()
+
+		print("\n")
+		print("-You will now be taken to the exit screen-")
+		print("\n")
+		time.sleep(1)
+		input("Press any button")
+		os.system("cls")
+		exit_screen()
+
+	print("""-------CAVER-------""")
 	world.parse_world_dsl()
 	player = Player()
 	while player.is_alive() and not player.victory:
@@ -263,49 +310,22 @@ def play():
 		if player.is_alive() and not player.victory:
 			choose_action(room, player)
 		elif not player.is_alive():
-
 			print(
 				f"""{Fore.RED}
 Your journey has come to an early end
----GAME OVER---
+		---GAME OVER---
 {Fore.RESET}
             """
 				  )
-
-			valid = False
-			name = "XXX"
-			while not valid:
-				name = input("Please enter your initials")
-				if len(name) < 7 and name.isalpha():
-					valid = True
-
-			print(f"Your score was: {player.score}")
-			# lead = open(files.path+"\\leaderboard.txt", "ab")
-			new_leader = f"{name} --------- {player.score} --------- {datetime.today().date()}"
-
-			leader_list = list()
-			leads = pickle.load(open(paths + "\\leaders.dat", "rb"))
-			for leader in leads:
-				leader_list.append(leader)
-
-			leader_list.append(new_leader)
-			pickle.dump(leader_list, open(paths + "\\leaders.dat", "wb"))
-
-			# lead.writelines(new_leader)
-			# lead.close()
-
-			print("\n")
-			print("-You will now be taken to the exit screen-")
-			print("\n")
-			time.sleep(1)
-			input("Press any button")
-			os.system("cls")
-			exit_screen()
+			end(player)
+		elif player.is_alive() and player.victory:
+			end(player)
 
 
 def get_player_command():
 	"""This function returns the user's input, which is the chosen action."""
-	return input(f"\n{Style.BRIGHT}Action: \n")
+	print("")
+	return input(f"{Style.BRIGHT}Action:{Style.RESET_ALL}\n")
 
 
 def get_available_actions(room, player):

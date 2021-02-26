@@ -2,6 +2,7 @@
 
 
 class Enchantment:
+	"""This is the base class for all weapon enchantments"""
 	def __init__(self):
 		self.name = "Enchantment"
 		self.level = 0
@@ -43,7 +44,7 @@ class Hydration(Enchantment):
 This enchantment hydrates all it touches.
 I wonder what happens to a wet rock?
 		"""
-		self.value = 25
+		self.value = 50
 
 
 class Dehydration(Enchantment):
@@ -56,7 +57,7 @@ class Dehydration(Enchantment):
 This enchantment dehydrates all it touches.
 I wonder what happens to dry water?
 		"""
-		self.value = 30
+		self.value = 75
 
 
 class Extinguishing(Enchantment):
@@ -69,7 +70,7 @@ class Extinguishing(Enchantment):
 This enchantment extinguishes flames. 
 Sayonara to all the flames.
 		"""
-		self.value = 50
+		self.value = 100
 
 
 class Suction(Enchantment):
@@ -82,7 +83,7 @@ class Suction(Enchantment):
 This enchantment sucks in all nearby enemies. 
 I wonder what will happen to the air?
 		"""
-		self.value = 60
+		self.value = 125
 
 
 class Honed(Enchantment):
@@ -95,7 +96,7 @@ class Honed(Enchantment):
 This enchantment sharpens your sword. 
 Slicing foes is now a piece of cake. 
 		"""
-		self.value = 20
+		self.value = 100
 
 
 class Slayer(Enchantment):
@@ -108,4 +109,4 @@ class Slayer(Enchantment):
 This enchantment, wants one thing.
 Human blood...but who's?
 		"""
-		self.value = 175
+		self.value = 100

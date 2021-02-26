@@ -23,6 +23,7 @@ class Player:
 		self.name = ""
 		self.hp = 100
 		self.score = 0
+		self.boss = 0
 
 	def is_alive(self):
 		"""This function checks if the player is alive"""

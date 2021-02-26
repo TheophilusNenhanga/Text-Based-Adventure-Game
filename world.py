@@ -13,22 +13,27 @@ colorama.init(autoreset=True)
 
 
 class MapTile:
+	"""This is the base class for all tile on the game map"""
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
 		self.completed = False
 
 	def intro_text(self):
+		"""This is the base function for all tile introduction text"""
 		raise NotImplementedError("Create a subclass instead")
 
 	def modify_player(self, player, mod=None):
+		"""This is the base function to modify the player thoughout the game"""
 		pass
 
 	def converse(self, player):
+		"""This is the base class used when interacting with some NPC's"""
 		pass
 
 	@staticmethod
 	def looking_through_input(user_input, look_through):
+		"""This function is used when lookign for keywords in user input"""
 		split = user_input.lower().split()
 		for word in split:
 			if word in look_through:
@@ -38,6 +43,7 @@ class MapTile:
 
 
 class StartTile(MapTile):
+	"""This class is the tile that the player starts the game on."""
 	def intro_text(self):
 		return f"""{Fore.LIGHTBLUE_EX}
 This is where your journey begins!
@@ -46,6 +52,8 @@ Will you be the one to save the village?
 
 
 class BoringTile(MapTile):
+	"""This tile is a plain tile with no other functionality.
+	It is also the base class for other tiles."""
 	def intro_text(self):
 		return f"""{Style.DIM}
 Nothing much happens here.
@@ -56,7 +64,37 @@ You must continue onwards.
 		player.score += 1
 
 
+class BoringTileStone(BoringTile):
+	"""The boring tile for the first levl"""
+	def intro_text(self):
+		text = story.stone_texts[random.randint(0, len(story.stone_texts)-1)]
+		return text
+
+
+class BoringTileWater(BoringTile):
+	"""The boring tile for the second level"""
+	def intro_text(self):
+		text = story.water_texts[random.randint(0, len(story.water_texts)-1)]
+		return text
+
+
+class BoringTileFire(BoringTile):
+	"""The boring tile for the third level"""
+	def intro_text(self):
+		text = story.fire_texts[random.randint(0, len(story.fire_texts)-1)]
+		return text
+
+
+class BoringTileAir(BoringTile):
+	"""The boring tile for the fourth level"""
+	def intro_text(self):
+		text = story.air_texts[random.randint(0, len(story.air_texts)-1)]
+		return text
+
+
 class CorridorTile(MapTile):
+	"""A plain tile with no other functionality.
+	This tile is also a base class for other tiles."""
 	def intro_text(self):
 		return """
 This seems to be a corridor. 
@@ -67,22 +105,59 @@ I wonder where it leads.
 		player.score += 1
 
 
+class CorridorTileStone(CorridorTile):
+	"""Corridor tile for the first level"""
+	def intro_text(self):
+		try:
+			text = story.corridor_texts["stone"]
+			return text
+		except KeyError:
+			return "This is a rocky corridor"
+
+
+class CorridorTileWater(CorridorTile):
+	"""Corridor tile for the second level"""
+	def intro_text(self):
+		try:
+			text = story.corridor_texts["water"]
+			return text
+		except KeyError:
+			return "This is a watery corridor"
+
+
+class CorridorTileFire(CorridorTile):
+	"""Corridor tile for the third level"""
+	def intro_text(self):
+		try:
+			text = story.corridor_texts["fire"]
+			return text
+		except KeyError:
+			return "This is a fiery corridor"
+
+
+class CorridorTileAir(CorridorTile):
+	"""Corridor tile for the fourth level"""
+	def intro_text(self):
+		try:
+			text = story.corridor_texts["air"]
+			return text
+		except KeyError:
+			return "This is a airy corridor"
+
+
 class VictoryTile(MapTile):
+	"""Tile that declares the player's victory.
+	The last tile in the game."""
 	def modify_player(self, player, mod=None):
 		player.victory = True
 		player.score += 25
 
 	def intro_text(self):
-		return f"""{Fore.LIGHTYELLOW_EX}
-You see a bright light in the distance...
-...it grows as you get closer!
-It's sunlight.
-            
-Victory is yours!\n 
-        """
+		return f"""{Fore.LIGHTYELLOW_EX}{story.complete}"""
 
 
 class FindGoldTile(MapTile):
+	"""This tile has a random amount of gold for the player to collect"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.gold = random.randint(25, 35)
@@ -111,6 +186,7 @@ Then you sneakily pick up the {Fore.YELLOW}gold{Fore.RESET}
 
 
 class FindCrystalTile(MapTile):
+	"""This tile has a random amount of crystals for the player to collect"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.crystals = random.randint(5, 15)
@@ -140,6 +216,7 @@ I wonder what you could use that for.
 
 # Level 1 Enemies
 class EnemyTile1(MapTile):
+	"""This tile has level 1 enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.2:
@@ -192,6 +269,7 @@ class EnemyTile1(MapTile):
 
 # Level 2 Enemies
 class EnemyTile2(MapTile):
+	"""This tile has level 2 enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.2:
@@ -242,8 +320,8 @@ class EnemyTile2(MapTile):
 			self.completed = True
 
 
-#  Level 3 enemies
 class EnemyTile3(MapTile):
+	"""This tile has level 3 enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.2:
@@ -293,8 +371,8 @@ class EnemyTile3(MapTile):
 			self.completed = True
 
 
-# Level 4 enemies
 class EnemyTile4(MapTile):
+	"""This tile has level 4 enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.2:
@@ -346,6 +424,7 @@ class EnemyTile4(MapTile):
 
 
 class GeoEnemy(MapTile):
+	"""This tile has level 1 special enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.33:
@@ -383,6 +462,7 @@ class GeoEnemy(MapTile):
 
 
 class HydroEnemy(MapTile):
+	"""This tile has level 2 special enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.33:
@@ -420,6 +500,7 @@ class HydroEnemy(MapTile):
 
 
 class PyroEnemy(MapTile):
+	"""This tile has level 3 special enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.33:
@@ -458,6 +539,7 @@ class PyroEnemy(MapTile):
 
 
 class AeroEnemy(MapTile):
+	"""This tile has level 4 special enemies"""
 	def __init__(self, x, y):
 		r = random.random()
 		if r < 0.33:
@@ -495,6 +577,7 @@ class AeroEnemy(MapTile):
 
 
 class GeoBoss(MapTile):
+	"""Thsi is the level 1 diety"""
 	def __init__(self, x, y):
 		self.enemy = enemies.Geomancer()
 		self.alive_text = self.enemy.alive_text()
@@ -518,13 +601,15 @@ class GeoBoss(MapTile):
 
 		if not self.enemy.is_alive():
 			self.completed = True
+			player.boss = 1
 
 
 class HydroBoss(MapTile):
+	"""This is the level 2 diety"""
 	def __init__(self, x, y):
 		self.enemy = enemies.Hydromancer()
 		self.alive_text = self.enemy.alive_text()
-		self.dead_text = self.enemy.alive_text()
+		self.dead_text = self.enemy.dead_text()
 		super().__init__(x, y)
 
 	def intro_text(self):
@@ -545,9 +630,11 @@ class HydroBoss(MapTile):
 
 		if not self.enemy.is_alive():
 			self.completed = True
+			player.boss = 2
 
 
 class PyroBoss(MapTile):
+	"""This is the level 3 deity"""
 	def __init__(self, x, y):
 		self.enemy = enemies.Pyromancer()
 		self.alive_text = self.enemy.alive_text()
@@ -573,9 +660,11 @@ class PyroBoss(MapTile):
 
 		if not self.enemy.is_alive():
 			self.completed = True
+			player.boss = 3
 
 
 class AeroBoss(MapTile):
+	"""This is the level 4 deity"""
 	def __init__(self, x, y):
 		self.enemy = enemies.Aeromancer()
 		self.alive_text = self.enemy.alive_text()
@@ -599,9 +688,11 @@ class AeroBoss(MapTile):
 
 		if not self.enemy.is_alive():
 			self.completed = True
+			player.boss = 4
 
 
 class TraderTile(MapTile):
+	"""This tile has the trader"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.trader = npc.Trader()
@@ -655,6 +746,7 @@ Clinking his gold coins together. He looks ready to trade.
 
 
 class WeaponSmithTile(MapTile):
+	"""This tile has the weapon smith"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.trader = npc.WeaponSmith()
@@ -724,6 +816,7 @@ Weapon Smith
 
 
 class ArmourSmithTile(MapTile):
+	"""This tile has the armour smith"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.trader = npc.ArmourSmith()
@@ -793,6 +886,7 @@ Armour Smith
 
 
 class EnchanterTile(MapTile):
+	"""This tile has the enchanter"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.enchanter = npc.Enchanter()
@@ -846,6 +940,7 @@ An old wizard with a long white beard, looks into your eyes.
 
 
 class QuestTile(MapTile):
+	"""This tile has the quest lady(quest NPC)"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.completed = False
@@ -927,6 +1022,7 @@ Have you found the {Fore.LIGHTBLUE_EX}{items.MagicalItem().name}{Fore.RESET}?
 
 
 class FindQuestItemTile(MapTile):
+	"""This tile has the quest item needed to complete a quest"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		self.item = items.MagicalItem()
@@ -957,6 +1053,7 @@ Now you can return to the {Fore.LIGHTMAGENTA_EX}suspicious old woman{Fore.RESET}
 
 
 class StoryTellerTile1(MapTile):
+	"""This tile has the first story teller"""
 	encounter = 1
 
 	def __init__(self, x, y):
@@ -971,7 +1068,7 @@ Her face is covered with moles and hair creeps out her nose.
 She might have a story to tell.
 			"""
 		else:
-			return f"""Just the same{Fore.LIGHTMAGENTA_EX}{npc.StoryTeller1().name}{Fore.RESET} from earlier.\n"""
+			return f"""Just the same {Fore.LIGHTMAGENTA_EX}{npc.StoryTeller1().name}{Fore.RESET} from earlier.\n"""
 
 	def converse(self, player):
 		if self.encounter == 1:
@@ -1068,6 +1165,7 @@ What was your name again?
 
 
 class StoryTellerTile2(MapTile):
+	"""This tile has the second story teller"""
 	encounter = 1
 
 	def __init__(self, x, y):
@@ -1167,6 +1265,7 @@ His hands begin to flail, as he walks towards you.
 
 
 class EnemyChallengeTile(MapTile):
+	"""This tile has the enemy player"""
 	encounter = 1
 
 	def __init__(self, x, y):
@@ -1327,6 +1426,7 @@ class EnemyChallengeTile(MapTile):
 
 
 class StoryTellerTile3(MapTile):
+	"""This tile has the third story teller"""
 	encounter = 0
 
 	def __init__(self, x, y):
@@ -1479,20 +1579,124 @@ There he is again, your uncle.
 		except (TypeError, ValueError):
 			try:
 				give(player)
-			except:
+			except (AttributeError, IndexError):
 				print("It seems that I have nothing to give you.")
 
 
 class RandomCharacterTile(MapTile):
+	"""This tile gives the player random messages"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
-		self.story = npc.Talking_Character()
+		self.story = npc.TalkingCharacter()
 
 	def intro_text(self):
 		text = random.sample(self.story.messages, 1)
 		text = f"{Fore.LIGHTMAGENTA_EX}{text[0]}{Fore.RESET}"
 		return text
-	
+
+
+class LevelTile1(MapTile):
+	"""This tile tells the player ehat level that are on"""
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		try:
+			self.story = story.levels["level1"]
+		except KeyError:
+			self.story = "LEVEL 1"
+
+	def intro_text(self):
+		return self.story
+
+
+class LevelTile2(MapTile):
+	"""This tile tells the player ehat level that are on"""
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		try:
+			self.story = story.levels["level2"]
+		except KeyError:
+			self.story = "LEVEL 2"
+
+	def intro_text(self):
+		return self.story
+
+
+class LevelTile3(MapTile):
+	"""This tile tells the player ehat level that are on"""
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		try:
+			self.story = story.levels["level3"]
+		except KeyError:
+			self.story = "LEVEL 3"
+
+	def intro_text(self):
+		return self.story
+
+
+class LevelTile4(MapTile):
+	"""This tile tells the player ehat level that are on"""
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		try:
+			self.story = story.levels["level4"]
+		except KeyError:
+			self.story = "LEVEL 4" 
+
+	def intro_text(self):
+		return self.story
+		
+
+class StoneTile(MapTile):
+	"""This tile is used to give the player a stone (needed fro progression)."""
+	def __init__(self, x, y):
+		super().__init__(x, y)
+		self.item = None
+		self.taken = False
+		
+	def intro_text(self):
+		return """
+		You see a glowing stone levitating before you. 
+		Why does it seem important. 
+		What secrets does this glowing stone hold"""
+
+	def give_stone(self, player):
+		print(f"""
+		The sought after {Fore.BLUE}{self.item.name}{Fore.RESET}
+		Will you take the stone?
+		""")
+		take = input("")
+		print("")
+		if self.looking_through_input(take, ["yes", "y", "yeah", "yea", "yip"]):
+			print(f"You have taken the {Fore.BLUE}{self.item.name}{Fore.RESET}")
+			player.inventory.append(self.item)
+			self.taken = True
+		elif self.looking_through_input(take, ["no", "n", "nope", "nay"]):
+			print("You are the fated hero...CORONA")
+			print(f"The {Fore.BLUE}{self.item.name}{Fore.RESET} levitates towards you.")
+			print("This is something you cannot refuse.")
+			player.inventory.append(self.item)
+			self.taken = True
+		else:
+			self.modify_player(player, None)
+
+	def modify_player(self, player, mod=None):
+		if self.taken:
+			return
+
+		if player.boss == 1:
+			self.item = items.GeoStone()
+			self.give_stone(player)
+		elif player.boss == 2:
+			self.item = items.HydroStone()
+			self.give_stone(player)
+		elif player.boss == 3:
+			self.item = items.PyroStone()
+			self.give_stone(player)
+		elif player.boss == 4:
+			self.item = items.AeroStone()
+			self.give_stone(player)
+
 
 # ST start Tile
 # VT Victory Tile
@@ -1525,40 +1729,54 @@ class RandomCharacterTile(MapTile):
 
 # RCT Random Character Tile
 
+# LT1 Level Tile 1
+# LT1 Level Tile 2
+# LT1 Level Tile 3
+# LT1 Level Tile 4
+
+# STT Stone Tile Tile
+
+# BTS Boring Tile Stone
+# BTW Boring Tile Water
+# BTF Boring Tile Fire
+# BTA Boring Tile Air
+
 
 world_dsl = """
-|   |   |   |   |   |   |   |   |   |   |   |   |ST3|ST |CT |CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |ST1|EN1|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |BT |BT |   |FG |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |TT |   |BT |   |   |FQI|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |EN1|BT |   |RCT|EN1|BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |BT |   |QT |BT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |WST|EN1|BT |EN1|BT |BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |ET |AST|FC |   |BT |TT |   |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN1|BT |CT |EN1|EN1|BT |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |CT |   |BT |   |FC |   |   |   |   |   |   |   |   |   |BT |BT |TT |ET |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |BT |EN1|BT |CT |BT |RCT|   |   |   |   |   |   |   |   |   |   |EN4|BT |EN4|   |CT |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CT |   |   |   |   |   |   |   |   |   |   |   |BT |BT |   |   |   |CT |   |   |   |   |   |
-|   |   |   |   |   |   |   |   |   |   |   |   |   |   |FG |BT |FC |   |   |   |   |   |   |   |   |   |EN3|BT |EN4|EN4|BT |   |EN4|BT |BT |EN4|   |   |
-|   |   |FC |EN2|BT |FG |BT |EN1|BT |EN2|FC |   |   |TT |GE |GE |GE |ET |   |   |   |   |   |   |   |   |FG |EN3|   |   |BT |EN4|CT |   |   |AE |   |   |
-|   |   |   |   |   |BT |BT |   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |ECT|   |CT |AE |AE |AE |   |   |
-|   |   |   |   |   |EN |BT |   |   |   |   |   |   |QT |   |GB |   |   |   |   |   |   |   |   |   |   |   |EN4|TT |   |FQI|   |AE |AE |AE |AB |CT |VT |
-|   |   |   |HE |HE |   |EN2|ET |WST|EN |RCT|   |BT |EN2|   |CT |   |   |   |   |   |   |   |   |   |   |   |FC |EN4|WST|BT |   |CT |AE |AE |AE |   |   |
-|BT |BT |HB |HE |HE |BT |BT |   |   |   |FC |BT |EN2|EN1|ST2|CT |   |   |   |   |   |   |   |   |   |   |FG |EN4|   |   |BT |   |CT |   |   |AE |   |   |
-|CT |   |BT |HE |HE |   |BT |EN2|FG |EN2|EN2|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN3|BT |   |   |EN4|   |RCT|   |   |EN |   |   |
-|CT |   |BT |EN2|FQI|EN2|EN2|   |BT |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CT |CT |CT |EN3|EN4|TT |BT |EN4|BT |   |   |
-|CT |   |   |AST|   |   |   |   |TT |EN2|BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN4|BT |   |   |EN4|   |   |   |   |   |
-|CT |   |   |BT |RCT|EN2|EN2|BT |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BT |BT |QT |ST3|   |   |   |   |   |
-|CT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN2|   |   |   |   |   |
-|CT |   |TT |FC |   |   |   |BT |EN2|EN3|BT |WST|RCT|EN |EN2|TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |EN1|   |   |   |   |   |
-|CT |   |EN2|   |EN3|QT |   |BT |   |CT |   |   |   |   |   |BT |EN2|   |PE |PE |   |   |   |   |   |   |BT |BT |FC |FG |WST|   |BT |   |   |   |   |   |
-|BT |BT |BT |BT |EN3|RCT|BT |EN3|   |ECT|EN3|FG |BT |BT |EN3|ET |EN3|PE |PE |BT |PE |PB |CT |CT |CT |CT |RCT|BT |FC |FG |BT |BT |BT |   |   |   |   |   |
-|   |   |FG |   |EN2|   |EN3|   |   |CT |   |   |AST|   |   |BT |EN3|   |PE |PE |   |   |   |   |   |   |BT |BT |ET |TT |AST|   |   |   |   |   |   |   |
-|   |   |ET |EN2|   |BT |FQI|FG |EN3|CT |   |   |BT |EN1|FC |TT |   |   |BT |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |ST |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |LT1|CTS|CTS|CTS|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |ST1|EN1|RCT|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |FG |BTS|BTS|BTS|   |FG |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |TT |   |BTS|   |   |FQI|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |EN1|CTS|   |RCT|EN1|CTS|CTS|BTS|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |CTS|   |QT |BTS|   |   |BTS|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |WST|EN1|BTS|EN1|BTS|BTS|BTS|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |ET |AST|FC |   |BTS|TT |   |EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BTS|EN1|BTS|TT |EN1|EN1|BTS|EN1|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BTS|   |   |CTS|   |BTS|   |FC |   |   |   |   |   |   |   |   |   |BTA|BTA|TT |ET |   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |BTS|EN1|ET |CTS|BTS|RCT|   |   |   |   |   |   |   |   |   |   |EN4|BTA|EN4|   |CTA|   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CTS|   |   |   |   |   |   |   |   |   |   |   |BTA|BT |   |   |   |CTA|   |   |   |   |   |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |FG |BTS|FC |   |   |   |   |   |   |   |   |   |EN3|BTA|EN4|EN4|BTA|   |EN4|BTA|BTA|EN4|   |   |
+|   |   |FC |EN2|BTW|FG |CTW|EN1|BT |EN2|FC |   |   |   |GE |GE |GE |   |   |   |   |   |   |   |   |   |FG |EN3|   |   |BTA|EN4|CTA|   |   |AE |   |   |
+|   |   |   |   |   |BTW|CTW|   |   |   |   |   |   |   |   |GE |   |   |   |   |   |   |   |   |   |   |   |BT |   |   |ECT|   |CTA|AE |AE |AE |   |   |
+|   |   |   |   |   |EN2|CTW|   |   |   |   |   |   |QT |   |GB |   |   |   |   |   |   |   |   |   |   |   |EN4|TT |   |FQI|   |AE |AE |AE |AB |STT|VT |
+|   |   |   |HE |HE |   |EN2|ET |WST|EN |RCT|   |RCT|EN2|   |STT|   |   |   |   |   |   |   |   |   |   |   |FC |EN4|WST|BTA|   |CTA|AE |AE |AE |   |   |
+|BT |STT|HB |HE |HE |BTW|BTW|   |   |   |FC |BTW|EN2|EN1|ST2|LT2|   |   |   |   |   |   |   |   |   |   |FG |EN4|   |   |BTA|   |CTA|   |   |AE |   |   |
+|CTW|   |CTW|HE |HE |   |BTW|EN2|FG |EN2|EN2|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN3|BT |   |   |EN4|   |RCT|   |   |EN |   |   |
+|CTW|   |CTW|EN2|FQI|EN2|EN2|   |BTW|   |BTW|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |CTA|CTA|CTA|EN3|EN4|TT |BTA|EN4|BTA|   |   |
+|CTW|   |   |AST|   |   |   |   |TT |EN2|BTW|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN4|BTA|   |   |EN4|   |   |   |   |   |
+|CTW|   |   |BTW|RCT|EN2|EN2|BTW|BTW|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |BTA|BTA|QT |ST3|   |   |   |   |   |
+|CTF|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |EN2|   |   |   |   |   |
+|CTF|   |TT |FC |   |   |   |CTF|EN2|EN3|BT |WST|RCT|EN |EN2|TT |   |   |BTF|   |   |   |   |   |   |   |   |   |   |   |   |   |EN1|   |   |   |   |   |
+|CTF|   |EN2|   |EN3|QT |   |CTF|   |CTF|   |   |   |   |   |BTF|EN2|   |PE |PE |   |   |   |   |   |   |BT |BTA|FC |FG |WST|   |BTA|   |   |   |   |   |
+|LT3|BTF|BTF|BTF|EN3|RCT|BTF|EN3|   |ECT|EN3|FG |BTF|BTF|EN3|ET |EN3|PE |PE |BT |PE |PB |STT|LT4|CTA|CTA|RCT|BTA|FC |FG |CTA|CTA|CTA|   |   |   |   |   |
+|   |   |FG |   |EN2|   |EN3|   |   |CTF|   |   |AST|   |   |BTF|EN3|   |PE |PE |   |   |   |   |   |   |BTA|BTA|ET |TT |AST|   |   |   |   |   |   |   |
+|   |   |ET |EN2|   |BTF|FQI|FG |EN3|CTF|   |   |BTF|EN1|FC |TT |   |   |BTF|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
 """
 
 
 def is_dsl_valid(dsl):
+	"""This function checks if the dsl is valid"""
 	if dsl.count("|ST |") != 1:
 		return False
 	if dsl.count("|VT |") == 0:
@@ -1603,6 +1821,19 @@ tile_type_dict = {
 				"ST3": StoryTellerTile3,
 				"ECT": EnemyChallengeTile,
 				"RCT": RandomCharacterTile,
+				"LT1": LevelTile1,
+				"LT2": LevelTile2,
+				"LT3": LevelTile3,
+				"LT4": LevelTile4,
+				"STT": StoneTile,
+				"BTS": BoringTileStone,
+				"BTW": BoringTileWater,
+				"BTF": BoringTileFire,
+				"BTA": BoringTileAir,
+				"CTS": CorridorTileStone,
+				"CTW": CorridorTileWater,
+				"CTF": CorridorTileFire,
+				"CTA": CorridorTileAir,
 				"   ": None
 }
 
@@ -1611,6 +1842,7 @@ start_tile_location = None
 
 
 def parse_world_dsl():
+	"""This function creates the map from the dsl"""
 	if not is_dsl_valid(world_dsl):
 		raise SyntaxError("DSL is invalid")
 
@@ -1631,6 +1863,7 @@ def parse_world_dsl():
 
 
 def tile_at(x, y):
+	"""This function checks current position and returns it"""
 	if x < 0 or y < 0:
 		return None
 	try:

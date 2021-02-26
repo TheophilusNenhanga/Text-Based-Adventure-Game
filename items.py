@@ -8,6 +8,7 @@ colorama.init(autoreset=True)
 
 
 class Weapon:
+	"""Base class for all items that are used for attacking purposes."""
 	def __init__(self):
 
 		self.name = "Weapon"
@@ -335,6 +336,7 @@ class Excalibur(Weapon):
 
 
 class Consumable:
+	"""Base class for all items used to restore health"""
 	def __init__(self):
 		self.value = 1
 		self.name = ""
@@ -428,8 +430,8 @@ class HyperHealingPotion(Consumable):
 		self.value = 115
 
 
-# Defencive items
 class Defencive:
+	"""Base class for all items used to mitigate damage"""
 	def __init__(self):
 		self.value = 1
 		self.name = ""
@@ -509,6 +511,7 @@ class ReinforcedMetalArmour(Defencive):
 
 
 class Quests:
+	"""Base class for all quest relayed items."""
 	def __init__(self):
 		self.name = "Quest item"
 		self.description = "A item used for quests"
@@ -519,6 +522,7 @@ class Quests:
 
 
 class MagicalItem(Quests):
+	"""Item needed to complete a quest"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Magical item"
@@ -527,6 +531,7 @@ class MagicalItem(Quests):
 
 
 class Extras:
+	"""Base class of extra items that are concepts from the game's continuation"""
 	def __init__(self):
 		self.name = "Extras"
 		self.value = 0 
@@ -538,6 +543,7 @@ class Extras:
 
 
 class Cash(Extras):
+	"""Extra item from third story teller"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Cash"
@@ -546,16 +552,57 @@ class Cash(Extras):
 
 
 class MechaDagger(Extras, Weapon):
+	"""Extra item from third story teller"""
 	def __init__(self):
 		super().__init__()
 		self.name = "Mecha Dagger"
 		self.value = 300
-		self.damage = 15
+		self.damage = 18
 		self.sellable = False
 		self.description = "A simple dagger that has been upgraded with the power of technology"
 
 
-inventory = [
+class Progression:
+	"""The base class for all itesm that are necessary to complete the game."""
+	def __init__(self):
+		self.name = "Progression"
+		self.value = 9999
+		self.sellable = False
+		self.description = "These items are used for game progression."
+	
+	def __str__(self):
+		return self.name
+
+
+class GeoStone(Progression):
+	"""The stone from the first level"""
+	def __init__(self):
+		super().__init__()
+		self.name = "Geo Stone"
+
+
+class HydroStone(Progression):
+	"""Stone from the second level"""
+	def __init__(self):
+		super().__init__()
+		self.name = "HydroStone"
+
+
+class PyroStone(Progression):
+	"""Stone from the thrid level"""
+	def __init__(self):
+		super().__init__()
+		self.name = "PyroStone"
+
+
+class AeroStone(Progression):
+	"""Stone from the fourth level"""
+	def __init__(self):
+		super().__init__()
+		self.name = "AeroStone"
+
+
+inventory: list = [
 		SnakeApple(), RottenFlesh(), CrustyBread(), Apple(), FreshBread(),
 		CookedInsectFlesh(), HealingPotion(), LuckyFruit(), StrongHealingPotion(),
 		HyperHealingPotion(), WoodenShield(), DefenciveClothing(), MetalShield(),

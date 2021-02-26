@@ -558,7 +558,7 @@ levels: dict = {
 
 random_texts: list = [
 			"""You look a bit tired, maybe you should get some food""",
-			"""Do you expect to exit this cave, with such weak weaponry?\nYou should get something stronger at the Weaponsmith""",
+			"""Do you expect to exit this cave, with such weak weaponry?\nYou should get something stronger at the Weapon smith""",
 			"""Your armour isn't strong enough, You won't survive.\nConsider upgrading?""",
 			"""Hmm, have you considered completing a quest?""", 
 			"""Are you sure you can do this? It isn't too late to turn back now""", 

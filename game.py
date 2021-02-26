@@ -252,7 +252,7 @@ def play():
 		"""This function is called once the player has died or has won the game.
 		It deals with the leaderboard and storing of data."""
 		def finding_highest(string):
-			"""This funcrion is the key used to sort the learderboard scores"""
+			"""This function is the key used to sort the leaderboard scores"""
 			_leader = string.split()
 			try:
 				_leader = int(_leader[2])

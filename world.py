@@ -24,7 +24,7 @@ class MapTile:
 		raise NotImplementedError("Create a subclass instead")
 
 	def modify_player(self, player, mod=None):
-		"""This is the base function to modify the player thoughout the game"""
+		"""This is the base function to modify the player throughout the game"""
 		pass
 
 	def converse(self, player):
@@ -33,7 +33,7 @@ class MapTile:
 
 	@staticmethod
 	def looking_through_input(user_input, look_through):
-		"""This function is used when lookign for keywords in user input"""
+		"""This function is used when looking for keywords in user input"""
 		split = user_input.lower().split()
 		for word in split:
 			if word in look_through:
@@ -65,7 +65,7 @@ You must continue onwards.
 
 
 class BoringTileStone(BoringTile):
-	"""The boring tile for the first levl"""
+	"""The boring tile for the first level"""
 	def intro_text(self):
 		text = story.stone_texts[random.randint(0, len(story.stone_texts)-1)]
 		return text
@@ -577,7 +577,7 @@ class AeroEnemy(MapTile):
 
 
 class GeoBoss(MapTile):
-	"""Thsi is the level 1 diety"""
+	"""This is the level 1 deity"""
 	def __init__(self, x, y):
 		self.enemy = enemies.Geomancer()
 		self.alive_text = self.enemy.alive_text()
@@ -605,7 +605,7 @@ class GeoBoss(MapTile):
 
 
 class HydroBoss(MapTile):
-	"""This is the level 2 diety"""
+	"""This is the level 2 deity"""
 	def __init__(self, x, y):
 		self.enemy = enemies.Hydromancer()
 		self.alive_text = self.enemy.alive_text()
@@ -1596,7 +1596,7 @@ class RandomCharacterTile(MapTile):
 
 
 class LevelTile1(MapTile):
-	"""This tile tells the player ehat level that are on"""
+	"""This tile tells the player what level that are on"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		try:
@@ -1609,7 +1609,7 @@ class LevelTile1(MapTile):
 
 
 class LevelTile2(MapTile):
-	"""This tile tells the player ehat level that are on"""
+	"""This tile tells the player what level that are on"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		try:
@@ -1622,7 +1622,7 @@ class LevelTile2(MapTile):
 
 
 class LevelTile3(MapTile):
-	"""This tile tells the player ehat level that are on"""
+	"""This tile tells the player what level that are on"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		try:
@@ -1635,7 +1635,7 @@ class LevelTile3(MapTile):
 
 
 class LevelTile4(MapTile):
-	"""This tile tells the player ehat level that are on"""
+	"""This tile tells the player what level that are on"""
 	def __init__(self, x, y):
 		super().__init__(x, y)
 		try:

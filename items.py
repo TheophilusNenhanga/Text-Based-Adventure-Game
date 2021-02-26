@@ -563,7 +563,7 @@ class MechaDagger(Extras, Weapon):
 
 
 class Progression:
-	"""The base class for all itesm that are necessary to complete the game."""
+	"""The base class for all items that are necessary to complete the game."""
 	def __init__(self):
 		self.name = "Progression"
 		self.value = 9999
@@ -589,7 +589,7 @@ class HydroStone(Progression):
 
 
 class PyroStone(Progression):
-	"""Stone from the thrid level"""
+	"""Stone from the third level"""
 	def __init__(self):
 		super().__init__()
 		self.name = "PyroStone"

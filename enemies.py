@@ -37,7 +37,7 @@ class Enemy:
 		return f"""The {self.name} is still alive"""
 
 	def dead_text(self):
-		"""This function returns a string if the enmey is dead"""
+		"""This function returns a string if the enemy is dead"""
 		f"""The {self.name} has been defeated"""
 
 

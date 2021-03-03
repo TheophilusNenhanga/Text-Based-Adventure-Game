@@ -27,7 +27,7 @@ class Hand(Weapon):
 		super().__init__()
 		self.name = "Bare hands"
 		self.description = "if all else fails"
-		self.value = 1
+		self.value = 9999
 		self.damage = 1
 		self.sellable = False
 

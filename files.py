@@ -68,6 +68,9 @@ def create_files(file_path):
 	2. Input: If a non player character asks you a question, enter the most obvious answer.
 	3. As you play along, draw a map so you don't get lost
 	4. The leaderboard can only store the last 6 scores.
+	5. If and only if you are completly lost. You can use the 'map.txt' file to help you navigate through the cave.
+	   However the 'map.txt' file does not give you a key to read the map with, so there are still somethings that
+	   need to be figured out. 
 
 	The objective of the game is to make your way through the cave.
 	Making it all the way to the end without dying will mean completion of the game. 

@@ -18,8 +18,8 @@ To play the game you can either:
         2. Run the "game.exe" file. 
         3. Compile the "game.py" file on your system and then run it.
 
-When you play the game for the first time it will create a __pycache__ folder then close. If you reopen game.py it will create another folder named "caver". Once this folder has been created you are all good to play. Do your best not to delete the "caver" folder as doing so will result in your leaderboard data being lost. 
+When you play the game for the first time it will create a "__pycache__" folder then close. If you reopen game.py it will create another folder named "caver". Once this folder has been created you are all good to play. Do your best not to delete the "caver" folder as doing so will result in your leaderboard data being lost. 
 
 Before playing the game I reccomend that you read the player story and read the game help. 
 
-I hope you enjoy
+I hope you enjoy.

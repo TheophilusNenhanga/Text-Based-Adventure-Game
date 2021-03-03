@@ -205,7 +205,7 @@ class BatSwarm(Enemy):
 			self.damage = 10
 		elif level == 3:
 			self.hp = 20
-			self.damage = 18
+			self.damage = 16
 		elif level == 4:
 			self.hp = 30
 			self.damage = 20
@@ -235,16 +235,16 @@ class Lamia(Enemy):
 
 		if level == 1:
 			self.hp = 30
-			self.damage = 20
+			self.damage = 16
 		elif level == 2:
 			self.hp = 35
-			self.damage = 25
+			self.damage = 18
 		elif level == 3:
 			self.hp = 40
-			self.damage = 30
+			self.damage = 20
 		elif level == 4:
 			self.hp = 45
-			self.damage = 35
+			self.damage = 22
 		else:
 			self.hp = 25
 			self.damage = 15
@@ -297,7 +297,7 @@ class Golem(Enemy):
 		super().__init__()
 		self.name = "Golem"
 		self.hp = 20
-		self.damage = 10
+		self.damage = 8
 		self.defence = 0
 		self.type = "rock"
 		self.score = 7
@@ -321,7 +321,7 @@ class Gargoyle(Enemy):
 		super().__init__()
 		self.name = "Gargoyle"
 		self.hp = 24
-		self.damage = 12
+		self.damage = 10
 		self.defence = 0
 		self.type = "rock"
 		self.score = 7
@@ -347,7 +347,7 @@ class Hydra(Enemy):
 		super().__init__()
 		self.name = "Hydra"
 		self.hp = 25
-		self.damage = 14
+		self.damage = 12
 		self.defence = 2
 		self.type = "water"
 		self.score = 7
@@ -373,7 +373,7 @@ class WaterNymph(Enemy):
 		super().__init__()
 		self.name = "Water Nymph"
 		self.hp = 20
-		self.damage = 10
+		self.damage = 12
 		self.defence = 2
 		self.type = "water"
 		self.score = 7
@@ -424,7 +424,7 @@ class BabyPhoenix(Enemy):
 		super().__init__()
 		self.name = "Baby Phoenix"
 		self.hp = 8
-		self.damage = 25
+		self.damage = 22
 		self.defence = 2
 		self.type = "fire"
 		self.score = 7
@@ -451,7 +451,7 @@ class Salamander(Enemy):
 		super().__init__()
 		self.name = "Salamander"
 		self.hp = 10
-		self.damage = 30
+		self.damage = 25
 		self.defence = 2
 		self.type = "fire"
 		self.score = 7
@@ -479,7 +479,7 @@ class HellHound(Enemy):
 		super().__init__()
 		self.name = "Hell Hound"
 		self.hp = 14
-		self.damage = 25
+		self.damage = 18
 		self.defence = 2
 		self.type = "fire"
 		self.score = 7
@@ -560,7 +560,7 @@ class Manticore(Enemy):
 		super().__init__()
 		self.name = "Manticore"
 		self.hp = 25
-		self.damage = 25
+		self.damage = 22
 		self.defence = 2
 		self.type = "air"
 		self.score = 7
